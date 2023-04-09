@@ -28,4 +28,26 @@ export class ReportBloc extends Bloc<ReportState> {
       this.updateState({ kind: 'load-failure', error: e as Error });
     }
   }
+
+  async downloadStock(filter?: Record<string, any>) {
+    try {
+      this.updateState({ kind: 'load-in-progress' });
+
+      const file = await this.usecase.downloadStock(filter);
+      this.updateState({ kind: 'load-success', file });
+    } catch (e: unknown) {
+      this.updateState({ kind: 'load-failure', error: e as Error });
+    }
+  }
+
+  async downloadPayment(filter?: Record<string, any>) {
+    try {
+      this.updateState({ kind: 'load-in-progress' });
+
+      const file = await this.usecase.downloadPayment(filter);
+      this.updateState({ kind: 'load-success', file });
+    } catch (e: unknown) {
+      this.updateState({ kind: 'load-failure', error: e as Error });
+    }
+  }
 }

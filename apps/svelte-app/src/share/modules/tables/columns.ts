@@ -7,7 +7,7 @@ export type ColumnsType = {
   show?: Screen;
   dataIndex?: string;
   render?: (data: any, index: number) => any;
-  sort?: boolean;
+  sort?: string;
 }[];
 
 export const showOnScreen = (show: Screen) => {

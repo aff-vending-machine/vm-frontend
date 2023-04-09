@@ -31,4 +31,26 @@ export class ReportUsecase {
       return Promise.reject(e);
     }
   }
+
+  async downloadStock(filter?: Record<string, any>): Promise<Blob> {
+    try {
+      const query = toQuery({ ...filter });
+      const blob = await this.data.downloadStock(query);
+
+      return Promise.resolve(blob);
+    } catch (e: unknown) {
+      return Promise.reject(e);
+    }
+  }
+
+  async downloadPayment(filter?: Record<string, any>): Promise<Blob> {
+    try {
+      const query = toQuery({ ...filter });
+      const blob = await this.data.downloadPayment(query);
+
+      return Promise.resolve(blob);
+    } catch (e: unknown) {
+      return Promise.reject(e);
+    }
+  }
 }

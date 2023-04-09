@@ -11,10 +11,10 @@
 
   const columns: ColumnsType = [
     { title: 'No.', render: (_, index: number) => index + 1 },
-    { title: 'Username', dataIndex: 'username', show: 'all', sort: true },
-    { title: 'Role', dataIndex: 'role', sort: true },
-    { title: 'Login Time', dataIndex: 'loggedin_at', sort: true },
-    { title: 'Created By', dataIndex: 'created_by', sort: true },
+    { title: 'Username', dataIndex: 'username', show: 'all', sort: 'username' },
+    { title: 'Role', dataIndex: 'role', sort: "role_id" },
+    { title: 'Login Time', dataIndex: 'last_login', sort: 'last_login' },
+    { title: 'Created By', dataIndex: 'created_by', sort: 'created_by' },
     { title: 'Action', show: 'all', render: () => Action },
   ];
 </script>

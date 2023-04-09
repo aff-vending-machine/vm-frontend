@@ -15,7 +15,7 @@
         <span class="inline-flex w-full flex-nowrap justify-between">
           {column.title}
           {#if column.sort}
-            <Sort field={column.dataIndex} sort={sorts[column.dataIndex]} on:sort />
+            <Sort field={column.sort} sort={sorts[column.sort]} on:sort />
           {/if}
         </span>
       </th>

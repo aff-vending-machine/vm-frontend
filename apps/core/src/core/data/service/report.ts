@@ -21,4 +21,21 @@ export class ReportRepository implements ReportDataInterface {
       throw handleError(e);
     }
   }
+  async downloadStock(params?: Record<string, string>): Promise<Blob> {
+    try {
+      const { data } = await privateClient.get(`${ROOT_PATH}/stock/download`, { params, responseType: 'blob' });
+      return new Blob([data], { type: 'text/csv' });
+    } catch (e: unknown) {
+      throw handleError(e);
+    }
+  }
+
+  async downloadPayment(params?: Record<string, string>): Promise<Blob> {
+    try {
+      const { data } = await privateClient.get(`${ROOT_PATH}/payment/download`, { params, responseType: 'blob'});
+      return new Blob([data], { type: 'text/csv' });
+    } catch (e: unknown) {this.stock
+      throw handleError(e);
+    }
+  }
 }

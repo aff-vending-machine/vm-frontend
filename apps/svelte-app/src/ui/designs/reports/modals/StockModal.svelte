@@ -15,7 +15,6 @@
   import FormModal from '~/ui/components/overlays/modals/FormModal.svelte';
   import FormControl from '~/ui/components/forms/inputs/FormControl.svelte';
   import Select from '~/ui/components/forms/selects/Select.svelte';
-  import Toggle from '~/ui/components/forms/toggles/Toggle.svelte';
   import DatePicker from '~/ui/components/forms/pickers/DatePicker.svelte';
 
   dayjs.extend(isBetween);
@@ -27,8 +26,7 @@
 
   const machine = field('machine', '', []);
   const date = field('date', new Date(), [required()]);
-  const available = field('available', true, [required()]);
-  const modalForm = form(machine, date, available);
+  const modalForm = form(machine, date);
 
   let machineOptions = [];
 
@@ -76,9 +74,6 @@
     </FormControl>
     <FormControl name="Date" required>
       <DatePicker selected={$date.value} on:datechange={handleDateChange} {isAllowed} />
-    </FormControl>
-    <FormControl name="" required>
-      <Toggle id="toggle" text="exclude non-selling" bind:checked={$available.value} />
     </FormControl>
   </form>
 </FormModal>

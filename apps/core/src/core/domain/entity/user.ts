@@ -6,10 +6,8 @@ export type User = {
   updated_at: DateTime;
   username: string;
   role: string;
-  created_ip: string;
   created_by: string;
-  loggedin_ip: string;
-  loggedin_at?: AnyDateTime;
+  last_login?: AnyDateTime;
 };
 
 export type CreateUser = {
@@ -30,7 +28,7 @@ export type ChangePassword = {
 export const parseUser = (user: User) => {
   user.created_at = toDateTime(user.created_at);
   user.updated_at = toDateTime(user.updated_at);
-  user.loggedin_at = toAnyDateTime(user.loggedin_at);
+  user.last_login = toAnyDateTime(user.last_login);
 
   return user;
 };

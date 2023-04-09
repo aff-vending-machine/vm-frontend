@@ -2,7 +2,7 @@
 <script lang="ts">
   import dayjs from 'dayjs';
   import utc from 'dayjs/plugin/utc';
-  import timezone from 'dayjs/plugin/timezone'
+  import timezone from 'dayjs/plugin/timezone';
   import { createEventDispatcher } from 'svelte';
 
   // core
@@ -29,12 +29,25 @@
   $: handleReportStock = async (e: CustomEvent) => {
     try {
       const datetime = dayjs(e.detail.date).set('hour', 22).set('minute', 0).set('second', 0).set('millisecond', 0);
-      await bloc.stock({
+      await bloc.downloadStock({
         id: e.detail.machine,
         from: datetime.utc().subtract(1, 'day').format('YYYY-MM-DDTHH:mm:ss.SSSZ'),
         to: datetime.utc().format('YYYY-MM-DDTHH:mm:ss.SSSZ'),
         available: e.detail.available,
       });
+
+      if ($state.kind === 'load-success') {
+        const downloadLink = document.createElement('a');
+        downloadLink.href = window.URL.createObjectURL($state.file);
+        downloadLink.download = 'stock-' + datetime.format('YYYYMMDD') + '.csv';
+        document.body.appendChild(downloadLink);
+
+        downloadLink.click();
+
+        document.body.removeChild(downloadLink);
+        window.URL.revokeObjectURL(downloadLink.href);
+      }
+
       notify($state.kind, 'report stock', $state.error);
       dispatch('reload');
     } catch (e) {
@@ -47,11 +60,24 @@
   $: handleReportPayment = async (e: CustomEvent) => {
     try {
       const datetime = dayjs(e.detail.date).set('hour', 22).set('minute', 0).set('second', 0).set('millisecond', 0);
-      await bloc.payment({
+      await bloc.downloadPayment({
         id: e.detail.machine,
         from: datetime.utc().subtract(1, 'day').format('YYYY-MM-DDTHH:mm:ss.SSSZ'),
         to: datetime.utc().format('YYYY-MM-DDTHH:mm:ss.SSSZ'),
       });
+
+      if ($state.kind === 'load-success') {
+        const downloadLink = document.createElement('a');
+        downloadLink.href = window.URL.createObjectURL($state.file);
+        downloadLink.download = 'payment-' + datetime.format('YYYYMMDD') + '.csv';
+        document.body.appendChild(downloadLink);
+
+        downloadLink.click();
+
+        document.body.removeChild(downloadLink);
+        window.URL.revokeObjectURL(downloadLink.href);
+      }
+
       notify($state.kind, 'report payment', $state.error);
       dispatch('reload');
     } catch (e) {

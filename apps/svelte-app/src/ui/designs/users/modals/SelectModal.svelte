@@ -15,10 +15,8 @@
     <KvRow key="Userame" value={$modal.source['username']} />
     <KvRow key="Role" value={$modal.source['role']} />
     <KvRow key="Created By" value={$modal.source['created_by']} />
-    <KvRow key="Created IP" value={$modal.source['created_ip']} />
     <KvRow key="Created Time" value={$modal.source['created_at']} />
-    <KvRow key="Logged In IP" value={$modal.source['loggedin_ip']} />
-    <KvRow key="Logged In Time" value={$modal.source['loggedin_at']} />
+    <KvRow key="Login Time" value={$modal.source['last_login']} />
     <KvRow key="Update Time" value={$modal.source['updated_at']} />
   </div>
 </BlankModal>
