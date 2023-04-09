@@ -1,0 +1,15 @@
+{
+  "name": "@packages/jest-ts",
+  "version": "1.0.0",
+  "description": "Shared jest config",
+  "author": "Tanawat Hongthai <ztrixack.th@gmail.com>",
+  "license": "MIT",
+  "main": "index.js",
+  "devDependencies": {
+    "@types/jest": "^29.4.0"
+  },
+  "peerDependencies": {
+    "jest": "^29.4.3",
+    "ts-jest": "^29.0.5"
+  }
+}

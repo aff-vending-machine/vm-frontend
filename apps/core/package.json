@@ -1,0 +1,27 @@
+{
+  "name": "@apps/core",
+  "version": "1.0.0",
+  "private": true,
+  "sideEffects": false,
+  "description": "Business Logic Core, this project contains all reusable entities and logic.",
+  "main": "build/index.js",
+  "license": "MIT",
+  "author": "Tanawat Hongthai <ztrixack.th@gmail.com>",
+  "scripts": {
+    "build": "rm -rf build && tsc --build && tsc-alias",
+    "dev": "tsc --watch",
+    "start": "tsc"
+  },
+  "dependencies": {
+    "@packages/eslint-ts": "workspace:*",
+    "@packages/prettier-ts": "workspace:*",
+    "axios": "^1.3.4",
+    "dayjs": "^1.11.7",
+    "jwt-decode": "^3.1.2",
+    "mem": "^9.0.2",
+    "ts-results": "^3.3.0"
+  },
+  "devDependencies": {
+    "tsc-alias": "^1.8.2"
+  }
+}

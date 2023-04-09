@@ -1,0 +1,39 @@
+{
+  "name": "vending-machine",
+  "private": true,
+  "version": "1.0.0",
+  "description": "A queue management service",
+  "license": "MIT",
+  "author": "Tanawat Hongthai <ztrixack.th@gmail.com>",
+  "scripts": {
+    "clean": "pnpm -r exec rm -rf node_modules && rm -rf node_modules",
+    "fresh": "pnpm clean && pnpm i",
+    "nuke": "rm -rf pnpm-lock.yaml && pnpm fresh",
+    "format": "pnpm run -r --parallel format",
+    "lint": "pnpm run -r --parallel lint",
+    "lint:fix": "pnpm run -r --parallel lint:fix",
+    "build": "pnpm core build && pnpm svelte build",
+    "core": "pnpm --filter @apps/core",
+    "svelte": "pnpm --filter @apps/svelte-app",
+    "dev": "pnpm core build & pnpm svelte dev"
+  },
+  "lint-staged": {
+    "": [
+      "pnpm format"
+    ]
+  },
+  "dependencies": {
+    "eslint": "^8.38.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.1",
+    "prettier": "^2.8.7",
+    "typescript": "^4.9.5"
+  },
+  "engines": {
+    "node": ">=14.16.0",
+    "pnpm": ">=7.10.0",
+    "npm": "please-use-pnpm",
+    "yarn": "please-use-pnpm"
+  },
+  "packageManager": "pnpm@7.10.0"
+}

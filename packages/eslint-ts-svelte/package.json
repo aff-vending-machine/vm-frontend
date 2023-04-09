@@ -1,0 +1,22 @@
+{
+  "name": "@packages/eslint-ts-svelte",
+  "version": "1.0.0",
+  "description": "Shared eslint config",
+  "author": "Tanawat Hongthai <ztrixack.th@gmail.com>",
+  "main": "index.js",
+  "dependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.53.0",
+    "@typescript-eslint/parser": "^5.53.0",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-plugin-log-filenames": "^1.0.6",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-svelte3": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/eslint": "^8.21.1"
+  },
+  "peerDependencies": {
+    "eslint": "^8.35.0",
+    "typescript": "^4.9.5"
+  }
+}

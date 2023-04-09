@@ -1,0 +1,47 @@
+{
+  "compilerOptions": {
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    // Types should go into this directory.
+    // Removing this would place the .d.ts files next to the .js files
+    "outDir": "./build",
+    "rootDir": "./src",
+    // Generate d.ts files
+    "declaration": true,
+    // Tells TypeScript to ignore JS files
+    "allowJs": false,
+    // This compiler run should only output d.ts files
+    //"emitDeclarationOnly": true,
+    // go to js file when using IDE functions like "Go to Definition" in VSCode
+    "declarationMap": true,
+    "sourceMap": true,
+    "moduleResolution": "node",
+    "target": "es2017",
+    "module": "ESNext",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "incremental": false,
+    "baseUrl": "./src",
+    "paths": {
+      "~/*": [
+        "./*"
+      ],
+    },
+  },
+  "include": [
+    "src/**/*.js",
+    "src/**/*.ts",
+    "declarations/*.d.ts",
+  ],
+  "exclude": [
+    "build",
+    "node_modules",
+    "**/*.spec.ts",
+  ],
+}

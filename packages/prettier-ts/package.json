@@ -1,0 +1,13 @@
+{
+  "name": "@packages/prettier-ts",
+  "version": "1.0.0",
+  "description": "Shared prettier config",
+  "author": "Tanawat Hongthai <ztrixack.th@gmail.com>",
+  "main": "index.js",
+  "devDependencies": {
+    "@types/prettier": "^2.7.2"
+  },
+  "peerDependencies": {
+    "prettier": "^2.8.4"
+  }
+}
