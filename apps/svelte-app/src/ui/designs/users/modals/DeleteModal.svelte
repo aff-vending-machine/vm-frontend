@@ -14,8 +14,9 @@
 
   const formId = 'user-delete-form';
 
-  const username = field('username', '', [required(), match($modal.id)]);
-  const modalForm = form(username);
+  const id = field('id', $modal.id, []);
+  const username = field('username', '', [required(), match($modal.source["username"])]);
+  const modalForm = form(id, username);
   modalForm.validate();
 
   function match(validate: string) {
@@ -43,9 +44,12 @@
 <FormModal {formId} show={$modal.event === 'delete'} disabled={$modalForm.errors.length != 0}>
   <h3 class="text-lg font-medium text-primary-900">Delete User</h3>
   <p class="text-sm text-gray-700 mb-4">
-    Please type "<span class="text-danger-500">{$modal.id}</span>" to confirm.
+    Please type "<span class="text-danger-500">{$modal.source["username"]}</span>" to confirm.
   </p>
   <form id={formId} class="grid grid-cols-1 gap-4" on:submit|preventDefault={handleDelete}>
+    <FormControl name="ID" required>
+      <TextInput name="ID" bind:value={$id.value} disabled />
+    </FormControl>
     <FormControl name="Username" required>
       <TextInput name="Username" maxlength={24} bind:value={$username.value} />
     </FormControl>

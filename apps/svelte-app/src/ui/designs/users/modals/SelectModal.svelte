@@ -12,7 +12,8 @@
 <BlankModal show={$modal.event === 'select'}>
   <h3 class="text-lg font-medium text-primary-900 mb-4">Name: {$modal.source['username']}</h3>
   <div class="grid grid-cols-3 gap-4 p-2 border">
-    <KvRow key="Userame" value={$modal.source['username']} />
+    <KvRow key="ID" value={$modal.source['id']} />
+    <KvRow key="Username" value={$modal.source['username']} />
     <KvRow key="Role" value={$modal.source['role']} />
     <KvRow key="Created By" value={$modal.source['created_by']} />
     <KvRow key="Created Time" value={$modal.source['created_at']} />

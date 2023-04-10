@@ -1,10 +1,10 @@
 <!-- Action -->
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
-  import { User } from '@apps/core';
+  import { Machine } from '@apps/core';
   import ActionButton from '~/ui/components/elements/buttons/ActionButton.svelte';
 
-  export let source: User;
+  export let source: Machine;
 
   const dispatch = createEventDispatcher();
   const handleEditEvent = () => dispatch('event', { event: 'edit', id: source.id, source });

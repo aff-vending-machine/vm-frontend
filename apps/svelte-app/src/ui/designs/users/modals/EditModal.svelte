@@ -21,10 +21,10 @@
   const bloc = provideRoleBloc();
   const state = useBlocState<RoleState>(bloc);
 
-  const username = field('username', $modal.id, []);
+  const id = field('id', $modal.id, []);
   const role = field('role', $modal.source['role'], [required()]);
 
-  const modalForm = form(username, role);
+  const modalForm = form(id, role);
 
   let roleOptions = [];
 
@@ -71,8 +71,11 @@
 <FormModal {formId} show={$modal.event === 'edit'} disabled={$modalForm.errors.length != 0}>
   <h3 class="text-lg font-medium text-primary-900 mb-4">Edit User</h3>
   <form id={formId} class="grid grid-cols-1 gap-4" on:submit|preventDefault={handleChangeRole}>
+    <FormControl name="ID" required>
+      <TextInput name="ID" bind:value={$id.value} disabled />
+    </FormControl>
     <FormControl name="Username" required>
-      <TextInput name="Username" bind:value={$username.value} disabled />
+      <TextInput name="Username" bind:value={$modal.source['username']} disabled />
     </FormControl>
     <FormControl name="Role" required>
       <Select bind:value={$role.value} options={roleOptions} />
@@ -90,7 +93,7 @@
     >
       Reset Password
     </button>
-    {#if $modal.id === $access.sub}
+    {#if $modal.source["username"] === $access.name}
       <button
         type="button"
         class="rounded-lg border border-gray-300 bg-white px-4 py-2 text-center text-sm font-medium text-gray-700 shadow-sm transition-all 

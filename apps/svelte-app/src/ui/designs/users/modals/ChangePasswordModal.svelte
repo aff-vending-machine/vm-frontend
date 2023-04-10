@@ -16,12 +16,12 @@
 
   const formId = 'user-change-password-form';
 
-  const username = field('username', $modal.id, []);
+  const id = field('id', $modal.id, []);
   const current = field('current', '', [required()]);
   const password = field('password', '', [required(), length(8, 16)]);
   const confirm = field('confirm', '', [required(), matchField(password)]);
 
-  const modalForm = form(username, current, password, confirm);
+  const modalForm = form(id, current, password, confirm);
 
   function length(min: number, max: number) {
     return async (val: string) => {
@@ -48,8 +48,11 @@
 <FormModal {formId} show={$modal.event === 'change-password'} disabled={$modalForm.errors.length != 0}>
   <h3 class="text-lg font-medium text-primary-900 mb-4">Change Password</h3>
   <form id={formId} class="grid grid-cols-1 gap-4" on:submit|preventDefault={handleCreate}>
-    <FormControl name="Username" required>
-      <TextInput name="Username" bind:value={$username.value} disabled />
+    <FormControl name="ID" required>
+      <TextInput name="ID" bind:value={$id.value} disabled />
+    </FormControl>
+    <FormControl name="Username">
+      <TextInput name="Username" bind:value={$modal.source["username"]} disabled />
     </FormControl>
     <FormControl name="Current Password" required>
       <PasswordInput name="Current Password" bind:value={$current.value} />

@@ -15,10 +15,12 @@ export const getPermissionType = (level: number) => {
 
 export const getRoleLevel = (role: string) => {
   switch (role) {
-    case 'sic':
+    case 'super-admin':
       return 99;
     case 'admin':
       return 9;
+    case 'manager':
+      return 5;
     case 'staff':
       return 1;
     default:
