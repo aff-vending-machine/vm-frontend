@@ -15,7 +15,7 @@
     "build": "pnpm core build && pnpm svelte build",
     "core": "pnpm --filter @apps/core",
     "svelte": "pnpm --filter @apps/svelte-app",
-    "dev": "pnpm core build & pnpm svelte dev"
+    "dev": "pnpm core rmbuild & pnpm core build & pnpm svelte dev"
   },
   "lint-staged": {
     "": [

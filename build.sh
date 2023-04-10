@@ -1,0 +1,1 @@
+docker build --platform linux/amd64 -t vm-frontend:0.0.0 .

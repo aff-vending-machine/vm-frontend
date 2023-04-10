@@ -8,7 +8,8 @@
   "license": "MIT",
   "author": "Tanawat Hongthai <ztrixack.th@gmail.com>",
   "scripts": {
-    "build": "rm -rf build && tsc --build && tsc-alias",
+    "rmbuild": "rm -rf build",
+    "build": "tsc --build && tsc-alias",
     "dev": "tsc --watch",
     "start": "tsc"
   },

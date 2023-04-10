@@ -11,7 +11,7 @@
   import { sortToObj } from '~/share/utils/sort';
 
   // components
-  import Pagination from '~/ui/components/navigations/paginations/Pagination.svelte';
+  import Pagination from '~/ui/components/navigations/paginations/PaginationGo.svelte';
   import Select from '~/ui/components/forms/selects/Select.svelte';
   import TableBloc from '~/ui/designs/machines/tables/TableBloc.svelte';
   import TableLoader from '~/ui/components/feedbacks/loaders/TableLoader.svelte';

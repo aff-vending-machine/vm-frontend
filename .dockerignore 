@@ -1,0 +1,11 @@
+node_modules
+build
+dist
+tmp
+*.log
+*.lock
+*.swp
+.dockerignore
+.git
+.gitignore
+*.sh
