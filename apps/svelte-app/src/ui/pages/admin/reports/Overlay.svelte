@@ -15,8 +15,8 @@
   // components
   import LoadingModal from '~/ui/components/overlays/modals/LoadingModal.svelte';
   import Alert from '~/ui/components/feedbacks/alerts/Alert.svelte';
-  import PaymentModal from '~/ui/designs/reports/modals/PaymentModal.svelte';
-  import StockModal from '~/ui/designs/reports/modals/StockModal.svelte';
+  import PaymentModal from '~/ui/pages/admin/reports/modals/PaymentModal.svelte';
+  import StockModal from '~/ui/pages/admin/reports/modals/StockModal.svelte';
 
   dayjs.extend(utc);
   dayjs.extend(timezone);

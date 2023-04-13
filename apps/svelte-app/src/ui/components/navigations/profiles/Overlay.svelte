@@ -8,7 +8,7 @@
   import { notify } from '~/share/modules/messages/notify';
 
   // components
-  import ChangePasswordModal from '~/ui/designs/users/modals/ChangePasswordModal.svelte';
+  import ChangePasswordModal from '~/ui/pages/admin/users/modals/ChangePasswordModal.svelte';
   import LoadingModal from '~/ui/components/overlays/modals/LoadingModal.svelte';
   import Alert from '~/ui/components/feedbacks/alerts/Alert.svelte';
 

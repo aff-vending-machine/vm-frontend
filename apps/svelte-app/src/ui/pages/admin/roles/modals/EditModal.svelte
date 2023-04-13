@@ -6,13 +6,13 @@
   // core
   import { modal } from '~/share/stores';
   import { permissionLevelOptions, permissionOptions } from '~/share/modules/options/permission';
-  import Permission from '../tables/Permission.svelte';
 
   // components
   import FormModal from '~/ui/components/overlays/modals/FormModal.svelte';
   import FormControl from '~/ui/components/forms/inputs/FormControl.svelte';
   import MessageError from '~/ui/components/forms/inputs/MessageError.svelte';
   import TextInput from '~/ui/components/forms/inputs/TextInput.svelte';
+  import Permission from '../tables/Permission.svelte';
 
   const formId = 'role-edit-form';
 

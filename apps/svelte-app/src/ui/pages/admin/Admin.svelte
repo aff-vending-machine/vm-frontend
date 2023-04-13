@@ -2,6 +2,8 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { navigate } from 'svelte-navigator';
+
+  // components
   import Icon from '~/ui/components/elements/icons/Icon.svelte';
 
   onMount(() => {

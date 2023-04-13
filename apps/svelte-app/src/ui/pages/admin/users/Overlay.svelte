@@ -10,11 +10,10 @@
   import { notify } from '~/share/modules/messages/notify';
 
   // components
-  import CreateModal from '~/ui/designs/users/modals/CreateModal.svelte';
-  import EditModal from '~/ui/designs/users/modals/EditModal.svelte';
-  import DeleteModal from '~/ui/designs/users/modals/DeleteModal.svelte';
-  import SelectModal from '~/ui/designs/users/modals/SelectModal.svelte';
-  // import ChangePasswordModal from '~/ui/designs/users/modals/ChangePasswordModal.svelte';
+  import CreateModal from '~/ui/pages/admin/users/modals/CreateModal.svelte';
+  import EditModal from '~/ui/pages/admin/users/modals/EditModal.svelte';
+  import DeleteModal from '~/ui/pages/admin/users/modals/DeleteModal.svelte';
+  import SelectModal from '~/ui/pages/admin/users/modals/SelectModal.svelte';
   import LoadingModal from '~/ui/components/overlays/modals/LoadingModal.svelte';
   import Alert from '~/ui/components/feedbacks/alerts/Alert.svelte';
 
@@ -55,22 +54,6 @@
     modal.set({});
   };
 
-  // $: handleChangePassword = async (e: CustomEvent) => {
-  //   try {
-  //     const payload: ChangePassword = {
-  //       old_password: e.detail.current,
-  //       new_password: e.detail.password,
-  //     };
-  //     await bloc.changePassword(payload);
-  //     notify($state.kind, 'change password', $state.error);
-  //     dispatch('reload');
-  //   } catch (e) {
-  //     console.log(e);
-  //     notify('error', 'change password', e);
-  //   }
-  //   modal.set({});
-  // };
-
   $: handleResetPassword = async (e: CustomEvent) => {
     try {
       await bloc.resetPassword(e.detail.username);
@@ -105,9 +88,6 @@
 {#if $modal.event === 'edit'}
   <EditModal on:change-role={handleChangeRole} on:reset-password={handleResetPassword} />
 {/if}
-<!-- {#if $modal.event === 'change-password'}
-  <ChangePasswordModal on:change-password={handleChangePassword} />
-{/if} -->
 {#if $modal.event === 'delete'}
   <DeleteModal on:delete={handleDelete} />
 {/if}

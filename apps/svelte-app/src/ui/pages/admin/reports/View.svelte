@@ -1,18 +1,12 @@
 <!-- View -->
 <script lang="ts">
   // core
-  import type { ReportState } from '@apps/core';
   import { provideReportBloc } from '@apps/core';
   import { modal } from '~/share/stores';
-  import { useBlocState } from '~/share/hooks/useBlocState';
 
   // components
   import CreateButton from '~/ui/components/elements/buttons/CreateButton.svelte';
-  import TableLoader from '~/ui/components/feedbacks/loaders/TableLoader.svelte';
   import Overlay from './Overlay.svelte';
-
-  const bloc = provideReportBloc();
-  const state = useBlocState<ReportState>(bloc);
 
   $: handleReportStockEvent = () => modal.set({ event: 'report-stock' });
   $: handleReportPaymentEvent = () => modal.set({ event: 'report-payment' });
