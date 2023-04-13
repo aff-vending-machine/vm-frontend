@@ -7,7 +7,7 @@ WORKDIR /app
 # Copy the application source code
 COPY . /app
 
-RUN npm install -g pnpm && pnpm install && pnpm build
+RUN npm install -g pnpm --ignore-scripts && pnpm install --ignore-scripts && pnpm build
 
 # Use an official Nginx image for the production stage
 FROM nginx:1.21-alpine

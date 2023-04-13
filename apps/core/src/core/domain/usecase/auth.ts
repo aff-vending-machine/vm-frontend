@@ -68,9 +68,6 @@ export class AuthUsecase {
 
         // Unauthorized ignore case
         if (err.response?.status == 401) {
-          // localStorage.removeItem(LOCAL_ACCESS_TOKEN);
-          // localStorage.removeItem(LOCAL_REFRESH_TOKEN);
-          // localStorage.removeItem(LOCAL_AUTHENTICATED_REMEMBERED);
           return Promise.reject(Error(''));
         }
 

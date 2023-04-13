@@ -1,0 +1,6 @@
+projectKey=at44-vm-frontend
+serverUrl=http://localhost:9000
+serverVersion=10.0.0.68432
+dashboardUrl=http://localhost:9000/dashboard?id=at44-vm-frontend
+ceTaskId=AYd4_cELit8rk2bnDyzw
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AYd4_cELit8rk2bnDyzw

@@ -17,7 +17,7 @@ export class ReportRepository implements ReportDataInterface {
     try {
       const { data } = await privateClient.get<APIProtocol<Payment[]>>(`${ROOT_PATH}/payment`, { params });
       return handleResponse<Payment[]>(data);
-    } catch (e: unknown) {this.stock
+    } catch (e: unknown) {
       throw handleError(e);
     }
   }
@@ -34,7 +34,7 @@ export class ReportRepository implements ReportDataInterface {
     try {
       const { data } = await privateClient.get(`${ROOT_PATH}/payment/download`, { params, responseType: 'blob'});
       return new Blob([data], { type: 'text/csv' });
-    } catch (e: unknown) {this.stock
+    } catch (e: unknown) {
       throw handleError(e);
     }
   }

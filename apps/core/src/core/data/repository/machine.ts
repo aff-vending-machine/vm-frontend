@@ -1,5 +1,5 @@
 import { handleError, handleResponse, privateClient } from '~/share';
-import { ChangeMachineStatus, CreateMachine, Machine, MachineDataInterface, UpdateMachine } from '~/core/domain';
+import { CreateMachine, Machine, MachineDataInterface, UpdateMachine } from '~/core/domain';
 
 const ROOT_PATH = 'machines';
 

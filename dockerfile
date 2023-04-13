@@ -42,6 +42,9 @@ RUN pnpm build
 FROM nginx:1.21-alpine As runner
 LABEL maintainer="Tanawat Hongthai <ztrixack.th@gmail.com>"
 
+# Set a non-root user for the nginx container
+USER nginx
+
 # Copy the built Vite.js app from the builder stage
 COPY --from=builder /app/dist /usr/share/nginx/html
 
