@@ -43,3 +43,7 @@
     {/each}
   </div>
 </div>
+
+<!-- style -->
+<style lang="scss">
+</style>

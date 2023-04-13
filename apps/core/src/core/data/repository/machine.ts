@@ -11,6 +11,15 @@ export class MachineRepository implements MachineDataInterface {
     } catch (e: unknown) {
       throw handleError(e);
     }
+  }  
+  
+  async count(params?: Record<string, string>): Promise<number> {
+    try {
+      const { data } = await privateClient.get<APIProtocol<number>>(`${ROOT_PATH}/count`, { params });
+      return handleResponse<number>(data);
+    } catch (e: unknown) {
+      throw handleError(e);
+    }
   }
 
   async findByID(id: UniqueID): Promise<Machine> {
@@ -44,15 +53,6 @@ export class MachineRepository implements MachineDataInterface {
     try {
       const { data } = await privateClient.delete<APIProtocol<void>>(`${ROOT_PATH}/${id}`);
       return handleResponse<void>(data);
-    } catch (e: unknown) {
-      throw handleError(e);
-    }
-  }
-
-  async count(): Promise<number> {
-    try {
-      const { data } = await privateClient.get<APIProtocol<number>>(`${ROOT_PATH}/count`);
-      return handleResponse<number>(data);
     } catch (e: unknown) {
       throw handleError(e);
     }

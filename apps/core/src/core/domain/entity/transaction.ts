@@ -1,12 +1,13 @@
 import { toDateTime, toAnyDateTime } from '~/share';
 
-export type Payment = {
+export type Transaction = {
   id: UniqueID;
   created_at: DateTime;
   updated_at: DateTime;
   machine_id: UniqueID;
-  merchant_order_id: string;
+  machine_name: string;
   machine_serial_number: string;
+  merchant_order_id: string;
   location: string;
   raw_cart: string;
   note: string;
@@ -34,7 +35,7 @@ export type Payment = {
   error_at: AnyDateTime;
 };
 
-export const parsePayment = (payment: Payment) => {
+export const parseTransaction = (payment: Transaction) => {
   payment.created_at = toDateTime(payment.created_at);
   payment.updated_at = toDateTime(payment.updated_at);
   payment.ordered_at = toDateTime(payment.ordered_at);

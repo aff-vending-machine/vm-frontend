@@ -132,7 +132,7 @@
   };
 
   $: handleUpdate = (_: MouseEvent) => {
-    bloc.syncGet();
+    bloc.syncSet();
   };
 
   $: handleReset = (_: MouseEvent) => {

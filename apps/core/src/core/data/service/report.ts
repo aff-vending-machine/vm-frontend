@@ -1,5 +1,5 @@
 import { handleError, handleResponse, privateClient } from '~/share';
-import { Stock, ReportDataInterface, Payment } from '~/core/domain';
+import { Stock, ReportDataInterface, Transaction } from '~/core/domain';
 
 const ROOT_PATH = 'report';
 
@@ -13,10 +13,10 @@ export class ReportRepository implements ReportDataInterface {
     }
   }
 
-  async payment(params?: Record<string, string>): Promise<Payment[]> {
+  async payment(params?: Record<string, string>): Promise<Transaction[]> {
     try {
-      const { data } = await privateClient.get<APIProtocol<Payment[]>>(`${ROOT_PATH}/payment`, { params });
-      return handleResponse<Payment[]>(data);
+      const { data } = await privateClient.get<APIProtocol<Transaction[]>>(`${ROOT_PATH}/payment`, { params });
+      return handleResponse<Transaction[]>(data);
     } catch (e: unknown) {
       throw handleError(e);
     }

@@ -13,6 +13,15 @@ export class MachineSlotRepository implements MachineSlotDataInterface {
     }
   }
 
+  async count(machineID: UniqueID, params?: Record<string, string>): Promise<number> {
+    try {
+      const { data } = await privateClient.get<APIProtocol<number>>(`${ROOT_PATH(machineID)}/count`, { params });
+      return handleResponse<number>(data);
+    } catch (e: unknown) {
+      throw handleError(e);
+    }
+  }
+
   async findByID(machineID: UniqueID, id: UniqueID): Promise<MachineSlot> {
     try {
       const { data } = await privateClient.get<APIProtocol<MachineSlot>>(`${ROOT_PATH(machineID)}/${id}`);
@@ -48,16 +57,6 @@ export class MachineSlotRepository implements MachineSlotDataInterface {
       throw handleError(e);
     }
   }
-
-  async count(machineID: UniqueID): Promise<number> {
-    try {
-      const { data } = await privateClient.get<APIProtocol<number>>(`${ROOT_PATH(machineID)}/count`);
-      return handleResponse<number>(data);
-    } catch (e: unknown) {
-      throw handleError(e);
-    }
-  }
-
 
   async syncByMachineId(machineID: UniqueID): Promise<MachineSlot[]> {
     try {
