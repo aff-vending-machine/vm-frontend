@@ -1,9 +1,9 @@
 import { BlocState } from '~/share';
-import { Stock, Payment } from '~/core/domain';
+import { Stock, Transaction } from '~/core/domain';
 
 export type ReportState = {
   kind: BlocState;
-  list?: Array<Stock | Payment>;
+  list?: Array<Stock | Transaction>;
   file?: Blob;
   error?: Error;
 };

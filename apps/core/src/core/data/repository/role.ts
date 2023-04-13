@@ -13,9 +13,9 @@ export class RoleRepository implements RoleDataInterface {
     }
   }
 
-  async count(): Promise<number> {
+  async count(params?: Record<string, string>): Promise<number> {
     try {
-      const { data } = await privateClient.get<APIProtocol<number>>(`${ROOT_PATH}/count`);
+      const { data } = await privateClient.get<APIProtocol<number>>(`${ROOT_PATH}/count`, { params });
       return handleResponse<number>(data);
     } catch (e: unknown) {
       throw handleError(e);
