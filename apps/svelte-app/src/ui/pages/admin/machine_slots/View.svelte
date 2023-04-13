@@ -6,19 +6,25 @@
   import { MachineSlot, MachineSlotState, MachineState, provideMachineBloc } from '@apps/core';
   import { provideMachineSlotBloc } from '@apps/core';
   import { useBlocState } from '~/share/hooks/useBlocState';
+  import { stockOptions } from '~/share/modules/options/stock';
+  import { enableOptions } from '~/share/modules/options/enable';
+  import { modal } from '~/share/stores';
 
   // components
-  import Overlay from './Overlay.svelte';
-  import { each } from 'svelte/internal';
-  import Toggle from '~/ui/components/forms/toggles/Toggle.svelte';
+  import Select from '~/ui/components/forms/selects/Select.svelte';
+  import CreateButton from '~/ui/components/elements/buttons/CreateButton.svelte';
   import TextInput from '~/ui/components/forms/inputs/TextInput.svelte';
+  import Overlay from './Overlay.svelte';
+  import Slot from './Slot.svelte';
+  import NoSlot from './NoSlot.svelte';
 
   export let id: string;
 
   let machineId = parseInt(id, 10);
 
-  let rows = 0;
-  let cols = 0;
+  $: rows = 0;
+  $: cols = 0;
+  $: localSlotList = [];
 
   const mbloc = provideMachineBloc();
   const mstate = useBlocState<MachineState>(mbloc);
@@ -26,9 +32,15 @@
   const bloc = provideMachineSlotBloc();
   const state = useBlocState<MachineSlotState>(bloc);
 
-  onMount(() => {
+  $: filter = {
+    search: '',
+    stock: null,
+    enable: null,
+  };
+
+  onMount(async () => {
     mbloc.view(machineId);
-    bloc.list(machineId);
+    await bloc.list(machineId);
 
     if ($state.kind === 'load-success') {
       let maxCol = 0;
@@ -47,24 +59,50 @@
 
       rows = maxRow;
       cols = maxCol;
+      localSlotList = $state.list.map(s => ({ ...s }));
     }
   });
 
-  $: handleChangeFilter = () => {
-    bloc.list(machineId);
-  };
+  $: handleReload = () => bloc.list(machineId);
 
-  $: fill = (slots: MachineSlot[]): MachineSlot[][] => {
+  $: fill = (slots: MachineSlot[]): MachineSlot[] => {
     let newSlots = [];
 
-    for (let r = 0; r < 10; r++) {
-      newSlots[r] = [];
-      for (let c = 0; c < 10; c++) {
-        let slot = slots.find(s => s.code === '0' + r + c);
+    // filter stock
+    if (filter.stock !== null) {
+      let [cond, percent] = filter.stock.split(':');
+      switch (cond) {
+        case '<':
+          slots = slots.filter(s => s.stock / s.capacity < percent);
+          break;
+
+        case '>':
+          slots = slots.filter(s => s.stock / s.capacity > percent);
+          break;
+
+        case '<=':
+          slots = slots.filter(s => s.stock / s.capacity <= percent);
+          break;
+      }
+    }
+
+    // filter status
+    if (filter.enable !== null) {
+      slots = slots.filter(s => s.is_enable === (filter.enable === true));
+    }
+
+    // filter search
+    if (filter.search !== '') {
+      slots = slots.filter(s => s.code.indexOf(filter.search) !== -1);
+    }
+
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        let slot = slots.find(s => s.code === '0' + (r + 1) + c);
         if (slot === undefined) {
-          newSlots[r].push(null);
+          newSlots.push(null);
         } else {
-          newSlots[r].push(slot);
+          newSlots.push(slot);
         }
       }
     }
@@ -72,35 +110,38 @@
     return newSlots;
   };
 
-  $: minus = (slot: MachineSlot) => () => {
-    let idx = $state.list.findIndex(s => s.id === slot.id);
-
-    if ($state.list[idx].stock > 0) {
-      $state.list[idx].stock = $state.list[idx].stock - 1;
-    }
+  $: getBase = (code: string): MachineSlot => {
+    return $state.list.find(s => s.code === code);
   };
 
-  $: plus = (slot: MachineSlot) => () => {
-    let idx = $state.list.findIndex(s => s.id === slot.id);
+  $: handleEditEvent = (e: CustomEvent) => {
+    const { id, slot } = e.detail;
 
-    if ($state.list[idx].stock < $state.list[idx].capacity) {
-      $state.list[idx].stock = $state.list[idx].stock + 1;
-    }
+    modal.set({ event: 'edit', id, source: slot });
   };
 
-  $: disable = (slot: MachineSlot) => () => {
-    let idx = $state.list.findIndex(s => s.id === slot.id);
-    $state.list[idx].is_enable = false;
-  }
+  $: handleStock = (e: CustomEvent) => {
+    const { id, stock } = e.detail;
 
-  $: update = () => {
+    const idx = localSlotList.findIndex(s => s.id === id);
+    localSlotList[idx].stock = stock;
+  };
 
-  }
+  $: handleSync = (_: MouseEvent) => {
+    bloc.syncGet();
+  };
 
-  $: reset = () => {
-    
-  }
+  $: handleUpdate = (_: MouseEvent) => {
+    bloc.syncGet();
+  };
 
+  $: handleReset = (_: MouseEvent) => {
+    localSlotList = $state.list.map(s => ({ ...s }));
+  };
+
+  $: handleCreate = (_: MouseEvent) => {
+    modal.set({ event: 'create' });
+  };
 </script>
 
 <!-- HTML -->
@@ -111,9 +152,37 @@
         <h4 class="text-xl font-semibold text-gray-700">Machine: {$mstate.data.serial_number}</h4>
       {/if}
     </div>
-    <div class="px-8 pt-4">
-      <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" on:click={update}>SAVE</button>
-      <button class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full" on:click={reset}>CANCEL</button>
+    <div class="p-4">
+      <div class="flex flex-col md:flex-row w-full justify-between">
+        <div class="float-left flex space-x-2">
+          <div class="mb-3 text-center">
+            <CreateButton text="Sync" on:click={handleSync} />
+          </div>
+          <div class="mb-3 text-center">
+            <CreateButton text="Save" on:click={handleUpdate} />
+          </div>
+          <div class="mb-3 text-center">
+            <CreateButton text="Cancel" on:click={handleReset} />
+          </div>
+          <div class="mb-3 text-center">
+            <CreateButton text="Create" on:click={handleCreate} />
+          </div>
+        </div>
+        <div class="float-right flex space-x-2">
+          <div class="mb-3 text-center">
+            <span class="text-xs font-semibold">Slot Search</span>
+            <TextInput name="search" bind:value={filter.search} maxlength={3} />
+          </div>
+          <div class="mb-3 text-center">
+            <span class="text-xs font-semibold">Stock</span>
+            <Select bind:value={filter.stock} options={stockOptions} />
+          </div>
+          <div class="mb-3 text-center">
+            <span class="text-xs font-semibold">Status</span>
+            <Select bind:value={filter.enable} options={enableOptions} />
+          </div>
+        </div>
+      </div>
     </div>
     <div class="border-t border-b border-gray-300 p-4">
       {#if $state.kind === 'load-in-progress'}
@@ -121,36 +190,14 @@
           <!-- <TableLoader /> -->
         </div>
       {:else if $state.kind === 'load-success'}
-        <div class=" overflow-x-auto">
-          <div class="flex flex-col space-y-4">
-            {#each fill($state.list) as slots}
-              <div class="flex flex-row space-x-4">
-                {#each slots as slot}
-                  {#if slot === null}
-                    <div />
-                  {:else}
-                    <div class="flex flex-col border border-blue-500 rounded-md justify-center items-center px-4">
-                      <div class="font-bold">Slot no. {slot.code}</div>
-                      <div class="text-xs py-2">{slot.product.name}</div>
-                      <div class="text-xs py-2">Status
-                        <Toggle class="inline-block" id={slot.code} text="" checked on:change={disable(slot)}/>
-                      </div>
-                      <div class="text-xs text-center">
-                        Price: <input type ="number" min="0" class=" text-xs bg-gray-200 text-center rounded-[10px] w-16" value={slot.product.price}/>
-                      </div>
-                      <div class="mt-2">{slot.stock}/{slot.capacity}</div>
-                      <div class="mx-4 py-1">
-                        <button class="bg-gray-300 px-3 py-2  text-center 
-                        text-xs font-medium text-white hover:bg-gray-300" on:click={minus(slot)}>-</button>
-                        <button class="bg-gray-300 px-3 py-2 text-center 
-                        text-xs font-medium text-white hover:bg-gray-300 " on:click={plus(slot)}>+</button>
-                      </div>
-                    </div>
-                  {/if}
-                {/each}
-              </div>
-            {/each}
-          </div>
+        <div class="grid max-w-full grid-cols-10-auto gap-2 overflow-auto">
+          {#each fill(localSlotList) as slot}
+            {#if slot === null}
+              <NoSlot />
+            {:else}
+              <Slot {slot} base={getBase(slot.code)} on:stock={handleStock} on:select={handleEditEvent} />
+            {/if}
+          {/each}
         </div>
       {:else if $state.kind === 'load-failure'}
         <div class="text-center">Something Wrong! ({$state.error?.message})</div>
@@ -160,7 +207,7 @@
 </section>
 
 <!-- Modal -->
-<Overlay on:reload={handleChangeFilter} />
+<Overlay on:reload={handleReload} />
 
 <!-- style -->
 <style lang="scss">
