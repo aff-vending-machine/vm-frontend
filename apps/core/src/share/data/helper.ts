@@ -6,7 +6,7 @@ export const handleResponse = <T>(result: APIProtocol<T>): T => {
       return result.data!;
 
     case 'error':
-      throw Error(result.message!);
+      throw Error(result.message);
   }
 };
 

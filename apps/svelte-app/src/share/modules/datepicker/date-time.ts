@@ -18,7 +18,11 @@ const monthNames = [
     return Array.from({ length: 42 }).map(() => 0);
   };
   const getMonthDays = (index: number, year: any) => {
-    return index !== 1 ? monthDays[index] : isLeapYear(year) ? 29 : 28;
+    if (index !== 1) {
+      return monthDays[index]
+    }
+
+    return isLeapYear(year) ? 29 : 28;
   };
   
   const getMonthStats = (monthIndex: number, year: number) => {
@@ -45,7 +49,9 @@ const monthNames = [
     return filled[35] ? filled : filled.slice(0, -7);
   };
   
-  export const noop = () => {};
+  export const noop = () => {
+    // no operation
+  };
   
   export const uuid = (() => {
     let id = 1;

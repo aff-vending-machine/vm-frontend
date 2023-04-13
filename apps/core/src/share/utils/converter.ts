@@ -15,7 +15,10 @@ export const jsonToQueryString = (json: Record<string, any>) => {
 export const toQuery = (obj: Record<string, any>) => {
   return Object.keys(obj)
     .filter((key: string) => !!obj[key])
-    .reduce((res: any, key: string) => ((res[key] = obj[key].toString()), res), {});
+    .reduce((res: any, key: string) => {
+      res[key] = obj[key].toString()
+      return res
+    }, {});
 };
 
 export const toDateTime = (date: any, unix = false) => {

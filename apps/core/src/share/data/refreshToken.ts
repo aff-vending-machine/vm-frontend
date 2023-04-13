@@ -22,7 +22,7 @@ const refreshTokenFn = async () => {
 
     return data!.access_token;
   } catch (error) {
-    // console.log(error);
+    console.log(error);
   }
 };
 
