@@ -12,6 +12,12 @@ module.exports = {
       fontFamily: {
         sans: ["Inter", ...defaultTheme.fontFamily.sans],
       },
+      gridTemplateRows: {
+        "auto": 'auto auto',
+      },
+      gridTemplateColumns: {
+        "10-auto": 'auto auto auto auto auto auto auto auto auto auto', 
+      },
       colors: {
         transparent: 'transparent',
         primary: colors.blue,
