@@ -1,6 +1,7 @@
 <!-- View -->
 <script lang="ts">
   import { onMount } from 'svelte';
+  import { navigate } from 'svelte-navigator';
 
   // core
   import type { MachineState } from '@apps/core';
@@ -8,16 +9,15 @@
   import { useBlocState } from '~/share/hooks/useBlocState';
   import { limitFilterOptions } from '~/share/modules/options/limit';
   import { modal } from '~/share/stores';
+  import { ADMIN_MACHINE_SLOTS } from '~/share/links';
   import { sortToObj } from '~/share/utils/sort';
 
   // components
   import Pagination from '~/ui/components/navigations/paginations/Pagination.svelte';
   import Select from '~/ui/components/forms/selects/Select.svelte';
-  import TableBloc from '~/ui/designs/machines/tables/TableBloc.svelte';
   import TableLoader from '~/ui/components/feedbacks/loaders/TableLoader.svelte';
   import Overlay from './Overlay.svelte';
-  import { navigate } from 'svelte-navigator';
-  import { ADMIN_MACHINE_SLOTS } from '~/share/links';
+  import TableBloc from './tables/TableBloc.svelte';
 
   const bloc = provideMachineBloc();
   const state = useBlocState<MachineState>(bloc);
@@ -70,16 +70,6 @@
             <span class="text-xs font-semibold">View row</span>
             <Select bind:value={filter.limit} options={limitFilterOptions} on:change={handleChangeFilter} />
           </div>
-        </div>
-        <div class="float-right flex space-x-2">
-          <!-- <div class="mb-3 xl:min-w-64 text-center">
-            <span class="text-xs font-semibold">Search</span>
-            <SearchInput bind:value={filter.search} on:change={handleChangeFilter} />
-          </div> -->
-          <!-- <div class="mb-3 xl:min-w-24 text-center">
-            <span class="text-xs font-semibold">Role</span>
-            <Select bind:value={filter.role} options={roleFilterOptions} on:change={handleChangeFilter} />
-          </div> -->
         </div>
       </div>
     </div>

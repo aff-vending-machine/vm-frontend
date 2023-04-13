@@ -10,10 +10,10 @@
   import { notify } from '~/share/modules/messages/notify';
 
   // components
-  import CreateModal from '~/ui/designs/roles/modals/CreateModal.svelte';
-  import EditModal from '~/ui/designs/roles/modals/EditModal.svelte';
-  import DeleteModal from '~/ui/designs/roles/modals/DeleteModal.svelte';
-  import SelectModal from '~/ui/designs/roles/modals/SelectModal.svelte';
+  import CreateModal from '~/ui/pages/admin/roles/modals/CreateModal.svelte';
+  import EditModal from '~/ui/pages/admin/roles/modals/EditModal.svelte';
+  import DeleteModal from '~/ui/pages/admin/roles/modals/DeleteModal.svelte';
+  import SelectModal from '~/ui/pages/admin/roles/modals/SelectModal.svelte';
   import LoadingModal from '~/ui/components/overlays/modals/LoadingModal.svelte';
   import Alert from '~/ui/components/feedbacks/alerts/Alert.svelte';
 

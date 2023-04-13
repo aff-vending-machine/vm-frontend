@@ -9,16 +9,15 @@
   import { limitFilterOptions } from '~/share/modules/options/limit';
   import { access, modal } from '~/share/stores';
   import { sortToObj } from '~/share/utils/sort';
+  import { roleFilterOptions } from '~/share/modules/options/role';
 
   // components
   import Pagination from '~/ui/components/navigations/paginations/Pagination.svelte';
   import Select from '~/ui/components/forms/selects/Select.svelte';
-  import TableBloc from '~/ui/designs/users/tables/TableBloc.svelte';
   import CreateButton from '~/ui/components/elements/buttons/CreateButton.svelte';
   import TableLoader from '~/ui/components/feedbacks/loaders/TableLoader.svelte';
   import Overlay from './Overlay.svelte';
-  import SearchInput from '~/ui/components/forms/inputs/SearchInput.svelte';
-  import { roleFilterOptions } from '~/share/modules/options/role';
+  import TableBloc from './tables/TableBloc.svelte';
 
   const bloc = provideUserBloc();
   const state = useBlocState<UserState>(bloc);
@@ -27,7 +26,6 @@
     page: 1,
     offset: 0,
     limit: 10,
-    // search: '*',
     role: '',
     sort_by: 'created_at:desc',
   };
@@ -75,10 +73,6 @@
           {/if}
         </div>
         <div class="float-right flex space-x-2">
-          <!-- <div class="mb-3 xl:min-w-64 text-center">
-            <span class="text-xs font-semibold">Search</span>
-            <SearchInput bind:value={filter.search} on:change={handleChangeFilter} />
-          </div> -->
           <div class="mb-3 xl:min-w-24 text-center">
             <span class="text-xs font-semibold">Role</span>
             <Select bind:value={filter.role} options={roleFilterOptions} on:change={handleChangeFilter} />

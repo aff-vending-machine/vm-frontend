@@ -12,6 +12,7 @@ export type MachineSlot = {
   sold: number;
   capacity: number;
   product: Product;
+  is_enable: boolean;
 };
 
 export type CreateMachineSlot = {
@@ -26,6 +27,7 @@ export type UpdateMachineSlot = {
   code: string;
   stock: number;
   capacity: number;
+  is_enable: boolean;
 };
 
 export const parseMachineSlot = (slot: MachineSlot) => {

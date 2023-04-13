@@ -13,10 +13,10 @@
   // components
   import Pagination from '~/ui/components/navigations/paginations/Pagination.svelte';
   import Select from '~/ui/components/forms/selects/Select.svelte';
-  import TableBloc from '~/ui/designs/roles/tables/TableBloc.svelte';
   import CreateButton from '~/ui/components/elements/buttons/CreateButton.svelte';
   import TableLoader from '~/ui/components/feedbacks/loaders/TableLoader.svelte';
   import Overlay from './Overlay.svelte';
+  import TableBloc from './tables/TableBloc.svelte';
 
   const bloc = provideRoleBloc();
   const state = useBlocState<RoleState>(bloc);
@@ -25,7 +25,6 @@
     page: 1,
     offset: 0,
     limit: 10,
-    // search: '*',
     sort_by: 'created_at:desc',
   };
 

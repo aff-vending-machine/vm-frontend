@@ -93,11 +93,11 @@
     $state.list[idx].is_enable = false;
   }
 
-  $: update = {
+  $: update = () => {
 
   }
 
-  $: reset = {
+  $: reset = () => {
     
   }
 
@@ -114,26 +114,6 @@
     <div class="px-8 pt-4">
       <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" on:click={update}>SAVE</button>
       <button class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full" on:click={reset}>CANCEL</button>
-    </div>
-    <div class="p-4">
-      <div class="flex flex-col md:flex-row w-full justify-between">
-        <div class="float-left flex space-x-2">
-          <!-- <div class="mb-3 xl:w-24 text-center">
-            <span class="text-xs font-semibold">View row</span>
-            <Select bind:value={filter.limit} options={limitFilterOptions} on:change={handleChangeFilter} />
-          </div> -->
-        </div>
-        <div class="float-right flex space-x-2">
-          <!-- <div class="mb-3 xl:min-w-64 text-center">
-            <span class="text-xs font-semibold">Search</span>
-            <SearchInput bind:value={filter.search} on:change={handleChangeFilter} />
-          </div> -->
-          <!-- <div class="mb-3 xl:min-w-24 text-center">
-            <span class="text-xs font-semibold">Role</span>
-            <Select bind:value={filter.role} options={roleFilterOptions} on:change={handleChangeFilter} />
-          </div> -->
-        </div>
-      </div>
     </div>
     <div class="border-t border-b border-gray-300 p-4">
       {#if $state.kind === 'load-in-progress'}
