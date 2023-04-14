@@ -7,9 +7,8 @@
   import { modal } from '~/share/stores';
 
   // components
-  import Table from './Table.svelte';
-  import Modal from './Modal.svelte';
   import Notify from './Notify.svelte';
+  import Table from './Table.svelte';
 
   const bloc = provideTransactionBloc();
   const state = useBlocState<TransactionState>(bloc);
@@ -23,7 +22,6 @@
   <Table state={$state} on:reload={handleReload} on:event={handleEvent} />
 </section>
 
-<Modal on:reload={handleReload} />
 <Notify />
 
 <!-- style -->

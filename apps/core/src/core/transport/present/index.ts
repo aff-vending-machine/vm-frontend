@@ -5,5 +5,6 @@ export * from './payment_channel';
 export * from './product';
 export * from './report';
 export * from './role';
+export * from './sync';
 export * from './transaction';
 export * from './user';

@@ -12,7 +12,7 @@
 <!-- HTML -->
 <table class="w-full border-collapse bg-white text-left text-sm text-gray-500">
   <TableHeader {columns} {sorts} on:sort />
-  <TableBody {columns} {source} on:event />
+  <TableBody {columns} {source} on:select on:event />
 </table>
 
 <!-- style -->

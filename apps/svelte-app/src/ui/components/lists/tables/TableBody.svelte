@@ -11,9 +11,8 @@
   const isEmpty = !source || source.length == 0;
 
   const dispatch = createEventDispatcher();
-  const handleSelectEvent = (id: string, index: number) => () => {
-    dispatch('event', { event: 'select', id, index, source: source[index] });
-  };
+  const handleSelectEvent = (id: string, index: number) => () =>
+    dispatch('select', { id, index, source: source[index] });
 </script>
 
 <!-- HTML -->

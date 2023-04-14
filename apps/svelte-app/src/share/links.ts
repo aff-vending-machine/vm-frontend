@@ -1,5 +1,6 @@
-export const ADMIN_MACHINE = '/admin/machines';
 export const ADMIN_REPORT = '/admin/reports';
+export const ADMIN_MACHINE = '/admin/machines';
+export const ADMIN_TRNASACTIONS = '/admin/transactions';
 export const ADMIN_USER = '/admin/users';
 export const ADMIN_ROLE = '/admin/roles';
 

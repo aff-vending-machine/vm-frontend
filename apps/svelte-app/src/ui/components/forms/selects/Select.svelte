@@ -1,7 +1,7 @@
 <!-- Select -->
 <script lang="ts">
   export let value: any;
-  export let options: { name: string; value: any }[];
+  export let options: Options;
   export let placeholder: string = undefined;
   export let disabled = false;
 </script>
