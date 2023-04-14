@@ -3,7 +3,7 @@
   import { onMount } from 'svelte';
 
   // core
-  import { SyncState, provideMachineBloc, providePaymentChannelBloc, provideSyncBloc } from '@apps/core';
+  import { provideMachineBloc, providePaymentChannelBloc } from '@apps/core';
   import type { MachineState, PaymentChannelState } from '@apps/core';
   import { useBlocState } from '~/share/hooks/useBlocState';
   import { limitFilterOptions } from '~/share/modules/options/limit';
@@ -11,7 +11,6 @@
   // components
   import SelectFilter from '~/ui/components/elements/filters/SelectFilter.svelte';
   import SyncTime from '~/ui/components/elements/filters/SyncTime.svelte';
-  import { notify } from '~/share/modules/messages/notify';
 
   export let filter: Record<string, any>;
 

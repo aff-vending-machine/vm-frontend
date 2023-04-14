@@ -22,6 +22,7 @@
   <Table state={$state} on:reload={handleReload} on:event={handleEvent} />
 </section>
 
+<!-- Overlay -->
 <Notify />
 
 <!-- style -->
