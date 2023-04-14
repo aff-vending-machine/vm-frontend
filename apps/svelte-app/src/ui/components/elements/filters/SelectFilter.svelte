@@ -1,7 +1,6 @@
 <!-- SelectFilter -->
 <script lang="ts">
   import Select from '~/ui/components/forms/selects/Select.svelte';
-  import Slot from '../../../pages/admin/transactions/filters/Slot.svelte';
 
   export let title: string;
   export let desc: string = "";

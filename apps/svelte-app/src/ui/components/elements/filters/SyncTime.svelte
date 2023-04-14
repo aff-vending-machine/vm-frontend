@@ -1,15 +1,18 @@
 <!-- SyncTime -->
 <script lang="ts">
+  import { createEventDispatcher } from 'svelte';
   import dayjs from 'dayjs';
   import relativeTime from 'dayjs/plugin/relativeTime';
-  
+
   // components
   import IconButton from '~/ui/components/elements/buttons/IconButton.svelte';
-  import Slot from './Slot.svelte';
 
+  export let id: UniqueID;
   export let time: Date;
 
   dayjs.extend(relativeTime);
+
+  const dispatch = createEventDispatcher();
 
   const showTime = (date?: Date) => {
     if (!date) {
@@ -21,19 +24,22 @@
 
   const isDisable = (date?: Date) => {
     if (!date) return false;
-    if (dayjs().isAfter(dayjs(date).add(5, 'minute'), 'minute')) return false;
-    return true;
+    // if (dayjs().isAfter(dayjs(date).add(5, 'minute'), 'minute')) return false;
+    return false;
   };
 
-  const handleSync = () => {};
+  const handleSync = () => dispatch('sync', { id });
 </script>
 
 <!-- HTML -->
-<Slot title="Sync" desc={'Last time: ' + showTime(time)}>
+<div class="flex flex-col space-y-2">
+  <span class="text-xs font-semibold">Sync</span>
   <div class="block">
     <IconButton i="sync" disabled={isDisable(time)} on:click={handleSync}>Sync</IconButton>
   </div>
-</Slot>
+
+  <span class="text-xs">Last time: {showTime(time)}</span>
+</div>
 
 <!-- style -->
 <style lang="scss">

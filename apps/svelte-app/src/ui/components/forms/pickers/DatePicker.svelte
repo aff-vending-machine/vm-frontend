@@ -7,8 +7,8 @@
   import { getMonthName } from '~/share/modules/datepicker/date-time';
 
   // components
+  import Icon from '~/ui/components/elements/icons/Icon.svelte';
   import Calender from './Calender.svelte';
-  import Icon from '../../elements/icons/Icon.svelte';
 
   const dispatch = createEventDispatcher();
 
@@ -55,10 +55,10 @@
       return;
     }
 
-    const date = dayjs().month(month).year(year)
+    const date = dayjs().month(month).year(year);
 
-    return isAllowed(date.toDate())
-  }
+    return isAllowed(date.toDate());
+  };
 
   const onDateChange = (d: CustomEvent) => {
     dispatch('datechange', d.detail);
@@ -73,7 +73,7 @@
       <div class="float-left mx-2 text-lg font-bold">{getMonthName(month)} {year}</div>
       <div class="float-right">
         <button class="mx-2 px-3 py-2" type="button" on:click={prev} disabled={!isMonthAllowed(month - 1)}>
-          <Icon class="fill-primary-500 w-4 h-4" i="left-long"  />
+          <Icon class="fill-primary-500 w-4 h-4" i="left-long" />
         </button>
         <button class="mx-2 px-3 py-2" type="button" on:click={next} disabled={!isMonthAllowed(month - 1)}>
           <Icon class="fill-primary-500 w-4 h-4" i="right-long" />

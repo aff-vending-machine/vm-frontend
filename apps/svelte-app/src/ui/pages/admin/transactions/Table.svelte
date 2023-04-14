@@ -3,8 +3,10 @@
   import { createEventDispatcher, onMount } from 'svelte';
 
   // core
-  import type { TransactionState } from '@apps/core';
+  import { SyncState, TransactionState, provideSyncBloc } from '@apps/core';
+  import { useBlocState } from '~/share/hooks/useBlocState';
   import { sortToObj } from '~/share/utils/sort';
+  import { notify } from '~/share/modules/messages/notify';
 
   // components
   import Pagination from '~/ui/components/navigations/paginations/Pagination.svelte';
@@ -15,6 +17,9 @@
   export let state: TransactionState;
 
   const dispatch = createEventDispatcher();
+
+  const sbloc = provideSyncBloc();
+  const sstate = useBlocState<SyncState>(sbloc);
 
   let filter = {
     page: 1,
@@ -44,6 +49,17 @@
   $: handleChangeFilter = () => {
     dispatch('reload', filter);
   };
+
+  $: handleSyncTransactions = async (e: CustomEvent) => {
+    const { id } = e.detail;
+
+    await sbloc.pullTransactions(id);
+    notify($sstate.kind, 'pull transactions', $sstate.error);
+
+    if ($sstate.kind === 'load-success') {
+      dispatch('reload', filter);
+    }
+  };
 </script>
 
 <!-- HTML -->
@@ -52,10 +68,10 @@
     <h4 class="text-xl font-semibold text-gray-700">Transactions</h4>
   </div>
   <div class="p-4">
-    <Filter bind:filter on:change={handleChangeFilter} on:event />
+    <Filter bind:filter on:change={handleChangeFilter} on:sync={handleSyncTransactions} on:event />
   </div>
   <div class="border-t border-b border-gray-300 p-4">
-    {#if state.kind === 'load-in-progress'}
+    {#if state.kind === 'load-in-progress' || $sstate.kind === 'load-in-progress'}
       <div class="w-full">
         <TableLoader />
       </div>
