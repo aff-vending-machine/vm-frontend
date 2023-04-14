@@ -3,7 +3,14 @@
   import { onMount } from 'svelte';
 
   // core
-  import { MachineSlot, MachineSlotState, MachineState, provideMachineBloc } from '@apps/core';
+  import {
+    MachineSlot,
+    MachineSlotState,
+    MachineState,
+    provideMachineBloc,
+    SyncState,
+    provideSyncBloc,
+  } from '@apps/core';
   import { provideMachineSlotBloc } from '@apps/core';
   import { useBlocState } from '~/share/hooks/useBlocState';
   import { stockOptions } from '~/share/modules/options/stock';
@@ -31,6 +38,9 @@
 
   const bloc = provideMachineSlotBloc();
   const state = useBlocState<MachineSlotState>(bloc);
+
+  const sbloc = provideSyncBloc();
+  const sstate = useBlocState<SyncState>(sbloc);
 
   $: filter = {
     search: '',
@@ -128,11 +138,11 @@
   };
 
   $: handleSync = (_: MouseEvent) => {
-    bloc.syncGet();
+    sbloc.fetchSlots(machineId);
   };
 
   $: handleUpdate = (_: MouseEvent) => {
-    bloc.syncSet();
+    sbloc.pushSlots(machineId);
   };
 
   $: handleReset = (_: MouseEvent) => {

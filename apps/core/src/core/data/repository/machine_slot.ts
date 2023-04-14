@@ -57,13 +57,4 @@ export class MachineSlotRepository implements MachineSlotDataInterface {
       throw handleError(e);
     }
   }
-
-  async syncByMachineId(machineID: UniqueID): Promise<MachineSlot[]> {
-    try {
-      const { data } = await privateClient.post<APIProtocol<MachineSlot[]>>(`${ROOT_PATH(machineID)}/sync`);
-      return handleResponse<MachineSlot[]>(data);
-    } catch (e: unknown) {
-      throw handleError(e);
-    }
-  }
 }

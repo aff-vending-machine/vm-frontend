@@ -12,8 +12,9 @@ export type Machine = {
   vendor: string;
   slots: MachineSlot[];
   status: string;
-  last_active_time: AnyDateTime;
-  last_maintenance_time: AnyDateTime;
+  sync_machine_time: AnyDateTime;
+  sync_slot_time: AnyDateTime;
+  sync_transaction_time: AnyDateTime;
 };
 
 export type CreateMachine = {
@@ -39,8 +40,9 @@ export type ChangeMachineStatus = {
 export const parseMachine = (machine: Machine) => {
   machine.created_at = toDateTime(machine.created_at);
   machine.updated_at = toDateTime(machine.updated_at);
-  machine.last_active_time = toAnyDateTime(machine.last_active_time);
-  machine.last_maintenance_time = toAnyDateTime(machine.last_maintenance_time);
+  machine.sync_machine_time = toAnyDateTime(machine.sync_machine_time);
+  machine.sync_slot_time = toAnyDateTime(machine.sync_slot_time);
+  machine.sync_transaction_time = toAnyDateTime(machine.sync_transaction_time);
 
   return machine;
 };

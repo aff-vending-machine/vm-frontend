@@ -23,7 +23,7 @@
 </script>
 
 <!-- HTML -->
-<Table {columns} {sorts} {source} on:sort on:event />
+<Table {columns} {sorts} {source} on:select on:sort on:event />
 
 <!-- style -->
 <style lang="scss">
