@@ -3,14 +3,15 @@
   import { onMount } from 'svelte';
 
   // core
-  import { provideMachineBloc, providePaymentChannelBloc } from '@apps/core';
+  import { SyncState, provideMachineBloc, providePaymentChannelBloc, provideSyncBloc } from '@apps/core';
   import type { MachineState, PaymentChannelState } from '@apps/core';
   import { useBlocState } from '~/share/hooks/useBlocState';
   import { limitFilterOptions } from '~/share/modules/options/limit';
 
   // components
   import SelectFilter from '~/ui/components/elements/filters/SelectFilter.svelte';
-  import SyncTime from './filters/SyncTime.svelte';
+  import SyncTime from '~/ui/components/elements/filters/SyncTime.svelte';
+  import { notify } from '~/share/modules/messages/notify';
 
   export let filter: Record<string, any>;
 
@@ -43,7 +44,11 @@
   <div class="float-left flex space-x-2">
     <SelectFilter title="Machine" bind:value={filter.machine_id} options={machineOptions} on:change />
     {#if $mstate.kind === 'load-success' && filter.machine_id !== null}
-      <SyncTime time={$mstate.list.find(m => m.id === filter.machine_id).sync_transaction_time} />
+      <SyncTime
+        id={filter.machine_id}
+        time={$mstate.list.find(m => m.id === filter.machine_id).sync_transaction_time}
+        on:sync
+      />
     {/if}
   </div>
   <div class="float-right flex space-x-2">

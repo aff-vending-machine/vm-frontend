@@ -3,19 +3,24 @@
   import { createEventDispatcher, onMount } from 'svelte';
 
   // core
-  import { TransactionState } from '@apps/core';
+  import { SyncState, TransactionState, provideSyncBloc } from '@apps/core';
+  import { useBlocState } from '~/share/hooks/useBlocState';
   import { sortToObj } from '~/share/utils/sort';
+  import { notify } from '~/share/modules/messages/notify';
 
   // components
   import Pagination from '~/ui/components/navigations/paginations/Pagination.svelte';
   import TableLoader from '~/ui/components/feedbacks/loaders/TableLoader.svelte';
-  import Filter from './Filter.svelte'; 
+  import Filter from './Filter.svelte';
   import TableBloc from './tables/TableBloc.svelte';
 
   export let state: TransactionState;
 
   const dispatch = createEventDispatcher();
-  
+
+  const sbloc = provideSyncBloc();
+  const sstate = useBlocState<SyncState>(sbloc);
+
   let filter = {
     page: 1,
     offset: 0,
@@ -28,7 +33,7 @@
 
   onMount(() => {
     dispatch('reload', filter);
-  })
+  });
 
   $: handleChangePage = (e: CustomEvent) => {
     filter.page = e.detail.page;
@@ -44,6 +49,17 @@
   $: handleChangeFilter = () => {
     dispatch('reload', filter);
   };
+
+  $: handleSyncTransactions = async (e: CustomEvent) => {
+    const { id } = e.detail;
+
+    await sbloc.pullTransactions(id);
+    notify($sstate.kind, 'pull transactions', $sstate.error);
+
+    if ($sstate.kind === 'load-success') {
+      dispatch('reload', filter);
+    }
+  };
 </script>
 
 <!-- HTML -->
@@ -52,21 +68,16 @@
     <h4 class="text-xl font-semibold text-gray-700">Payments</h4>
   </div>
   <div class="p-4">
-    <Filter bind:filter on:change={handleChangeFilter} on:event />
+    <Filter bind:filter on:change={handleChangeFilter} on:sync={handleSyncTransactions} on:event />
   </div>
   <div class="border-t border-b border-gray-300 p-4">
-    {#if state.kind === 'load-in-progress'}
+    {#if state.kind === 'load-in-progress' || $sstate.kind === 'load-in-progress'}
       <div class="w-full">
         <TableLoader />
       </div>
     {:else if state.kind === 'load-success'}
       <div class="w-full overflow-y-auto">
-        <TableBloc
-          sorts={sortToObj(filter.sort_by)}
-          source={state.list}
-          on:sort={handleSortFilter}
-          on:event
-        />
+        <TableBloc sorts={sortToObj(filter.sort_by)} source={state.list} on:sort={handleSortFilter} on:event />
       </div>
     {:else if state.kind === 'load-failure'}
       <div class="text-center">Something Wrong! ({state.error?.message})</div>
