@@ -1,35 +1,29 @@
 <!-- Slot -->
 <script lang="ts">
   import { press } from '~/share/hooks/usePress';
+
   // core
   import { createEventDispatcher } from 'svelte';
   import { MachineSlot } from '@apps/core';
 
   // components
+
+  // props
   export let slot: MachineSlot;
-  export let base: MachineSlot;
+  export let isEdited: boolean;
 
+  // events
   const dispatch = createEventDispatcher();
-  const handleIncreaseStockEvent = () => {
-    dispatch('stock', { id: slot.id, stock: increasing(slot) });
-  };
-  const handleDecreaseStockEvent = () => {
-    dispatch('stock', { id: slot.id, stock: decreasing(slot) });
-  };
-  const handleSelectEvent = () => {
-    dispatch('select', { id: slot.id, slot });
-  };
+  const handleIncreaseStockEvent = () => dispatch('stock', { id: slot.id, stock: increasing(slot) });
+  const handleDecreaseStockEvent = () => dispatch('stock', { id: slot.id, stock: decreasing(slot) });
+  const handleSelectEvent = () => dispatch('select', { id: slot.id, slot });
 
-  const decreasing = (slot: MachineSlot) => {
-    return slot.stock - 1 < 0 ? 0 : slot.stock - 1;
-  };
-  const increasing = (slot: MachineSlot) => {
-    return slot.stock + 1 > slot.capacity ? slot.capacity : slot.stock + 1;
-  };
-
+  // helpers
+  const decreasing = (slot: MachineSlot) => (slot.stock - 1 < 0 ? 0 : slot.stock - 1);
+  const increasing = (slot: MachineSlot) => (slot.stock + 1 > slot.capacity ? slot.capacity : slot.stock + 1);
   const getColor = (slot: MachineSlot) => {
-    let style = 'border '
-    if (JSON.stringify(slot) !== JSON.stringify(base)) {
+    let style = 'border ';
+    if (isEdited) {
       style = 'text-orange-500 border ';
     }
 

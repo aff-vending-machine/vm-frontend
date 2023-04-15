@@ -24,8 +24,8 @@
 
   const isDisable = (date?: Date) => {
     if (!date) return false;
-    // if (dayjs().isAfter(dayjs(date).add(5, 'minute'), 'minute')) return false;
-    return false;
+    if (dayjs().isAfter(dayjs(date).add(5, 'minute'), 'minute')) return false;
+    return true;
   };
 
   const handleSync = () => dispatch('sync', { id });
@@ -37,7 +37,6 @@
   <div class="block">
     <IconButton i="sync" disabled={isDisable(time)} on:click={handleSync}>Sync</IconButton>
   </div>
-
   <span class="text-xs">Last time: {showTime(time)}</span>
 </div>
 

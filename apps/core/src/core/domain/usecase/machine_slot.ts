@@ -1,5 +1,5 @@
 import { toQuery } from '~/share';
-import { CreateMachineSlot, MachineSlot, MachineSlotDataInterface, UpdateMachineSlot, parseMachineSlot } from '..';
+import { BulkUpdateMachineSlot, CreateMachineSlot, MachineSlot, MachineSlotDataInterface, UpdateMachineSlot, parseMachineSlot } from '..';
 
 export class MachineSlotUsecase {
   private data: MachineSlotDataInterface;
@@ -65,6 +65,16 @@ export class MachineSlotUsecase {
   async delete(machineID: UniqueID, id: UniqueID): Promise<void> {
     try {
       await this.data.deleteByID(machineID, id);
+
+      return Promise.resolve();
+    } catch (e: unknown) {
+      return Promise.reject(e);
+    }
+  }
+
+  async bulkUpdate(machineID: UniqueID, payload: BulkUpdateMachineSlot): Promise<void> {
+    try {
+      await this.data.bulkUpdate(machineID, payload);
 
       return Promise.resolve();
     } catch (e: unknown) {

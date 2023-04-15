@@ -1,4 +1,4 @@
-import { CreateMachineSlot, MachineSlot, UpdateMachineSlot } from '..';
+import { BulkUpdateMachineSlot, CreateMachineSlot, MachineSlot, UpdateMachineSlot } from '..';
 
 export type MachineSlotDataInterface = {
   count(machineID: UniqueID, query?: Record<string, string>): Promise<number>;
@@ -7,4 +7,5 @@ export type MachineSlotDataInterface = {
   create(machineID: UniqueID, payload: CreateMachineSlot): Promise<void>;
   updateByID(machineID: UniqueID, id: UniqueID, payload: UpdateMachineSlot): Promise<void>;
   deleteByID(machineID: UniqueID, id: UniqueID): Promise<void>;
+  bulkUpdate(machineID: UniqueID, payload: BulkUpdateMachineSlot): Promise<void>;
 };

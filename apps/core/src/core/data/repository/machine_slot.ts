@@ -1,4 +1,4 @@
-import { CreateMachineSlot, MachineSlot, MachineSlotDataInterface, UpdateMachineSlot } from '~/core/domain';
+import { BulkUpdateMachineSlot, CreateMachineSlot, MachineSlot, MachineSlotDataInterface, UpdateMachineSlot } from '~/core/domain';
 import { handleError, handleResponse, privateClient } from '~/share';
 
 const ROOT_PATH = (id: UniqueID) => `machines/${id}/slots`;
@@ -57,4 +57,14 @@ export class MachineSlotRepository implements MachineSlotDataInterface {
       throw handleError(e);
     }
   }
+
+  async bulkUpdate(machineID: UniqueID, payload: BulkUpdateMachineSlot): Promise<void> {
+    try {
+      const { data } = await privateClient.put<APIProtocol<void>>(`${ROOT_PATH(machineID)}/bulk`, payload);
+      return handleResponse<void>(data);
+    } catch (e: unknown) {
+      throw handleError(e);
+    }
+  }
+
 }
