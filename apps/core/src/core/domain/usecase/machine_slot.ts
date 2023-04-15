@@ -1,4 +1,4 @@
-import { toQuery } from '~/share';
+import { toCountQuery, toQuery } from '~/share';
 import { BulkUpdateMachineSlot, CreateMachineSlot, MachineSlot, MachineSlotDataInterface, UpdateMachineSlot, parseMachineSlot } from '..';
 
 export class MachineSlotUsecase {
@@ -10,7 +10,7 @@ export class MachineSlotUsecase {
 
   async count(machineID: UniqueID, filter?: Record<string, any>): Promise<number> {
     try {
-      const query = toQuery({ ...filter });
+      const query = toCountQuery({ ...filter });
       const data = await this.data.count(machineID, query);
 
       return Promise.resolve(data);

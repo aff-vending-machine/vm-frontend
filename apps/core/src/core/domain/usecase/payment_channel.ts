@@ -1,4 +1,4 @@
-import { toQuery } from '~/share';
+import { toCountQuery, toQuery } from '~/share';
 import { PaymentChannel, PaymentChannelDataInterface, UpdatePaymentChannel, parsePaymentChannel } from '..';
 
 export class PaymentChannelUsecase {
@@ -10,7 +10,7 @@ export class PaymentChannelUsecase {
 
   async count(filter?: Record<string, any>): Promise<number> {
     try {
-      const query = toQuery({ ...filter });
+      const query = toCountQuery({ ...filter });
       const data = await this.data.count(query);
 
       return Promise.resolve(data);

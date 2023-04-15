@@ -33,7 +33,7 @@ export class TransactionRepository implements TransactionDataInterface {
 
   async doneByID(id: UniqueID): Promise<void> {
     try {
-      const { data } = await privateClient.post<APIProtocol<void>>(`${ROOT_PATH}/${id}`);
+      const { data } = await privateClient.post<APIProtocol<void>>(`${ROOT_PATH}/${id}/done`);
       return handleResponse<void>(data);
     } catch (e: unknown) {
       throw handleError(e);
@@ -42,7 +42,7 @@ export class TransactionRepository implements TransactionDataInterface {
 
   async cancelByID(id: UniqueID): Promise<void> {
     try {
-      const { data } = await privateClient.post<APIProtocol<void>>(`${ROOT_PATH}/${id}`);
+      const { data } = await privateClient.post<APIProtocol<void>>(`${ROOT_PATH}/${id}/cancel`);
       return handleResponse<void>(data);
     } catch (e: unknown) {
       throw handleError(e);

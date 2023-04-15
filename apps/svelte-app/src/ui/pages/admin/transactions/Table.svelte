@@ -15,21 +15,12 @@
   import TableBloc from './tables/TableBloc.svelte';
 
   export let state: TransactionState;
+  export let filter: Record<string, any>;
 
   const dispatch = createEventDispatcher();
 
   const sbloc = provideSyncBloc();
   const sstate = useBlocState<SyncState>(sbloc);
-
-  let filter = {
-    page: 1,
-    offset: 0,
-    limit: 10,
-    machine_id: null,
-    payment_channel: null,
-    order_status: null,
-    sort_by: 'ordered_at:desc',
-  };
 
   onMount(async () => {
     dispatch('reload', filter);

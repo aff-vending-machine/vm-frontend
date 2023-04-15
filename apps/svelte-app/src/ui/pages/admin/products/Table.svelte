@@ -3,31 +3,25 @@
   import { createEventDispatcher, onMount } from 'svelte';
 
   // core
-  import { SyncState, TransactionState, provideSyncBloc } from '@apps/core';
-  import { useBlocState } from '~/share/hooks/useBlocState';
+  import { ProductState } from '@apps/core';
   import { sortToObj } from '~/share/utils/sort';
-  import { notify } from '~/share/modules/messages/notify';
 
   // components
+  import TableLoader from '~/ui/components/feedbacks/loaders/TableLoader.svelte';  
   import Pagination from '~/ui/components/navigations/paginations/Pagination.svelte';
-  import TableLoader from '~/ui/components/feedbacks/loaders/TableLoader.svelte';
-  import Filter from './Filter.svelte';
   import TableBloc from './tables/TableBloc.svelte';
-
+  import Filter from './Filter.svelte';
+  // props
   export let filter: Record<string, any>;
-  export let state: TransactionState;
+  export let state: ProductState;
 
   const dispatch = createEventDispatcher();
 
-  const sbloc = provideSyncBloc();
-  const sstate = useBlocState<SyncState>(sbloc);
-
-  let syncTime: Date = null;
-
-  onMount(() => {
+  onMount(async () => {
     dispatch('reload', filter);
   });
 
+  // events
   $: handleChangePage = (e: CustomEvent) => {
     filter.page = e.detail.page;
     filter.offset = (filter.page - 1) * filter.limit;
@@ -43,29 +37,19 @@
     dispatch('reload', filter);
   };
 
-  $: handleSyncTransactions = async (e: CustomEvent) => {
-    const { id } = e.detail;
-
-    await sbloc.pullTransactions(id);
-    notify($sstate.kind, 'pull transactions', $sstate.error);
-
-    if ($sstate.kind === 'load-success') {
-      dispatch('reload', filter);
-      syncTime = new Date()
-    }
-  };
+  // params
 </script>
 
 <!-- HTML -->
 <div class="w-full bg-white rounded-xl shadow-xl shadow-primary-100 space-y-4 py-4">
   <div class="px-8 pt-4">
-    <h4 class="text-xl font-semibold text-gray-700">Payments</h4>
+    <h4 class="text-xl font-semibold text-gray-700">Products</h4>
   </div>
   <div class="p-4">
-    <Filter bind:filter {syncTime} on:change={handleChangeFilter} on:sync={handleSyncTransactions} on:event />
+    <Filter bind:filter on:change={handleChangeFilter} />
   </div>
   <div class="border-t border-b border-gray-300 p-4">
-    {#if state.kind === 'load-in-progress' || $sstate.kind === 'load-in-progress'}
+    {#if state.kind === 'load-in-progress'}
       <div class="w-full">
         <TableLoader />
       </div>
@@ -80,9 +64,9 @@
   <div class="w-full px-8">
     <Pagination
       class="flex flex-row justify-between"
-      bind:page={filter.page}
-      bind:limit={filter.limit}
-      bind:count={state.count}
+      page={filter.page}
+      limit={filter.limit}
+      count={state.count}
       on:change={handleChangePage}
     />
   </div>

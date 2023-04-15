@@ -15,11 +15,23 @@ export const jsonToQueryString = (json: Record<string, any>) => {
 export const toQuery = (obj: Record<string, any>) => {
   return Object.keys(obj)
     .filter((key: string) => !!obj[key])
+    .filter((key: string) => !"page".includes(key))
     .reduce((res: any, key: string) => {
       res[key] = obj[key].toString()
       return res
     }, {});
 };
+
+export const toCountQuery = (obj: Record<string, any>) => {
+  return Object.keys(obj)
+    .filter((key: string) => !!obj[key])
+    .filter((key: string) => !"page,limit,offset,sort_by".includes(key))
+    .reduce((res: any, key: string) => {
+      res[key] = obj[key].toString()
+      return res
+    }, {});
+};
+
 
 export const toDateTime = (date: any, unix = false) => {
   if (unix) return dayjs(date * 1000).toDate();

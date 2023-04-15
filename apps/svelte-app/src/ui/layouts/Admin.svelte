@@ -16,6 +16,7 @@
   import MachineView from '~/ui/pages/admin/machines/View.svelte';
   import MachineSlotView from '~/ui/pages/admin/machine_slots/View.svelte';
   import TransactionView from '~/ui/pages/admin/transactions/View.svelte';
+  import ProductView from '~/ui/pages/admin/products/View.svelte';
   import UserView from '~/ui/pages/admin/users/View.svelte';
   import RoleView from '~/ui/pages/admin/roles/View.svelte';
 
@@ -68,6 +69,7 @@
         <Route path="reports" component={ReportView} />
         <Route path="machines" component={MachineView} />
         <Route path="machines/:id/slots" let:params  ><MachineSlotView id={params.id} /></Route>
+        <Route path="products" component={ProductView} />
         <Route path="transactions" component={TransactionView} />
         <Route path="users" component={UserView} />
         <Route path="roles" component={RoleView} />

@@ -3,7 +3,7 @@
   import { onMount } from 'svelte';
 
   // core
-  import { SyncState, provideMachineBloc, providePaymentChannelBloc, provideSyncBloc } from '@apps/core';
+  import { provideMachineBloc, providePaymentChannelBloc } from '@apps/core';
   import type { MachineState, PaymentChannelState } from '@apps/core';
   import { useBlocState } from '~/share/hooks/useBlocState';
   import { limitFilterOptions } from '~/share/modules/options/limit';
@@ -14,6 +14,7 @@
   import Report from './filters/Report.svelte';
 
   export let filter: Record<string, any>;
+  export let syncTime: Date = null;
 
   const mbloc = provideMachineBloc();
   const mstate = useBlocState<MachineState>(mbloc);
@@ -47,7 +48,7 @@
       <Report id={filter.machine_id} on:event />
       <SyncTime
         id={filter.machine_id}
-        time={$mstate.list.find(m => m.id === filter.machine_id).sync_transaction_time}
+        time={syncTime || $mstate.list.find(m => m.id === filter.machine_id).sync_transaction_time}
         on:sync
       />
     {/if}

@@ -14,16 +14,10 @@
   import Filter from './Filter.svelte';
   import TableBloc from './tables/TableBloc.svelte';
 
+  export let filter: Record<string, any>;
   export let state: MachineState;
 
   const dispatch = createEventDispatcher();
-
-  let filter = {
-    page: 1,
-    offset: 0,
-    limit: 10,
-    sort_by: 'id:asc',
-  };
 
   onMount(() => {
     dispatch('reload', filter);

@@ -40,7 +40,7 @@
 </script>
 
 <!-- HTML -->
-<FormModal {formId} show={$modal.event === 'delete'} disabled={$modalForm.errors.length != 0}>
+<FormModal {formId} disabled={$modalForm.errors.length != 0}>
   <h3 class="text-lg font-medium text-primary-900">Delete Role</h3>
   <p class="text-sm text-gray-700 mb-4">
     Please type "<span class="text-danger-500">{$modal.id}</span>" to confirm.
