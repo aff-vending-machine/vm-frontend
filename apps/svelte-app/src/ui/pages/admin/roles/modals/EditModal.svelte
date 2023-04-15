@@ -47,7 +47,7 @@
 
 <!-- HTML -->
 
-<FormModal {formId} show={$modal.event === 'edit'} disabled={$modalForm.errors.length != 0}>
+<FormModal {formId} disabled={$modalForm.errors.length != 0}>
   <h3 class="text-lg font-medium text-primary-900 mb-4">Edit Role</h3>
   <form id={formId} class="grid grid-cols-1 gap-4" on:submit|preventDefault={handleEdit}>
     <FormControl name="Role name">

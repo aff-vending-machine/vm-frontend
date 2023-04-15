@@ -8,7 +8,6 @@ export type Product = {
   type: string;
   sku: string;
   price: number;
-  barcode: string;
 };
 
 export type CreateProduct = {

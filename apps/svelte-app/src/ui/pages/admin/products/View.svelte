@@ -1,17 +1,20 @@
 <!-- View -->
 <script lang="ts">
   // core
-  import type { MachineState } from '@apps/core';
-  import { provideMachineBloc } from '@apps/core';
+  import type { ProductState } from '@apps/core';
+  import { provideProductBloc } from '@apps/core';
   import { useBlocState } from '~/share/hooks/useBlocState';
-  import { modal } from '~/share/stores';
 
   // components
-  import Notify from './Notify.svelte';
   import Table from './Table.svelte';
+  import Notify from './Notify.svelte';
+  import { modal } from '~/share/stores';
 
-  const bloc = provideMachineBloc();
-  const state = useBlocState<MachineState>(bloc);
+  // props
+
+  // bloc
+  const bloc = provideProductBloc();
+  const state = useBlocState<ProductState>(bloc);
 
   let filter = {
     page: 1,
@@ -21,11 +24,14 @@
   };
 
   $: handleEvent = (e: CustomEvent) => modal.set(e.detail);
-  $: handleReload = (e: CustomEvent) => bloc.list(e.detail);
+  $: handleReload = (e: CustomEvent) => {
+    bloc.list(filter);
+
+  }
 </script>
 
 <!-- HTML -->
-<section class="mx-4 space-y-8">
+<section class="mx-4">
   <Table bind:filter state={$state} on:reload={handleReload} on:event={handleEvent} />
 </section>
 

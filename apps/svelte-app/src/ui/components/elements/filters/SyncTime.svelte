@@ -24,7 +24,7 @@
 
   const isDisable = (date?: Date) => {
     if (!date) return false;
-    if (dayjs().isAfter(dayjs(date).add(5, 'minute'), 'minute')) return false;
+    if (dayjs().isAfter(dayjs(date).add(4, 'minute'), 'minute')) return false;
     return true;
   };
 

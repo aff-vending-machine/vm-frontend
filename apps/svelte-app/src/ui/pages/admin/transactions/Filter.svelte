@@ -11,6 +11,7 @@
   // components
   import SelectFilter from '~/ui/components/elements/filters/SelectFilter.svelte';
   import SyncTime from '~/ui/components/elements/filters/SyncTime.svelte';
+  import { orderStatusOptions } from '~/share/modules/options/order_status';
 
   export let filter: Record<string, any>;
 
@@ -55,6 +56,12 @@
       title="Payment Channel"
       bind:value={filter.payment_channel}
       options={paymentChannelOptions}
+      on:change
+    />
+    <SelectFilter
+      title="Status"
+      bind:value={filter.order_status}
+      options={orderStatusOptions}
       on:change
     />
     <SelectFilter title="View Row" bind:value={filter.limit} options={limitFilterOptions} on:change />

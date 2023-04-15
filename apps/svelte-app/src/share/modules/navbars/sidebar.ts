@@ -1,4 +1,4 @@
-import { ADMIN_MACHINE, ADMIN_REPORT, ADMIN_ROLE, ADMIN_TRNASACTIONS, ADMIN_USER } from '~/share/links';
+import { ADMIN_MACHINES, ADMIN_PRODUCTS, ADMIN_REPORTS, ADMIN_ROLES, ADMIN_TRNASACTIONS, ADMIN_USERS } from '~/share/links';
 
 export type SidebarItemType = {
   title: string;
@@ -8,9 +8,10 @@ export type SidebarItemType = {
 };
 
 export const sidebar: SidebarItemType[] = [
-  { title: 'Report', icon: 'report', link: ADMIN_REPORT, role: 'manager' },
-  { title: 'Machine', icon: 'machine', link: ADMIN_MACHINE, role: 'staff' },
+  { title: 'Report', icon: 'report', link: ADMIN_REPORTS, role: 'manager' },
+  { title: 'Machine', icon: 'machine', link: ADMIN_MACHINES, role: 'staff' },
+  { title: 'Product', icon: 'product', link: ADMIN_PRODUCTS, role: 'staff' },
   { title: 'Transaction', icon: 'machine', link: ADMIN_TRNASACTIONS, role: 'staff' },
-  { title: 'User', icon: 'user', link: ADMIN_USER, role: 'maanger' },
-  { title: 'Role', icon: 'role', link: ADMIN_ROLE, role: 'super-admin' },
+  { title: 'User', icon: 'user', link: ADMIN_USERS, role: 'manager' },
+  { title: 'Role', icon: 'role', link: ADMIN_ROLES, role: 'super-admin' },
 ];

@@ -13,13 +13,37 @@
   const bloc = provideTransactionBloc();
   const state = useBlocState<TransactionState>(bloc);
 
-  $: handleEvent = (e: CustomEvent) => modal.set(e.detail);
+  let filter = {
+    page: 1,
+    offset: 0,
+    limit: 10,
+    machine_id: null,
+    payment_channel: null,
+    order_status: null,
+    sort_by: 'ordered_at:desc',
+  };
+
+  $: handleEvent = async (e: CustomEvent) => {
+    switch (e.detail.event) {
+      case 'done':
+        await bloc.done(e.detail.id);
+        await bloc.list(e.detail);
+        return;
+
+      case 'cancel':
+        await bloc.cancel(e.detail.id);
+        await bloc.list(e.detail);
+        return;
+    }
+
+    modal.set(e.detail);
+  };
   $: handleReload = (e: CustomEvent) => bloc.list(e.detail);
 </script>
 
 <!-- HTML -->
 <section class="mx-4 space-y-8">
-  <Table state={$state} on:reload={handleReload} on:event={handleEvent} />
+  <Table bind:filter state={$state} on:reload={handleReload} on:event={handleEvent} />
 </section>
 
 <!-- Overlay -->

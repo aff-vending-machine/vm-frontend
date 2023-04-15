@@ -24,7 +24,7 @@
 </script>
 
 <!-- HTML -->
-<BlankModal show={$modal.event === 'select'}>
+<BlankModal>
   <h3 class="text-lg font-medium text-primary-900 mb-4">Role: {$modal.source['name']}</h3>
   <div class="grid grid-cols-3 gap-4 p-2 border">
     <KvRow key="Name" value={$modal.source['name']} />
