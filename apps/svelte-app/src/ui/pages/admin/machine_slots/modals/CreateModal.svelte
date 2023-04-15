@@ -1,4 +1,4 @@
-<!-- SelectModal -->
+<!-- CreateModal -->
 <script lang="ts">
   // core
   import { modal } from '~/share/stores';

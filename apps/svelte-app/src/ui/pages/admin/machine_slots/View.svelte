@@ -3,62 +3,56 @@
   import { onMount } from 'svelte';
 
   // core
-  import { MachineSlotState } from '@apps/core';
+  import { MachineSlotState, MachineState, SyncState, provideMachineBloc, provideSyncBloc } from '@apps/core';
   import { provideMachineSlotBloc } from '@apps/core';
   import { useBlocState } from '~/share/hooks/useBlocState';
 
   // components
-  import Modal from './Modal.svelte';
   import Table from './Table.svelte';
   import Notify from './Notify.svelte';
+  import { reload } from './_scripts';
 
+  // props
   export let id: string;
+  const machineId = parseInt(id, 10);
 
-  let machineId = parseInt(id, 10);
-
-  $: rows = 0;
-  $: cols = 0;
-  $: slots = [];
-
+  // bloc
   const bloc = provideMachineSlotBloc();
   const state = useBlocState<MachineSlotState>(bloc);
+  const mbloc = provideMachineBloc();
+  const mstate = useBlocState<MachineState>(mbloc);
+  const sbloc = provideSyncBloc();
+  const sstate = useBlocState<SyncState>(sbloc);
 
   onMount(async () => {
-    await handleReload()
+    await Promise.all([mbloc.view(machineId), bloc.list(machineId)]);
   });
 
-  $: handleReload = async () => {
+  // event
+  $: handleFetch = async (e: CustomEvent) => {
+    await sbloc.fetchSlots(machineId);
     await bloc.list(machineId);
-
-    if ($state.kind === 'load-success') {
-      let maxCol = 0;
-      let maxRow = 0;
-      let colIdx = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-      $state.list.forEach(slots => {
-        let index = parseInt(slots.code[1], 10);
-        colIdx[index]++;
-        if (maxCol < colIdx[index]) {
-          maxCol = colIdx[index];
-        }
-        if (maxRow < index) {
-          maxRow = index;
-        }
-      });
-
-      rows = maxRow;
-      cols = maxCol;
-      slots = $state.list.map(s => ({ ...s }));
-    }
   };
+  $: handleSave = async (e: CustomEvent) => {
+    const { slots } = e.detail;
+    await bloc.bulkUpdate(machineId, slots);
+    await sbloc.pushSlots(machineId);
+    await bloc.list(machineId);
+  };
+
+  // params
+  $: loading = $state.kind === 'load-in-progress' || $sstate.kind === 'load-in-progress';
+  $: machine = $mstate.data;
+  $: error = $state.error || $mstate.error;
+  $: layout = reload($state.list);
 </script>
 
 <!-- HTML -->
-<section class="mx-4 space-y-8">
-  <Table id={machineId} state={$state} slots={slots} cols={cols} rows={rows} on:reload={handleReload} />
+<section class="mx-4">
+  <Table {machine} {loading} {error} {layout} on:fetch={handleFetch} on:save={handleSave} />
 </section>
 
 <!-- Overlay -->
-<Modal on:reload={handleReload} />
 <Notify />
 
 <!-- style -->

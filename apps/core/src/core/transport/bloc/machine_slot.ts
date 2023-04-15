@@ -1,5 +1,5 @@
 import { Bloc } from '~/share';
-import { CreateMachineSlot, MachineSlotUsecase, UpdateMachineSlot } from '~/core/domain';
+import { BulkUpdateMachineSlot, CreateMachineSlot, MachineSlotUsecase, UpdateMachineSlot } from '~/core/domain';
 import { MachineSlotInitialState, MachineSlotState } from '..';
 
 export class MachineSlotBloc extends Bloc<MachineSlotState> {
@@ -67,4 +67,16 @@ export class MachineSlotBloc extends Bloc<MachineSlotState> {
       this.updateState({ kind: 'load-failure', error: e as Error });
     }
   }
+
+  async bulkUpdate(machineID: UniqueID, payload: BulkUpdateMachineSlot) {
+    try {
+      this.updateState({ kind: 'load-in-progress' });
+
+      await this.usecase.bulkUpdate(machineID, payload);
+      this.updateState({ kind: 'load-success' });
+    } catch (e: unknown) {
+      this.updateState({ kind: 'load-failure', error: e as Error });
+    }
+  }
+
 }

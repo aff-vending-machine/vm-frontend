@@ -1,150 +1,118 @@
 <!-- Table -->
 <script lang="ts">
-  import { createEventDispatcher, onMount } from 'svelte';
-
   // core
-  import {
-    MachineSlot,
-    MachineSlotState,
-    MachineState,
-    provideMachineBloc,
-    SyncState,
-    provideSyncBloc,
-  } from '@apps/core';
-  import { useBlocState } from '~/share/hooks/useBlocState';
+  import { MachineSlot, Machine } from '@apps/core';
+  import { filterSlots, isEdited, isPassed5Minutes } from './_scripts';
 
   // components
-  import Slot from './Slot.svelte';
-  import NoSlot from './NoSlot.svelte';
   import TableLoader from '~/ui/components/feedbacks/loaders/TableLoader.svelte';
   import Filter from './Filter.svelte';
-  import { notify } from '~/share/modules/messages/notify';
+  import Slot from './components/Slot.svelte';
+  import NoSlot from './components/NoSlot.svelte';
+  import Modal from './Modal.svelte';
+  import { modal } from '~/share/stores';
+  import { createEventDispatcher } from 'svelte';
 
-  export let id: UniqueID;
-  export let state: MachineSlotState;
-  export let rows: number;
-  export let cols: number;
-  export let slots: MachineSlot[];
+  // props
+  export let machine: Machine;
+  export let loading: boolean;
+  export let error: Error;
+  export let layout: { rows: number; cols: number, slots: MachineSlot[] };
 
+  // events
   const dispatch = createEventDispatcher();
-
-  const mbloc = provideMachineBloc();
-  const mstate = useBlocState<MachineState>(mbloc);
-
-  const sbloc = provideSyncBloc();
-  const sstate = useBlocState<SyncState>(sbloc);
-
-  $: filter = {
-    search: '',
-    stock: null,
-    enable: null,
+  $: handleModal = async (e: CustomEvent) => {
+    modal.set({ event: e.type, ...e.detail });
   };
-
-  $: fill = (slots: MachineSlot[]): MachineSlot[] => {
-    let newSlots = [];
-
-    // filter stock
-    if (filter.stock !== null) {
-      let [cond, percent] = filter.stock.split(':');
-      switch (cond) {
-        case '<':
-          slots = slots.filter(s => s.stock / s.capacity < percent);
-          break;
-
-        case '>':
-          slots = slots.filter(s => s.stock / s.capacity > percent);
-          break;
-
-        case '<=':
-          slots = slots.filter(s => s.stock / s.capacity <= percent);
-          break;
-      }
-    }
-
-    // filter status
-    if (filter.enable !== null) {
-      slots = slots.filter(s => s.is_enable === (filter.enable === true));
-    }
-
-    // filter search
-    if (filter.search !== '') {
-      slots = slots.filter(s => s.code.indexOf(filter.search) !== -1);
-    }
-
-    for (let r = 0; r < rows; r++) {
-      for (let c = 0; c < cols; c++) {
-        let slot = slots.find(s => s.code === '0' + (r + 1) + c);
-        if (slot === undefined) {
-          newSlots.push(null);
-        } else {
-          newSlots.push(slot);
-        }
-      }
-    }
-
-    return newSlots;
-  };
-
-  onMount(async () => {
-    mbloc.view(id);
-  });
-
   $: handleStock = (e: CustomEvent) => {
     const { id, stock } = e.detail;
 
-    const idx = slots.findIndex(s => s.id === id);
-    slots[idx].stock = stock;
+    const idx = localSlots.findIndex(s => s.id === id);
+    localSlots[idx].stock = stock;
+  };
+  $: handleSave = (e: CustomEvent) => {
+    const saved = localSlots.filter(s =>
+      isEdited(
+        s,
+        layout.slots.find(ss => s.id === ss.id),
+      ),
+    );
+
+    dispatch('save', { slots: saved });
+  };
+  $: handleCancel = (e: CustomEvent) => {
+    localSlots = layout.slots?.map(s => ({ ...s }));
+  };
+  $: handleCreate = (e: CustomEvent) => {
+    const { slot } = e.detail;
+    localSlots.push(slot);
+  };
+  $: handleUpdate = (e: CustomEvent) => {
+    const { id, slot } = e.detail;
+
+    const idx = localSlots.findIndex(s => s.id === id);
+    localSlots[idx] = { ...localSlots[idx], ...slot };
+  };
+  $: handleDelete = (e: CustomEvent) => {
+    const { id } = e.detail;
+
+    const idx = localSlots.findIndex(s => s.id === id);
+    localSlots.splice(idx, 1);
   };
 
-  $: handleFetchSlots = async (_: CustomEvent) => {
-    await sbloc.fetchSlots(id);
-    notify($sstate.kind, 'fetch slots', $sstate.error);
-
-    if ($sstate.kind === 'load-success') {
-      dispatch('reload');
-    }
-  };
-
-  $: handlePushSlots = async (_: CustomEvent) => {
-    await sbloc.pushSlots(id);
-    notify($sstate.kind, 'push slots', $sstate.error);
-  };
-
-  $: getBase = (code: string): MachineSlot => {
-    return state.list.find(s => s.code === code);
-  };
+  // params
+  $: filter = { search: '', stock: null, enable: null };
+  $: localSlots = layout.slots?.map(s => ({ ...s }));
 </script>
 
 <!-- HTML -->
 <div class="w-full bg-white rounded-xl shadow-xl shadow-primary-100 space-y-4 py-4">
   <div class="px-8 pt-4">
-    {#if state.kind === 'load-success'}
-      <h4 class="text-xl font-semibold text-gray-700">Machine: {$mstate.data.serial_number}</h4>
-    {/if}
+    <h4 class="text-xl font-semibold text-gray-700">Machine: {machine?.serial_number}</h4>
   </div>
   <div class="p-4">
-    <Filter bind:filter on:fetch={handleFetchSlots} on:save={handlePushSlots} on:reload on:event />
+    <Filter
+      time={machine?.sync_slot_time}
+      isEdited={isEdited(localSlots, layout.slots)}
+      isSynced={isPassed5Minutes(machine?.sync_slot_time)}
+      bind:filter
+      on:fetch
+      on:save={handleSave}
+      on:cancel={handleCancel}
+      on:create={handleModal}
+    />
   </div>
   <div class="border-t border-b border-gray-300 p-4">
-    {#if state.kind === 'load-in-progress' || $sstate.kind === 'load-in-progress'}
+    {#if loading}
       <div class="w-full">
         <TableLoader />
       </div>
-    {:else if state.kind === 'load-success'}
+    {:else if error}
+      <div class="text-center">Something Wrong! ({error.message})</div>
+    {:else}
       <div class="grid max-w-full grid-cols-10-auto gap-2 overflow-auto">
-        {#each fill(slots) as slot}
-          {#if slot === null}
-            <NoSlot />
+        {#each filterSlots(localSlots, filter, layout) as slot}
+          {#if !!slot.id}
+            <Slot
+              {slot}
+              isEdited={isEdited(
+                slot,
+                layout.slots.find(s => s.id === slot.id),
+              )}
+              on:stock={handleStock}
+              on:select={handleModal}
+            />
           {:else}
-            <Slot {slot} base={getBase(slot.code)} on:stock={handleStock} on:select />
+            <NoSlot code={slot.code} isExist={localSlots.findIndex(s => s.code === slot.code) !== -1} on:create={handleModal} />
           {/if}
         {/each}
       </div>
-    {:else if state.kind === 'load-failure'}
-      <div class="text-center">Something Wrong! ({state.error?.message})</div>
     {/if}
   </div>
 </div>
+
+<!-- Modal -->
+<Modal on:create={handleCreate} on:update={handleUpdate} on:delete={handleDelete} />
 
 <!-- style -->
 <style lang="scss">
