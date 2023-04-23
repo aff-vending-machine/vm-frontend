@@ -4,26 +4,26 @@ export type Product = {
   id: UniqueID;
   created_at: DateTime;
   updated_at: DateTime;
+  sku: string;
   name: string;
   type: string;
-  sku: string;
+  image_url: string;
   price: number;
 };
 
 export type CreateProduct = {
+  sku: string;
   name: string;
   type: string;
-  sku: string;
+  image_url: string;
   price: number;
-  barcode: string;
 };
 
 export type UpdateProduct = {
   name: string;
   type: string;
-  sku: string;
+  image_url: string;
   price: number;
-  barcode: string;
 };
 
 export const parseProduct = (product: Product) => {

@@ -6,12 +6,12 @@ export const notify = (state: string, text: string, err: Error) => {
   switch (state) {
     case 'load-failure':
     case 'error':
-      title = 'Unable to ' + text + '!';
+      title = 'Unable to ' + text;
       notification.set({ enable: true, type: 'error', title: title, msg: err.message });
       break;
 
     case 'load-success':
-      title = 'Success to ' + text + '!';
+      title = 'Success to ' + text;
       notification.set({ enable: true, type: 'success', title: title });
       break;
   }

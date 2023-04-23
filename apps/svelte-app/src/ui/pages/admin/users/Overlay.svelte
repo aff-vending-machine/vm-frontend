@@ -3,7 +3,7 @@
   import { createEventDispatcher } from 'svelte';
 
   // core
-  import type { ChangePassword, ChangeRole, CreateUser, UserState } from '@apps/core';
+  import type { ChangeRole, CreateUser, UserState } from '@apps/core';
   import { provideUserBloc } from '@apps/core';
   import { modal, notification } from '~/share/stores';
   import { useBlocState } from '~/share/hooks/useBlocState';
