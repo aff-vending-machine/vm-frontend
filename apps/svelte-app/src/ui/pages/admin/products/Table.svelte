@@ -36,7 +36,6 @@
   $: handleChangeFilter = () => {
     dispatch('reload', filter);
   };
-
   // params
 </script>
 
@@ -46,7 +45,7 @@
     <h4 class="text-xl font-semibold text-gray-700">Products</h4>
   </div>
   <div class="p-4">
-    <Filter bind:filter on:change={handleChangeFilter} />
+    <Filter bind:filter on:create on:change={handleChangeFilter} />
   </div>
   <div class="border-t border-b border-gray-300 p-4">
     {#if state.kind === 'load-in-progress'}
@@ -55,7 +54,7 @@
       </div>
     {:else if state.kind === 'load-success'}
       <div class="w-full overflow-y-auto">
-        <TableBloc sorts={sortToObj(filter.sort_by)} source={state.list} on:sort={handleSortFilter} on:event />
+        <TableBloc sorts={sortToObj(filter.sort_by)} source={state.list} on:sort={handleSortFilter} on:select on:event />
       </div>
     {:else if state.kind === 'load-failure'}
       <div class="text-center">Something Wrong! ({state.error?.message})</div>

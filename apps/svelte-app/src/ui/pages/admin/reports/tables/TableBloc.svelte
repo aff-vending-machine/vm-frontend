@@ -3,7 +3,6 @@
 	import type { Transaction } from '@apps/core';
   import { ColumnsType, SortsType } from '~/share/modules/tables';
   import Table from '~/ui/components/lists/tables/Table.svelte';
-  import Action from './Action.svelte';
   import PaymentChannel from './PaymentChannel.svelte';
 
   // props

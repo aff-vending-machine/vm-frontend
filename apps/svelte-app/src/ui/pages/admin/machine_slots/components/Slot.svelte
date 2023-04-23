@@ -51,6 +51,9 @@
 <button class={`flex flex-col rounded-md items-center p-2 w-28 h-32 ${getColor(slot)}`} on:click={handleSelectEvent}>
   <div class="font-bold">{slot.code}</div>
   <div class="text-xs text-center">
+    {slot.product.name}
+  </div>
+  <div class="text-xs text-center">
     Price: {slot.product.price}
   </div>
   <div class="flex-grow" />
