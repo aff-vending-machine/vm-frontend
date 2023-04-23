@@ -17,12 +17,12 @@
   export let machine: Machine;
   export let loading: boolean;
   export let error: Error;
-  export let layout: { rows: number; cols: number, slots: MachineSlot[] };
+  export let layout: { rows: number; cols: number; slots: MachineSlot[] };
 
   // events
   const dispatch = createEventDispatcher();
   $: handleModal = async (e: CustomEvent) => {
-    modal.set({ event: e.type, ...e.detail });
+    modal.set({ event: e.type, id: e.detail.id, source: { ...e.detail } });
   };
   $: handleStock = (e: CustomEvent) => {
     const { id, stock } = e.detail;
@@ -81,6 +81,23 @@
       on:cancel={handleCancel}
       on:create={handleModal}
     />
+    <div class="flex float-right space-x-2">
+      <div class="bg-red-100 px-4">
+        <span>disable</span>
+      </div>
+      <div class="bg-gray-100 px-4">
+        <span>empty</span>
+      </div>
+      <div class="bg-yellow-100 px-4">
+        <span>≤ 20%</span>
+      </div>
+      <div class="bg-blue-100 px-4">
+        <span>available</span>
+      </div>
+      <div class="bg-green-100 px-4">
+        <span>full</span>
+      </div>
+    </div>
   </div>
   <div class="border-t border-b border-gray-300 p-4">
     {#if loading}
@@ -103,7 +120,11 @@
               on:select={handleModal}
             />
           {:else}
-            <NoSlot code={slot.code} isExist={localSlots.findIndex(s => s.code === slot.code) !== -1} on:create={handleModal} />
+            <NoSlot
+              code={slot.code}
+              isExist={localSlots.findIndex(s => s.code === slot.code) !== -1}
+              on:create={handleModal}
+            />
           {/if}
         {/each}
       </div>

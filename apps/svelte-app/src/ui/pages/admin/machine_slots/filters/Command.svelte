@@ -35,7 +35,9 @@
     <IconButton i="sync" disabled={!isSynced} on:click={handleFetch}>Fetch</IconButton>
     <IconButton i="save" disabled={!isEdited} on:click={handleSave}>Save</IconButton>
     <IconButton i="cancel" disabled={!isEdited} on:click={handleCancel}>Cancel</IconButton>
-    <IconButton i="plus" on:click={handleCreate}>Create</IconButton>
+    {#if false}
+      <IconButton i="plus" on:click={handleCreate}>Create</IconButton>
+    {/if}
   </div>
   <span class="text-xs">Last time sync: {showTime(time)}</span>
 </div>

@@ -4,13 +4,13 @@
 	import { CreateProduct, ProductState, UpdateProduct, provideProductBloc } from '@apps/core';
   import { useBlocState } from '~/share/hooks/useBlocState';
   import { modal } from '~/share/stores';
+  import { notify } from '~/share/modules/messages';
 
   // components
   import SelectModal from './modals/SelectModal.svelte';
-  import EditModal from './modals/EditModal.svelte';
-  import { notify } from '~/share/modules/messages';
-  import { createEventDispatcher } from 'svelte';
   import CreateModal from './modals/CreateModal.svelte';
+  import EditModal from './modals/EditModal.svelte';
+  import { createEventDispatcher } from 'svelte';
 
   const bloc = provideProductBloc();
   const state = useBlocState<ProductState>(bloc);
@@ -18,7 +18,6 @@
   const dispatch = createEventDispatcher();
 
 // events
-
 $: handleCreate = async (e: CustomEvent) => {
     try {
       const payload: CreateProduct = {

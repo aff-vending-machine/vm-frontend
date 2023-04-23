@@ -1,6 +1,6 @@
 <!-- View -->
 <script lang="ts">
-  import { onMount } from 'svelte';
+  import { onMount, onDestroy } from 'svelte';
 
   // core
   import { MachineSlotState, MachineState, SyncState, provideMachineBloc, provideSyncBloc } from '@apps/core';

@@ -16,7 +16,7 @@
   const dispatch = createEventDispatcher();
 
   // form
-  const formId = 'edit-productt-form';
+  const formId = 'edit-product-form';
   const id = field('id', $modal.id, []);
   const name = field('name', $modal.source['name'], [required()]);
   const type = field('type', $modal.source['type'], []);

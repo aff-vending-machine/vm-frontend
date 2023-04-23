@@ -16,7 +16,7 @@
   const dispatch = createEventDispatcher();
   const handleIncreaseStockEvent = () => dispatch('stock', { id: slot.id, stock: increasing(slot) });
   const handleDecreaseStockEvent = () => dispatch('stock', { id: slot.id, stock: decreasing(slot) });
-  const handleSelectEvent = () => dispatch('select', { id: slot.id, slot });
+  const handleSelectEvent = () => dispatch('select', slot);
 
   // helpers
   const decreasing = (slot: MachineSlot) => (slot.stock - 1 < 0 ? 0 : slot.stock - 1);
@@ -28,22 +28,22 @@
     }
 
     if (!slot.is_enable) {
-      return style + 'border-red-500 bg-red-50';
+      return style + 'border-red-500 bg-red-50 hover:bg-red-100';
     }
 
     if (slot.capacity == slot.stock) {
-      return style + 'border-green-500 bg-green-50';
+      return style + 'border-green-500 bg-green-50 hover:bg-green-100';
     }
 
     if (slot.stock === 0) {
-      return style + 'border-gray-500 bg-gray-200';
+      return style + 'border-gray-500 bg-gray-200 hover:bg-gray-100';
     }
 
     if (slot.stock / slot.capacity <= 0.2) {
-      return style + 'border-yellow-500 bg-yellow-50';
+      return style + 'border-yellow-500 bg-yellow-50 hover:bg-yellow-100';
     }
 
-    return style + 'border-blue-500 bg-blue-50';
+    return style + 'border-blue-500 bg-blue-50 hover:bg-blue-100';
   };
 </script>
 
@@ -61,6 +61,7 @@
     <button
       class="
         h-6 w-6 border border-blue-500 bg-blue-300 rounded-sm text-white text-sm
+        hover:border-blue-700 hover:bg-blue-500 
         disabled:border-gray-300 disabled:bg-gray-300
       "
       use:press
@@ -74,6 +75,7 @@
     <button
       class="
         h-6 w-6 border border-blue-500 bg-blue-300 rounded-sm text-white text-sm
+        hover:border-blue-700 hover:bg-blue-500 
       disabled:border-gray-300 disabled:bg-gray-300
       "
       use:press

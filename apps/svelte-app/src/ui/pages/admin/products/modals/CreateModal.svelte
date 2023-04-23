@@ -4,9 +4,6 @@
   import { field, form } from 'svelte-forms';
   import { min, required } from 'svelte-forms/validators';
 
-  // core
-  import { modal } from '~/share/stores';
-
   // components
   import FormModal from '~/ui/components/overlays/modals/FormModal.svelte';
   import FormControl from '~/ui/components/forms/inputs/FormControl.svelte';
@@ -21,7 +18,7 @@
   const name = field('name', '', [required()]);
   const type = field('type', '', []);
   const imageUrl = field('image_url', '', []);
-  const price = field('price', '', [required(), min(0)]);
+  const price = field('price', 0, [required(), min(0)]);
 
   const modalForm = form(sku, name, type, imageUrl, price);
 
@@ -68,12 +65,3 @@
 <!-- style -->
 <style lang="scss">
 </style>
-
-
-<!-- {
-  "sku": "P00076",
-  "name": "อกไก่ปั่น ช็อกโกแลตและมะพร้าวน้ำหอม",
-  "image_url": "https://placehold.co/128x128",
-  "price": 75
-  Twenty One อกไก่ปั่น
-} -->
