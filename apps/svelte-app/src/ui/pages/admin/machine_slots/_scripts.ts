@@ -61,7 +61,7 @@ export const filterSlots = (origin: MachineSlot[], filter: any, layout: any): Ma
 
   // filter search
   if (filter.search !== '') {
-    origin = origin.filter(s => s.code.indexOf(filter.search) !== -1);
+    origin = origin.filter(s => [s.code, s.product.name].join('|').indexOf(filter.search) !== -1);
   }
 
   for (let r = 0; r < layout.rows; r++) {

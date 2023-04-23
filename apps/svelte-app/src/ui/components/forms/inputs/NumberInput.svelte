@@ -4,7 +4,7 @@
   export let min: number = 0;
   export let max: number = 99999;
   export let maxlength: number = 64;
-  export let value: string;
+  export let value: number;
   export let disabled: boolean = false;
 </script>
 

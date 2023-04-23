@@ -2,6 +2,7 @@
 <script lang="ts">
   export let name: string;
   export let required = false;
+  export let mention = true;
 </script>
 
 <!-- HTML -->
@@ -14,7 +15,9 @@
       }`}
     >
       {name}
-      <sapn class="text-xs font-normal text-gray-400">{required ? '' : '(optional)'}</sapn>
+      {#if mention}
+        <span class="text-xs font-normal text-gray-400">{required ? '' : '(optional)'}</span>
+      {/if}
     </label>
     <div class={$$props.class}>
       <slot />

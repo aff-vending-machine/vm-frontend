@@ -8,7 +8,6 @@
   import type { RoleState } from '@apps/core';
   import { provideRoleBloc } from '@apps/core';
   import { useBlocState } from '~/share/hooks/useBlocState';
-  import { modal } from '~/share/stores';
 
   // components
   import FormModal from '~/ui/components/overlays/modals/FormModal.svelte';

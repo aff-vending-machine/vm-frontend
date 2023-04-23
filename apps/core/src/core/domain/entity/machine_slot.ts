@@ -9,7 +9,6 @@ export type MachineSlot = {
   product_id: UniqueID;
   code: string;
   stock: number;
-  sold: number;
   capacity: number;
   product: Product;
   is_enable: boolean;
