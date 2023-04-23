@@ -9,9 +9,10 @@
   import FormControl from '~/ui/components/forms/inputs/FormControl.svelte';
   import TextInput from '~/ui/components/forms/inputs/TextInput.svelte';
   import NumberInput from '~/ui/components/forms/inputs/NumberInput.svelte';
+  import Image from '~/ui/components/elements/images/Image.svelte';
 
   const dispatch = createEventDispatcher();
-  
+
   // form
   const formId = 'create-product-form';
   const sku = field('sku', '', [required()]);
@@ -29,12 +30,6 @@
       dispatch('create', modalForm.summary());
     }
   };
-
-  $: image = $imageUrl.value
-
-  const handleImageError = () => {
-    image = "https://placehold.co/128x128?text=No+Image"
-  }
 </script>
 
 <!-- HTML -->
@@ -42,7 +37,7 @@
   <h3 class="text-lg font-medium text-primary-900 mb-4">Create New Product</h3>
   <form id={formId} class="grid grid-cols-1 gap-4" on:submit|preventDefault={handleCreate}>
     <div>
-      <img class="border h-32 w-32 mx-auto" alt="url" src={image} on:error={handleImageError} />
+      <Image class="border h-32 w-32 mx-auto" src={$imageUrl.value} />
     </div>
     <FormControl name="SKU" required>
       <TextInput name="sku" bind:value={$sku.value} />

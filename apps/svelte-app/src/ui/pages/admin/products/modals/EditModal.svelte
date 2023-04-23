@@ -12,6 +12,7 @@
   import FormControl from '~/ui/components/forms/inputs/FormControl.svelte';
   import TextInput from '~/ui/components/forms/inputs/TextInput.svelte';
   import NumberInput from '~/ui/components/forms/inputs/NumberInput.svelte';
+  import Image from '~/ui/components/elements/images/Image.svelte';
 
   const dispatch = createEventDispatcher();
 
@@ -41,7 +42,7 @@
   </h3>
   <form id={formId} class="grid grid-cols-1 gap-4" on:submit|preventDefault={handleEdit}>
     <div>
-      <img class="h-32 w-32 mx-auto" alt="url" src={$imageUrl.value} />
+      <Image class="border h-32 w-32 mx-auto" src={$imageUrl.value} alt={$modal.source['name']} />
     </div>
     <FormControl name="ID" required>
       <TextInput name="id" bind:value={$id.value} disabled />
