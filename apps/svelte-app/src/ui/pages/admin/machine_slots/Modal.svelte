@@ -39,6 +39,7 @@
 $: handleEdit = async (e: CustomEvent) => {
     try {
       const payload = {
+        product_id: e.detail.product.id,
         product: e.detail.product,
         stock: e.detail.stock,
         capacity: e.detail.capacity,

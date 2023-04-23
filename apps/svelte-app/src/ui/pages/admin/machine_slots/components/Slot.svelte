@@ -45,13 +45,22 @@
 
     return style + 'border-blue-500 bg-blue-50 hover:bg-blue-100';
   };
+  const truncate = (str: string, n: number, useWordBoundary: boolean) => {
+    if (str.length <= n) {
+      return str;
+    }
+    const subString = str.slice(0, n - 1); // the original check
+    return (useWordBoundary ? subString.slice(0, subString.lastIndexOf(' ')) : subString) + '...';
+  };
 </script>
 
 <!-- HTML -->
 <button class={`flex flex-col rounded-md items-center p-2 w-28 h-32 ${getColor(slot)}`} on:click={handleSelectEvent}>
   <div class="font-bold">{slot.code}</div>
   <div class="text-xs text-center">
-    {slot.product.name}
+    <span class="overflow-hidden text-ellipsis">
+      {truncate(slot.product.name, 24, false)}
+    </span>
   </div>
   <div class="text-xs text-center">
     Price: {slot.product.price}

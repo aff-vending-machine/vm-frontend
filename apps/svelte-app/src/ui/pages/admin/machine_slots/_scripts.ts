@@ -85,6 +85,7 @@ export const isEdited = (a: any, b: any) => {
 }
 
 export const isPassed5Minutes = (date?: Date) => {
+  return true
   if (!date) return true;
   if (dayjs().isAfter(dayjs(date).add(5, 'minute'), 'minute')) return true;
   return false;
