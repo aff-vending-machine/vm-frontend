@@ -44,7 +44,7 @@
       const payload: ChangeRole = {
         id: e.detail.id,
       };
-      await bloc.changeRole(e.detail.username, payload);
+      await bloc.changeRole(e.detail.id, payload);
       notify($state.kind, 'change user role', $state.error);
       dispatch('reload');
     } catch (e) {
@@ -56,7 +56,7 @@
 
   $: handleResetPassword = async (e: CustomEvent) => {
     try {
-      await bloc.resetPassword(e.detail.username);
+      await bloc.resetPassword(e.detail.id);
       notify($state.kind, 'reset password to 00000000', $state.error);
     } catch (e) {
       console.log(e);
@@ -67,7 +67,7 @@
 
   $: handleDelete = async (e: CustomEvent) => {
     try {
-      await bloc.delete(e.detail.username);
+      await bloc.delete(e.detail.id);
       notify($state.kind, 'delete user', $state.error);
       dispatch('reload');
     } catch (e) {
