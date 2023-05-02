@@ -16,10 +16,10 @@
   <div
     class="inline-flex -space-x-0 divide-x divide-gray-300 overflow-hidden rounded-lg border border-gray-300 shadow-sm"
   >
-  {#if source.order_status === 'PAID'|| source.order_status === 'ORDERED'}
-    <ActionButton class="hover:text-blue-500" text="DONE" on:click={handleDoneEvent} />
-    <ActionButton class="hover:text-red-500" text="CANCEL" on:click={handleCancelEvent} />
-  {/if}
+    {#if source.order_status === 'PAID' || source.order_status === 'ORDERED' || source.order_status === 'DONE-BROKEN' || source.order_status === 'BROKEN'}
+      <ActionButton class="hover:text-blue-500" text="DONE" on:click={handleDoneEvent} />
+      <ActionButton class="hover:text-red-500" text="CANCEL" on:click={handleCancelEvent} />
+    {/if}
   </div>
 </div>
 

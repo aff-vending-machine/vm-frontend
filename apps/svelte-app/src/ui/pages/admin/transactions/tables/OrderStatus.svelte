@@ -9,6 +9,8 @@
       case 'ORDERED':
         return 'bg-blue-500'
       case 'PAID':
+      case 'DONE-BROKEN':
+      case 'BROKEN':
         return 'bg-purple-500'
       case 'DONE':
         return 'bg-green-500'
