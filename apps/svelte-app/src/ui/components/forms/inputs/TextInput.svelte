@@ -1,7 +1,7 @@
 <!-- TextInput -->
 <script lang="ts">
   export let name: string;
-  export let maxlength: number = 64;
+  export let maxlength: number = 1024;
   export let value: string;
   export let disabled: boolean = false;
 </script>

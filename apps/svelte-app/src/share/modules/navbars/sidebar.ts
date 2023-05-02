@@ -10,7 +10,7 @@ export type SidebarItemType = {
 export const sidebar: SidebarItemType[] = [
   { title: 'Report', icon: 'report', link: ADMIN_REPORTS, role: 'manager' },
   { title: 'Machine', icon: 'machine', link: ADMIN_MACHINES, role: 'staff' },
-  { title: 'Product', icon: 'product', link: ADMIN_PRODUCTS, role: 'staff' },
+  { title: 'Product', icon: 'product', link: ADMIN_PRODUCTS, role: 'manager' },
   { title: 'Transaction', icon: 'machine', link: ADMIN_TRNASACTIONS, role: 'staff' },
   { title: 'User', icon: 'user', link: ADMIN_USERS, role: 'super-admin' },
   { title: 'Role', icon: 'role', link: ADMIN_ROLES, role: 'super-admin' },
