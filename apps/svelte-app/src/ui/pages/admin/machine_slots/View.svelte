@@ -25,7 +25,9 @@
   const sstate = useBlocState<SyncState>(sbloc);
 
   onMount(async () => {
-    await Promise.all([mbloc.view(machineId), bloc.list(machineId)]);
+    // await Promise.all([mbloc.view(machineId), bloc.list(machineId)]);
+    await mbloc.view(machineId);
+    handleFetch(null);
   });
 
   // event

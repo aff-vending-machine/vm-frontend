@@ -81,7 +81,7 @@
       on:cancel={handleCancel}
       on:create={handleModal}
     />
-    <div class="flex float-right space-x-2">
+    <div class="hidden md:flex float-right space-x-2">
       <div class="bg-red-100 px-4">
         <span>disable</span>
       </div>
