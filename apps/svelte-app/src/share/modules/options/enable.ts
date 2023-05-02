@@ -6,6 +6,6 @@ export const enableOptions = [
 
 export const editOptions = [
   { name: 'All', value: null },
-  { name: 'Edit', value: true },
-  { name: "Don't edit", value: false },
+  { name: 'Change', value: true },
+  { name: "Not change", value: false },
 ];
