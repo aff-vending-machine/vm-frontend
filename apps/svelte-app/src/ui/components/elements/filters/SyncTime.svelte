@@ -15,10 +15,7 @@
   const dispatch = createEventDispatcher();
 
   const showTime = (date?: Date) => {
-    if (!date) {
-      return 'never';
-    }
-
+    if (!date) return 'never';
     return dayjs(date).fromNow();
   };
 
