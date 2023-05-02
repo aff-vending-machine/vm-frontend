@@ -52,18 +52,15 @@
     {/if}
   </div>
   <div class="float-right flex space-x-2">
-    <SelectFilter
-      title="Payment Channel"
-      bind:value={filter.payment_channel}
-      options={paymentChannelOptions}
-      on:change
-    />
-    <SelectFilter
-      title="Status"
-      bind:value={filter.order_status}
-      options={orderStatusOptions}
-      on:change
-    />
+    {#if $pstate.count || 0 > 0}
+      <SelectFilter
+        title="Payment Channel"
+        bind:value={filter.payment_channel}
+        options={paymentChannelOptions}
+        on:change
+      />
+    {/if}
+    <SelectFilter title="Status" bind:value={filter.order_status} options={orderStatusOptions} on:change />
     <SelectFilter title="View Row" bind:value={filter.limit} options={limitFilterOptions} on:change />
   </div>
 </div>
