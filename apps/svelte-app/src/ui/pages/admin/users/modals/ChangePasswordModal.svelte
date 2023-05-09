@@ -18,7 +18,7 @@
 
   const id = field('id', $modal.id, []);
   const current = field('current', '', [required()]);
-  const password = field('password', '', [required(), length(6, 16)]);
+  const password = field('password', '', [required(), length(8, 16)]);
   const confirm = field('confirm', '', [required(), matchField(password)]);
 
   const modalForm = form(id, current, password, confirm);
@@ -63,7 +63,7 @@
       <MessageError hasError={$modalForm.hasError('password.required')} message="The password is required" />
       <MessageError
         hasError={$modalForm.hasError('password.length')}
-        message="The password must have at least 6 characters"
+        message="The password must have at least 8 characters"
       />
     </FormControl>
     <FormControl name="Confirm Password" required>

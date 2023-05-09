@@ -1,17 +1,17 @@
 <!-- Login -->
 <script lang="ts">
-  import { onMount } from 'svelte';
   import { navigate } from 'svelte-navigator';
 
   // core
   import type { AuthState } from '@apps/core';
   import { provideAuthBloc } from '@apps/core';
-  import { access } from '~/share/stores';
-  import { useBlocState } from '~/share/hooks/useBlocState';
+  import { useBlocState } from '~/utils/hooks/useBlocState';
+  import { access } from '~/stores/access';
 
   // components
   import Toggle from '~/ui/components/forms/toggles/Toggle.svelte';
   import LoadingModal from '~/ui/components/overlays/modals/LoadingModal.svelte';
+  import { onMount } from 'svelte';
 
   const bloc = provideAuthBloc();
   const state = useBlocState<AuthState>(bloc);
@@ -20,26 +20,18 @@
   let password = '';
   let remember = true;
 
-  onMount(async () => {
-    try {
-      await bloc.authenticated();
-
-      if ($state.kind === 'load-success') {
-        access.set($state.data);
-        navigate('/admin', { replace: true });
-      }
-    } catch (e) {
-      console.log(e);
+  access.subscribe(token => {
+    if (token) {
+      navigate('/main', { replace: true });
     }
-  });
-
+  })
+  
   $: handleSubmit = async () => {
     try {
       await bloc.login(username, password, remember);
 
       if ($state.kind === 'load-success') {
         access.set($state.data);
-        navigate('/admin', { replace: true });
       }
     } catch (e) {
       console.log(e);
@@ -50,7 +42,7 @@
 <!-- HTML -->
 <section>
   <div
-    class="relative flex items-center min-h-screen p-0 overflow-hidden bg-gradient-to-tr from-indigo-900 to-blue-400"
+    class="relative flex items-center min-h-screen p-0 overflow-hidden bg-gradient-to-tr from-primary-900 to-primary-400"
   >
     <div class="container z-1 mx-auto">
       <div class="flex flex-col items-center justify-center mx-4">

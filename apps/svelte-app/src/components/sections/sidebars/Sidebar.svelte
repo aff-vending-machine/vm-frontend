@@ -1,7 +1,7 @@
 <!-- Sidebar -->
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
-  import { SidebarItemType } from '~/share/modules/navbars';
+  import { SidebarItemType } from '~/types/sidebar';
 
   // components
   import Icon from '~/ui/components/elements/icons/Icon.svelte';
