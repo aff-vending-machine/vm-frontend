@@ -1,4 +1,4 @@
-import { MAIN_MACHINES, MAIN_PRODUCTS, MAIN_REPORTS, MAIN_ROLES, MAIN_TRNASACTIONS, MAIN_USERS } from '~/share/links';
+import { MAIN_MACHINES, MAIN_PRODUCTS, MAIN_REPORTS, MAIN_ROLES, MAIN_TRNASACTIONS, MAIN_USERS } from '~/utils/constants/links';
 
 export type SidebarItemType = {
     title: string;

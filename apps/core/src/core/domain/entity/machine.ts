@@ -1,5 +1,6 @@
 import { toAnyDateTime, toDateTime } from '~/share';
 import { MachineSlot } from './machine_slot';
+import { Branch } from './branch';
 
 export type Machine = {
   id: UniqueID;
@@ -10,14 +11,16 @@ export type Machine = {
   location: string;
   type: string;
   vendor: string;
-  slots: MachineSlot[];
   status: string;
   sync_machine_time: AnyDateTime;
   sync_slot_time: AnyDateTime;
   sync_transaction_time: AnyDateTime;
+  branch: Branch;
+  slots: MachineSlot[];
 };
 
 export type CreateMachine = {
+  branch_id: UniqueID;
   name: string;
   serial_number: string;
   location: string;
@@ -26,6 +29,7 @@ export type CreateMachine = {
 };
 
 export type UpdateMachine = {
+  branch_id: UniqueID;
   name: string;
   serial_number: string;
   location: string;

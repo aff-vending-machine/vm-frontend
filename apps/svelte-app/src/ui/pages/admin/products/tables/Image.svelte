@@ -3,7 +3,7 @@
   import { Product } from '@apps/core';
 
   // components
-  import Image from '~/ui/components/elements/images/Image.svelte';
+  import Image from '~/components/common/images/Image.svelte';
 
   export let source: Product;
 </script>

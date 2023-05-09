@@ -6,7 +6,7 @@
   // components
   import KvRow from '~/ui/components/overlays/modals/KVRow.svelte';
   import SelectModal from '~/ui/components/overlays/modals/SelectModal.svelte';
-  import Image from '~/ui/components/elements/images/Image.svelte';
+  import Image from '~/components/common/images/Image.svelte';
 </script>
 
 <!-- HTML -->

@@ -1,5 +1,5 @@
 import { toQuery } from '~/share';
-import { Stock, ReportDataInterface, parseStock, parseTransaction, Transaction } from '..';
+import { Stock, ReportDataInterface, parseStock, parsePaymentTransaction, PaymentTransaction } from '..';
 
 export class ReportUsecase {
   private data: ReportDataInterface;
@@ -20,11 +20,11 @@ export class ReportUsecase {
     }
   }
 
-  async payment(filter?: Record<string, any>): Promise<Transaction[]> {
+  async payment(filter?: Record<string, any>): Promise<PaymentTransaction[]> {
     try {
       const query = toQuery({ ...filter });
       const list = await this.data.payment(query);
-      const result = list.map(parseTransaction);
+      const result = list.map(parsePaymentTransaction);
 
       return Promise.resolve(result);
     } catch (e: unknown) {

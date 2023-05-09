@@ -2,7 +2,7 @@
   import Table from '~/components/common/tables/Table.svelte';
   import FilterBar from './FilterBar.svelte';
   import { navigate } from 'svelte-navigator';
-  import { MAIN_REPORT_ID } from '~/share/links';
+  import { MAIN_REPORT_ID } from '~/utils/constants/links';
 
   let data = [];
 
@@ -24,7 +24,7 @@
   };
 </script>
 
-<div class="card">
+<section class="card">
   <div class="report-page">
     <div class="mb-4">
       <FilterBar />
@@ -44,7 +44,7 @@
       </div>
     </div>
   </div>
-</div>
+</section>
 
 <style>
   .card {

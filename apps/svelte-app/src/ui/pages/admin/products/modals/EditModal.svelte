@@ -12,7 +12,7 @@
   import FormControl from '~/ui/components/forms/inputs/FormControl.svelte';
   import TextInput from '~/ui/components/forms/inputs/TextInput.svelte';
   import NumberInput from '~/ui/components/forms/inputs/NumberInput.svelte';
-  import Image from '~/ui/components/elements/images/Image.svelte';
+  import Image from '~/components/common/images/Image.svelte';
 
   const dispatch = createEventDispatcher();
 

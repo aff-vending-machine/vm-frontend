@@ -1,6 +1,8 @@
-<script>
+<script lang="ts">
   import { createEventDispatcher } from 'svelte';
 
+  export let type: 'submit' | 'reset' | 'button' = 'button';
+  export let form: string = undefined;
   export let disabled = false;
   export let loading = false;
   export let color = 'primary';
@@ -42,10 +44,12 @@
 
 <button
   class={`
-    inline-flex items-center px-4 py-2 border shadow-sm text-sm font-medium outline-none
+    inline-flex items-center justify-center px-4 py-2 border shadow-sm text-sm font-medium outline-none
     disabled:opacity-50 disabled:cursor-not-allowed 
     ${buttonClasses()} ${$$props.class}
   `}
+  {type}
+  {form}
   disabled={disabled || loading}
   on:click={handleClick}
 >
