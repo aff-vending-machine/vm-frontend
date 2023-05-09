@@ -1,54 +1,51 @@
-<!-- Product -->
+<!-- Machine -->
 <script lang="ts">
   import { onMount } from 'svelte';
   import { Readable, derived } from 'svelte/store';
 
-  import type { Product, ProductState } from '@apps/core';
-  import { provideProductBloc } from '@apps/core';
+  import type { Machine, MachineState } from '@apps/core';
+  import { provideMachineBloc } from '@apps/core';
   import { useBlocState } from '~/utils/hooks/useBlocState';
 
   import Table from '~/components/common/tables/Table.svelte';
   import Pagination from '~/components/navigations/paginations/Pagination.svelte';
   import FilterBar from './FilterBar.svelte';
   import Modal from '~/components/overlays/modals/Modal.svelte';
-  import ProductCreator from './ProductCreator.svelte';
-  import ProductEditor from './ProductEditor.svelte';
-  import ProductViewer from './ProductViewer.svelte';
-  import ProductEraser from './ProductEraser.svelte';
+  import MachineEditor from './MachineEditor.svelte';
 
-  const bloc = provideProductBloc();
-  const state = useBlocState<ProductState>(bloc);
+  const bloc = provideMachineBloc();
+  const state = useBlocState<MachineState>(bloc);
 
   let filters = {
     page: 1,
     offset: 0,
     limit: 10,
     sort_by: 'id:asc',
-    group: '',
     search: '',
   };
 
   let columns = [
     { key: 'id', header: 'ID', sortable: true },
-    { key: 'product_group.name', header: 'Group', sortable: true },
     { key: 'name', header: 'Name', sortable: true },
-    { key: 'sku', header: 'SKU', sortable: true },
-    { key: 'image_url', header: 'Image', image: true },
-    { key: 'price', header: 'Price', sortable: true },
+    { key: 'serial_number', header: 'Serial Number', sortable: true },
+    { key: 'location', header: 'Location', sortable: true },
+    { key: 'type', header: 'Type', sortable: true },
+    { key: 'vendor', header: 'Vendor', sortable: true },
+    { key: 'status', header: 'Status', sortable: true },
   ];
 
   let selectedAction: string = null;
-  let selectedProduct: Product = null;
+  let selectedMachine: Machine = null;
 
   const handleAction = (e: CustomEvent) => {
     const { data } = e.detail;
     selectedAction = e.type;
-    selectedProduct = data as Product;
+    selectedMachine = data as Machine;
   };
 
   const handleClose = (e: CustomEvent) => {
     selectedAction = null;
-    selectedProduct = null;
+    selectedMachine = null;
   };
 
   const handlePageChange = async (e: CustomEvent) => {
@@ -60,16 +57,11 @@
 
   const handleSave = async (e: CustomEvent) => {
     selectedAction = null;
-    selectedProduct = null;
+    selectedMachine = null;
   };
 
-  const handleDelete = async (e: CustomEvent) => {
-    selectedAction = null;
-    selectedProduct = null;
-  };
-
-  const statePromise: Readable<Promise<ProductState>> = derived(state, $state => {
-    return new Promise<ProductState>((resolve, reject) => {
+  const statePromise: Readable<Promise<MachineState>> = derived(state, $state => {
+    return new Promise<MachineState>((resolve, reject) => {
       if ($state.kind === 'load-success') {
         resolve($state);
       } else if ($state.kind === 'load-failure') {
@@ -84,12 +76,12 @@
 </script>
 
 <section class="card">
-  <div class="product-page">
+  <div class="machine-page">
     <div class="mb-4 p-4">
-      <h4 class="text-xl font-medium">Products</h4>
+      <h4 class="text-xl font-medium">Machines</h4>
     </div>
     <div class="mb-4">
-      <FilterBar bind:group={filters.group} bind:search={filters.search} on:create={handleAction} />
+      <FilterBar bind:limit={filters.limit} bind:search={filters.search} />
     </div>
     <div class="w-full">
       <div class="border border-gray-200">
@@ -127,22 +119,22 @@
   </div>
 </section>
 
-{#if selectedProduct}
+{#if selectedMachine}
   <Modal on:close={handleClose}>
-    {#if selectedAction === 'create'}
-      <ProductCreator on:save={handleSave} on:cancel={handleClose} />
+    <!-- {#if selectedAction === 'create'}
+      <MachineCreator on:save={handleSave} on:cancel={handleClose} />
     {:else if selectedAction === 'view'}
-      <ProductViewer
-        product={selectedProduct}
+      <MachineViewer
+        machine={selectedMachine}
         on:edit={handleAction}
         on:delete={handleAction}
         on:cancel={handleClose}
       />
-    {:else if selectedAction === 'edit'}
-      <ProductEditor product={selectedProduct} on:save={handleSave} on:cancel={handleClose} />
-    {:else if selectedAction === 'delete'}
-      <ProductEraser product={selectedProduct} on:delete={handleDelete} on:cancel={handleClose} />
-    {/if}
+    {:else if selectedAction === 'edit'} -->
+    <MachineEditor machine={selectedMachine} on:save={handleSave} on:cancel={handleClose} />
+    <!-- {:else if selectedAction === 'delete'}
+      <MachineEraser machine={selectedMachine} on:delete={handleDelete} on:cancel={handleClose} />
+    {/if} -->
   </Modal>
 {/if}
 

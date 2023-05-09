@@ -1,4 +1,4 @@
-import { MAIN_MACHINES, MAIN_PRODUCTS, MAIN_REPORTS, MAIN_ROLES, MAIN_TRNASACTIONS, MAIN_USERS } from '~/utils/constants/links';
+import { MAIN_MACHINES, MAIN_PRODUCTS, MAIN_PRODUCT_GROUPS, MAIN_REPORTS, MAIN_ROLES, MAIN_TRNASACTIONS, MAIN_USERS } from '~/utils/constants/links';
 
 export type SidebarItemType = {
     title: string;
@@ -15,13 +15,19 @@ export const sidebar: SidebarItemType[] = [
         role: 'staff'
     },
     {
-        title: 'Machine',
+        title: 'Machines',
         icon: 'machine',
         link: MAIN_MACHINES,
         role: 'staff'
     },
     {
-        title: 'Product',
+        title: 'Product Groups',
+        icon: 'group',
+        link: MAIN_PRODUCT_GROUPS,
+        role: 'manager'
+    },
+    {
+        title: 'Products',
         icon: 'product',
         link: MAIN_PRODUCTS,
         role: 'manager'

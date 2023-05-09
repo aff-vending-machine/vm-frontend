@@ -1,8 +1,10 @@
 <script lang="ts">
-  import { SvelteComponent, onMount } from 'svelte';
+  import { onMount } from 'svelte';
   import { Router, Route, navigate } from 'svelte-navigator';
+
   import type { AuthState } from '@apps/core';
   import { provideAuthBloc } from '@apps/core';
+
   import { useBlocState } from '~/utils/hooks/useBlocState';
   import { access } from '~/stores/access';
   import Redirect from './Redirect.svelte';

@@ -1,4 +1,4 @@
-<!-- Product -->
+<!-- ProductGroup -->
 <script lang="ts">
   import { onMount } from 'svelte';
   import { Readable, derived } from 'svelte/store';
@@ -9,12 +9,6 @@
 
   import Table from '~/components/common/tables/Table.svelte';
   import Pagination from '~/components/navigations/paginations/Pagination.svelte';
-  import FilterBar from './FilterBar.svelte';
-  import Modal from '~/components/overlays/modals/Modal.svelte';
-  import ProductCreator from './ProductCreator.svelte';
-  import ProductEditor from './ProductEditor.svelte';
-  import ProductViewer from './ProductViewer.svelte';
-  import ProductEraser from './ProductEraser.svelte';
 
   const bloc = provideProductBloc();
   const state = useBlocState<ProductState>(bloc);
@@ -30,7 +24,7 @@
 
   let columns = [
     { key: 'id', header: 'ID', sortable: true },
-    { key: 'product_group.name', header: 'Group', sortable: true },
+    { key: 'name', header: 'Group', sortable: true },
     { key: 'name', header: 'Name', sortable: true },
     { key: 'sku', header: 'SKU', sortable: true },
     { key: 'image_url', header: 'Image', image: true },
@@ -46,26 +40,11 @@
     selectedProduct = data as Product;
   };
 
-  const handleClose = (e: CustomEvent) => {
-    selectedAction = null;
-    selectedProduct = null;
-  };
-
   const handlePageChange = async (e: CustomEvent) => {
     const { page } = e.detail;
     filters.page = page;
     filters.offset = (page - 1) * filters.limit;
     await bloc.list(filters);
-  };
-
-  const handleSave = async (e: CustomEvent) => {
-    selectedAction = null;
-    selectedProduct = null;
-  };
-
-  const handleDelete = async (e: CustomEvent) => {
-    selectedAction = null;
-    selectedProduct = null;
   };
 
   const statePromise: Readable<Promise<ProductState>> = derived(state, $state => {
@@ -84,12 +63,9 @@
 </script>
 
 <section class="card">
-  <div class="product-page">
+  <div class="product-group-page">
     <div class="mb-4 p-4">
-      <h4 class="text-xl font-medium">Products</h4>
-    </div>
-    <div class="mb-4">
-      <FilterBar bind:group={filters.group} bind:search={filters.search} on:create={handleAction} />
+      <h4 class="text-xl font-medium">Product Groups</h4>
     </div>
     <div class="w-full">
       <div class="border border-gray-200">
@@ -126,25 +102,6 @@
     </div>
   </div>
 </section>
-
-{#if selectedProduct}
-  <Modal on:close={handleClose}>
-    {#if selectedAction === 'create'}
-      <ProductCreator on:save={handleSave} on:cancel={handleClose} />
-    {:else if selectedAction === 'view'}
-      <ProductViewer
-        product={selectedProduct}
-        on:edit={handleAction}
-        on:delete={handleAction}
-        on:cancel={handleClose}
-      />
-    {:else if selectedAction === 'edit'}
-      <ProductEditor product={selectedProduct} on:save={handleSave} on:cancel={handleClose} />
-    {:else if selectedAction === 'delete'}
-      <ProductEraser product={selectedProduct} on:delete={handleDelete} on:cancel={handleClose} />
-    {/if}
-  </Modal>
-{/if}
 
 <style>
   .card {

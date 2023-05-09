@@ -1,11 +1,12 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
   import { ColumnSortType, ColumnsType } from '~/types/table';
+  import Icon from '~/components/common/icons/Icon.svelte';
 
   export let column: ColumnsType;
   export let sort: ColumnSortType = { key: null, direction: 'asc' };
   export let width: number;
-  export let resizable: boolean = false;
+  export let resizable: boolean = true;
 
   const dispatch = createEventDispatcher();
   let startX: number;
@@ -35,7 +36,6 @@
   };
 
   const handleMouseDown = (event: MouseEvent) => {
-    event.stopPropagation();
     startX = event.clientX;
     startWidth = width;
     document.body.addEventListener('mousemove', handleMouseMove);
@@ -74,42 +74,18 @@
     <span class="font-medium text-gray-900">{column.header}</span>
     {#if column.key === sort.key}
       {#if sort.direction === 'asc'}
-        <svg
-          class="w-4 h-4 ml-2 text-gray-400"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-        </svg>
+        <Icon class="w-3 h-3 fill-gray-400" i="sort-down" />
       {:else}
-        <svg
-          class="w-4 h-4 ml-2 text-gray-400"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
-        </svg>
+        <Icon class="w-3 h-3 fill-gray-400" i="sort-up" />
       {/if}
     {:else if column.sortable}
-      <svg
-        class="w-4 h-4 ml-2 text-gray-400"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
-      </svg>
+      <Icon class="w-3 h-3 fill-gray-400" i="sort" />
     {/if}
   </div>
   {#if resizable}
     <div
       class="absolute top-0 bottom-0 cursor-col-resize border-l-2 border-gray-200 w-2 -right-1"
-      on:mousedown={handleMouseDown}
+      on:mousedown|stopPropagation={handleMouseDown}
     />
   {/if}
 </th>

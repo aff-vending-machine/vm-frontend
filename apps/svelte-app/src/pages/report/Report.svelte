@@ -26,6 +26,9 @@
 
 <section class="card">
   <div class="report-page">
+    <div class="mb-4 p-4">
+      <h4 class="text-xl font-medium">Reports</h4>
+    </div>
     <div class="mb-4">
       <FilterBar />
     </div>
