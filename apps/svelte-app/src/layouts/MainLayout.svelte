@@ -3,7 +3,7 @@
   import { SvelteComponent } from 'svelte';
 
   // core
-  import { sidebar } from '~/share/modules/navbars';
+  import { sidebar } from '~/types/sidebar';
 
   // components
   import Sidebar from '~/components/sections/sidebars/Sidebar.svelte';
@@ -13,10 +13,6 @@
   export let Component: typeof SvelteComponent | any;
 
   let active = false;
-
-  $: handleCloseSidebar = () => {
-    active = false;
-  };
 </script>
 
 <!-- HTML -->
@@ -43,7 +39,7 @@
               2xl:left-0 2xl:ml-6 2xl:translate-x-0"
       class:active
     >
-      <Sidebar title="Vending Machine" list={sidebar} on:close={handleCloseSidebar} />
+      <Sidebar title="Vending Machine" list={sidebar} on:close={() => (active = false)} />
     </aside>
   </div>
   <footer class="p-4 shadow">

@@ -1,7 +1,11 @@
 <script lang="ts">
-  import DateTimePicker from '~/components/forms/datetime/DateTimePicker.svelte';
   import dayjs from 'dayjs';
+  import { createEventDispatcher } from 'svelte';
   import Button from '~/components/common/buttons/Button.svelte';
+  import Icon from '~/components/common/icons/Icon.svelte';
+  import DateTimeField from '~/components/forms/input/DateTimeField.svelte';
+
+  const dispatch = createEventDispatcher();
 
   const today = new Date();
   let firstDateTime: Date = dayjs(today).set('year', 2023).startOf('year').toDate();
@@ -12,24 +16,27 @@
 
 <div class="flex justify-between border rounded p-4 bg-secondary-50">
   <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
-    <div class="text-sm">
-      <label for="start-date-time">Start Date:</label>
-      <DateTimePicker
-        id="start-date-time"
-        rangeFrom={firstDateTime}
-        rangeTo={lastDateTime}
-        bind:value={startDateTime}
-      />
-    </div>
+    <DateTimeField
+      id="start-date-time"
+      label="Start Date"
+      rangeFrom={firstDateTime}
+      rangeTo={lastDateTime}
+      bind:value={startDateTime}
+    />
 
-    <div class="text-sm">
-      <label for="end-date-time">End Date:</label>
-      <DateTimePicker id="end-date-time" rangeFrom={startDateTime} rangeTo={lastDateTime} bind:value={endDateTime} />
-    </div>
+    <DateTimeField
+      id="end-date-time"
+      label="End Date"
+      rangeFrom={startDateTime}
+      rangeTo={lastDateTime}
+      bind:value={endDateTime}
+    />
   </div>
   <div class="flex items-end align-bottom space-x-2">
-    <Button>Export</Button>
-    <Button outline>Filter</Button>
+    <Button outline class="group" on:click={() => dispatch('export', { data: {} })}>
+      <Icon i="ic-export" class="h-4 w-4 fill-red-500 group-hover:fill-white" />
+      <span class="ml-2">Export</span>
+    </Button>
   </div>
 </div>
 

@@ -1,19 +1,20 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-
+  import { ColumnsType } from '~/types/table';
   import TableHeader from './TableHeader.svelte';
   import TableBody from './TableBody.svelte';
-  import { ColumnsType } from '~/types/table';
+  import TableAction from './TableAction.svelte';
 
   export let data: any[];
   export let columns: ColumnsType[];
-  
+  export let action: boolean = false;
+
   let tableWidth: number = 0;
   let columnWidths: Record<string, number> = {};
 
   const handleResize = (event: CustomEvent) => {
     const { column, width } = event.detail;
-    columnWidths = { ...columnWidths, [column]: width };
+    columnWidths = { ...columnWidths, [column.key]: width };
   };
 
   onMount(() => {
@@ -31,17 +32,15 @@
 <table class="min-w-full border-collapse bg-white">
   <thead class="sticky top-0 bg-gray-50 z-1">
     <tr>
-      {#each columns as column, i}
-        <TableHeader
-          {column}
-          width={columnWidths[column.key] ?? 100}
-          resizable={i + 1 < columns.length}
-          on:resize={handleResize}
-        />
+      {#each columns as column}
+        <TableHeader {column} width={columnWidths[column.key] ?? 100} on:resize={handleResize} />
       {/each}
+      {#if action}
+        <TableAction width={160} />
+      {/if}
     </tr>
   </thead>
-  <TableBody {data} {columns} {columnWidths} on:row-click />
+  <TableBody {data} {columns} {columnWidths} {action} on:row-click on:view on:edit on:delete />
   <slot />
 </table>
 

@@ -1,21 +1,17 @@
 <script lang="ts">
+  import DateTimePicker from '../datetime/DateTimePicker.svelte';
+
   export let id: string;
   export let label: string;
-  export let value: number;
+  export let value: Date;
+  export let rangeFrom: Date = null;
+  export let rangeTo: Date = null;
   export let error: string = null;
 </script>
 
 <div>
   <label for={id} class="block mb-1 text-sm font-medium">{label}:</label>
-  <input
-    type="number"
-    {id}
-    name={id}
-    bind:value
-    on:input
-    on:change
-    class="w-full min-w-[160px] px-2 py-1 text-sm text-gray-700 border border-gray-300 rounded"
-  />
+  <DateTimePicker {id} {rangeFrom} {rangeTo} bind:value />
   {#if error}
     <p class="text-red-500 text-sm m-2">{error}</p>
   {/if}
