@@ -8,7 +8,7 @@ import Report from '~/pages/report/Report.svelte';
 import TransactionReport from '~/pages/report/TransactionReport.svelte';
 import Machines from '~/ui/pages/admin/machines/View.svelte';
 import MachineSlots from '~/ui/pages/admin/machine_slots/View.svelte';
-import Products from '~/ui/pages/admin/products/View.svelte';
+import Products from '~/pages/product/Product.svelte';
 import Transactions from '~/ui/pages/admin/transactions/View.svelte';
 import Users from '~/ui/pages/admin/users/View.svelte';
 import Roles from '~/ui/pages/admin/roles/View.svelte';

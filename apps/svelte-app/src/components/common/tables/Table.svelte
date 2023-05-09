@@ -7,6 +7,7 @@
 
   export let data: any[];
   export let columns: ColumnsType[];
+  
   let tableWidth: number = 0;
   let columnWidths: Record<string, number> = {};
 

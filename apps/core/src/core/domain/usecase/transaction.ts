@@ -1,5 +1,5 @@
 import { toCountQuery, toQuery } from '~/share';
-import { Transaction, TransactionDataInterface, parseTransaction } from '..';
+import { PaymentTransaction, TransactionDataInterface, parsePaymentTransaction } from '..';
 
 export class TransactionUsecase {
   private data: TransactionDataInterface;
@@ -19,10 +19,10 @@ export class TransactionUsecase {
     }
   }
 
-  async get(id: UniqueID): Promise<Transaction> {
+  async get(id: UniqueID): Promise<PaymentTransaction> {
     try {
       const data = await this.data.findByID(id);
-      const result = parseTransaction(data);
+      const result = parsePaymentTransaction(data);
 
       return Promise.resolve(result);
     } catch (e: unknown) {
@@ -30,11 +30,11 @@ export class TransactionUsecase {
     }
   }
 
-  async list(filter?: Record<string, any>): Promise<Transaction[]> {
+  async list(filter?: Record<string, any>): Promise<PaymentTransaction[]> {
     try {
       const query = toQuery({ ...filter });
       const data = await this.data.find(query);
-      const result = data.map(parseTransaction);
+      const result = data.map(parsePaymentTransaction);
 
       return Promise.resolve(result);
     } catch (e: unknown) {

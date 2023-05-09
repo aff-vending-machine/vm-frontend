@@ -5,7 +5,7 @@
 
   // core
   import type { MachineState } from '@apps/core';
-  import { MAIN_MACHINE_SLOTS } from '~/share/links';
+  import { MAIN_MACHINE_SLOTS } from '~/utils/constants/links';
   import { sortToObj } from '~/share/utils/sort';
 
   // components

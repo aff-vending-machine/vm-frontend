@@ -1,6 +1,6 @@
 import { toDateTime, toAnyDateTime } from '~/share';
 
-export type Transaction = {
+export type PaymentTransaction = {
   id: UniqueID;
   created_at: DateTime;
   updated_at: DateTime;
@@ -35,7 +35,7 @@ export type Transaction = {
   error_at: AnyDateTime;
 };
 
-export const parseTransaction = (payment: Transaction) => {
+export const parsePaymentTransaction = (payment: PaymentTransaction) => {
   payment.created_at = toDateTime(payment.created_at);
   payment.updated_at = toDateTime(payment.updated_at);
   payment.ordered_at = toDateTime(payment.ordered_at);

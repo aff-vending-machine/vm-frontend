@@ -1,10 +1,10 @@
 import { BlocState } from '~/share';
-import { Transaction } from '~/core/domain';
+import { PaymentTransaction } from '~/core/domain';
 
 export type TransactionState = {
   kind: BlocState;
-  data?: Transaction;
-  list?: Array<Transaction>;
+  data?: PaymentTransaction;
+  list?: Array<PaymentTransaction>;
   count?: number;
   error?: Error;
 };

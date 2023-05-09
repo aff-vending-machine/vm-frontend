@@ -1,13 +1,13 @@
 import { handleError, handleResponse, privateClient } from '~/share';
-import { Transaction, TransactionDataInterface } from '~/core/domain';
+import { PaymentTransaction, TransactionDataInterface } from '~/core/domain';
 
 const ROOT_PATH = 'transactions';
 
 export class TransactionRepository implements TransactionDataInterface {
-  async find(params?: Record<string, string>): Promise<Transaction[]> {
+  async find(params?: Record<string, string>): Promise<PaymentTransaction[]> {
     try {
-      const { data } = await privateClient.get<APIProtocol<Transaction[]>>(`${ROOT_PATH}`, { params });
-      return handleResponse<Transaction[]>(data);
+      const { data } = await privateClient.get<APIProtocol<PaymentTransaction[]>>(`${ROOT_PATH}`, { params });
+      return handleResponse<PaymentTransaction[]>(data);
     } catch (e: unknown) {
       throw handleError(e);
     }
@@ -22,10 +22,10 @@ export class TransactionRepository implements TransactionDataInterface {
     }
   }
 
-  async findByID(id: UniqueID): Promise<Transaction> {
+  async findByID(id: UniqueID): Promise<PaymentTransaction> {
     try {
-      const { data } = await privateClient.get<APIProtocol<Transaction>>(`${ROOT_PATH}/${id}`);
-      return handleResponse<Transaction>(data);
+      const { data } = await privateClient.get<APIProtocol<PaymentTransaction>>(`${ROOT_PATH}/${id}`);
+      return handleResponse<PaymentTransaction>(data);
     } catch (e: unknown) {
       throw handleError(e);
     }
