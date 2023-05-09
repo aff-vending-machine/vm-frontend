@@ -19,11 +19,6 @@
   <li class="flex items-center pr-4">
     <Profile />
   </li>
-  <!-- <li class="flex items-center">
-    <button class="flex h-6 w-6 items-center justify-center" on:click>
-      <Icon i="gear" class="h-full w-full fill-white" />
-    </button>
-  </li> -->
 </ul>
 
 <!-- style -->

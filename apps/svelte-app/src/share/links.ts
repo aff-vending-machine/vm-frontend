@@ -1,13 +1,13 @@
-export const ADMIN_REPORTS = '/admin/reports';
-export const ADMIN_MACHINES = '/admin/machines';
-export const ADMIN_TRNASACTIONS = '/admin/transactions';
-export const ADMIN_PRODUCTS = '/admin/products';
-export const ADMIN_USERS = '/admin/users';
-export const ADMIN_ROLES = '/admin/roles';
+export const MAIN_REPORTS = '/main/reports';
+export const MAIN_MACHINES = '/main/machines';
+export const MAIN_TRNASACTIONS = '/main/transactions';
+export const MAIN_PRODUCTS = '/main/products';
+export const MAIN_USERS = '/main/users';
+export const MAIN_ROLES = '/main/roles';
 
-export const ADMIN_REPORT_ID = (id: string) => ADMIN_REPORTS + '/' + id;
-export const ADMIN_MACHINE_ID = (id: string) => ADMIN_MACHINES + '/' + id;
-export const ADMIN_MACHINE_SLOTS = (id: string) => ADMIN_MACHINES + '/' + id + "/slots";
-export const ADMIN_PRODUCT_ID = (id: string) => ADMIN_PRODUCTS + '/' + id;
-export const ADMIN_USER_ID = (id: string) => ADMIN_USERS + '/' + id;
-export const ADMIN_ROLE_ID = (id: string) => ADMIN_ROLES + '/' + id;
+export const MAIN_REPORT_ID = (id: string) => MAIN_REPORTS + '/' + id;
+export const MAIN_MACHINE_ID = (id: string) => MAIN_MACHINES + '/' + id;
+export const MAIN_MACHINE_SLOTS = (id: string) => MAIN_MACHINES + '/' + id + "/slots";
+export const MAIN_PRODUCT_ID = (id: string) => MAIN_PRODUCTS + '/' + id;
+export const MAIN_USER_ID = (id: string) => MAIN_USERS + '/' + id;
+export const MAIN_ROLE_ID = (id: string) => MAIN_ROLES + '/' + id;

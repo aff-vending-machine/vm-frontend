@@ -20,8 +20,8 @@ module.exports = {
       },
       colors: {
         transparent: 'transparent',
-        primary: colors.blue,
-        secondary: colors.fuchsia,
+        primary: colors.red,
+        secondary: colors.blue,
         info: colors.violet,
         success: colors.emerald,
         warning: colors.amber,

@@ -5,7 +5,7 @@
 
   // core
   import type { MachineState } from '@apps/core';
-  import { ADMIN_MACHINE_SLOTS } from '~/share/links';
+  import { MAIN_MACHINE_SLOTS } from '~/share/links';
   import { sortToObj } from '~/share/utils/sort';
 
   // components
@@ -24,7 +24,7 @@
   });
 
   $: handleSelect = (e: CustomEvent) => {
-    navigate(ADMIN_MACHINE_SLOTS(e.detail.id), { replace: true });
+    navigate(MAIN_MACHINE_SLOTS(e.detail.id), { replace: true });
   };
 
   $: handleChangePage = (e: CustomEvent) => {

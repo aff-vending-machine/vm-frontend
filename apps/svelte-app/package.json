@@ -13,7 +13,9 @@
     "@apps/core": "workspace:*",
     "@packages/eslint-ts-svelte": "workspace:*",
     "@packages/prettier-ts-svelte": "workspace:*",
-    "dayjs": "^1.11.7"
+    "date-picker-svelte": "^2.4.3",
+    "dayjs": "^1.11.7",
+    "svelte-time-picker": "^2.0.0"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^2.0.3",

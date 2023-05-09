@@ -1,11 +1,19 @@
 <!-- Home -->
 <script lang="ts">
-  import { onMount } from 'svelte';
+  import { onDestroy, onMount } from 'svelte';
   import { navigate } from 'svelte-navigator';
   import Icon from '~/ui/components/elements/icons/Icon.svelte';
 
+  let timeoutId: number;
+
   onMount(() => {
-    navigate('/login', { replace: true });
+    timeoutId = setTimeout(() => {
+      navigate('/login', { replace: true });
+    }, 1000); // 1-second delay
+  });
+
+  onDestroy(() => {
+    clearTimeout(timeoutId);
   });
 </script>
 

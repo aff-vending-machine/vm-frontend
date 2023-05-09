@@ -1,9 +1,9 @@
 <!-- Navbar -->
 <script lang="ts">
-  import { SidebarItemType } from '~/share/modules/navbars';
-  import { access } from '~/share/stores';
-  import { getRoleLevel } from '~/share/utils/role';
+  import { access } from '~/stores/access';
   import NavbarItem from './NavbarItem.svelte';
+  import { getRoleLevel } from '~/types/role';
+  import { SidebarItemType } from '~/types/sidebar';
 
   export let list: SidebarItemType[];
 </script>
