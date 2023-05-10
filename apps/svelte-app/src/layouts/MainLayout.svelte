@@ -26,7 +26,7 @@
     <div class="bg-primary-500 h-48 w-full absolute -z-10" />
     <main class="flex-1 p-4 2xl:ml-72 mt-4 w-0">
       <slot />
-      <Component />
+      <svelte:component this={Component} />
     </main>
     {#if active}
       <div class="bg-gray-500 top-0 opacity-50 h-full w-full absolute z-10 2xl:w-0 2xl:h-0" />

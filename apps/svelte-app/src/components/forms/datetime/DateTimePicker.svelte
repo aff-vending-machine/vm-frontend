@@ -94,17 +94,17 @@
       <div class="flex justify-center space-x-4 p-2">
         <button
           class="px-4 py-2 rounded-md focus:outline-none transition-colors {$selectedTab === 'calendar'
-            ? 'bg-blue-500 text-white'
+            ? 'bg-primary-500 text-white'
             : 'hover:bg-gray-100'}"
           on:click={() => ($selectedTab = 'calendar')}
-          class:selected={$selectedTab === 'calendar'}>Calendar</button
+          class:selected={$selectedTab === 'calendar'}>Date</button
         >
         <button
           class="px-4 py-2 rounded-md focus:outline-none transition-colors {$selectedTab === 'clock'
-            ? 'bg-blue-500 text-white'
+            ? 'bg-primary-500 text-white'
             : 'hover:bg-gray-100'}"
           on:click={() => ($selectedTab = 'clock')}
-          class:selected={$selectedTab === 'clock'}>Clock</button
+          class:selected={$selectedTab === 'clock'}>Time</button
         >
       </div>
 
