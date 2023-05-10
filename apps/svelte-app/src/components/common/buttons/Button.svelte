@@ -5,7 +5,7 @@
   export let form: string = undefined;
   export let disabled = false;
   export let loading = false;
-  export let color = 'primary';
+  export let color: 'primary' | 'secondary' | 'tertiary' | 'info' | 'warning' | 'success' | 'danger' = 'primary';
   export let outline = false;
   export let rounded = 'md';
 
@@ -19,10 +19,11 @@
     } else if (loading) {
       classes += ' opacity-50 cursor-wait';
     } else {
-      const bgColor = outline ? 'transparent' : color + '-500';
-      const textColor = outline ? color + '-500' : 'white';
+      classes += outline
+        ? ` bg-transparent hover:bg-${color}-500 text-${color}-500 `
+        : ` bg-${color}-500 hover:bg-${color}-700 text-white`;
 
-      classes += ` bg-${bgColor} hover:bg-${color}-700 text-${textColor} hover:text-white`;
+      classes += ` hover:bg-${color}-700 hover:text-white`;
       classes += ' hover:shadow';
       classes += ` border border-${color}-500 hover:border-${color}-700`;
       classes += ` rounded-${rounded}`;
@@ -46,7 +47,7 @@
   class={`
     inline-flex items-center justify-center px-4 py-2 border shadow-sm text-sm font-medium outline-none
     disabled:opacity-50 disabled:cursor-not-allowed 
-    ${buttonClasses()} ${$$props.class}
+    ${buttonClasses()} ${$$props.class || ''}
   `}
   {type}
   {form}

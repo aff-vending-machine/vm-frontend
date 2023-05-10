@@ -64,7 +64,7 @@
   </form>
 
   <div class="flex justify-end space-x-4 mt-4">
-    <Button color="red" outline on:click={handleCancel}>Cancel</Button>
-    <Button color="blue" type="submit" form={formID}>Save</Button>
+    <Button color="secondary" type="submit" form={formID}>Save</Button>
+    <Button color="warning" outline on:click={handleCancel}>Cancel</Button>
   </div>
 </div>

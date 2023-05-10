@@ -16,15 +16,16 @@ module.exports = {
         "auto": 'auto auto',
       },
       gridTemplateColumns: {
-        "10-auto": 'auto auto auto auto auto auto auto auto auto auto', 
+        "10-auto": 'auto auto auto auto auto auto auto auto auto auto',
       },
       colors: {
         transparent: 'transparent',
-        primary: colors.red,
-        secondary: colors.blue,
-        info: colors.violet,
-        success: colors.emerald,
-        warning: colors.amber,
+        primary: colors.rose,
+        secondary: colors.fuchsia,
+        tertiary: colors.lime,
+        info: colors.blue,
+        success: colors.green,
+        warning: colors.yellow,
         danger: colors.red,
       },
       animation: {
@@ -59,4 +60,10 @@ module.exports = {
     require("@tailwindcss/typography"),
   ],
   darkMode: 'class',
+  safelist: [
+    {
+      pattern: /(text|bg|border)-(primary|secondary|tertiary|info|warning|success|danger)-(500|700|800)/,
+      variants: ['hover'],
+    },
+  ],
 }

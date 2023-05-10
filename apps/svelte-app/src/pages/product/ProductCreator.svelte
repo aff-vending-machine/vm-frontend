@@ -13,7 +13,7 @@
 
   const dispatch = createEventDispatcher();
 
-  const formID = 'product-editor-form';
+  const formID = 'product-creator-form';
 
   const group_id = field('group_id', '', [required()]);
   const name = field('name', '', [required()]);
@@ -59,7 +59,7 @@
   </form>
 
   <div class="flex justify-end space-x-4 mt-4">
-    <Button color="red" outline on:click={() => dispatch('cancel')}>Cancel</Button>
-    <Button color="blue" type="submit" form={formID}>Add Product</Button>
+    <Button color="secondary" type="submit" form={formID}>Add Product</Button>
+    <Button color="warning" outline on:click={() => dispatch('cancel')}>Cancel</Button>
   </div>
 </div>

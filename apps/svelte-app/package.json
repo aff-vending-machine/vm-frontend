@@ -15,6 +15,7 @@
     "@packages/prettier-ts-svelte": "workspace:*",
     "date-picker-svelte": "^2.4.3",
     "dayjs": "^1.11.7",
+    "svelte-i18n": "^3.6.0",
     "svelte-time-picker": "^2.0.0"
   },
   "devDependencies": {

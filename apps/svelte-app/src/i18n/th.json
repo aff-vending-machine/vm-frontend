@@ -1,0 +1,19 @@
+{
+    "product": {
+        "name": "ชื่อ",
+        "sku": "SKU",
+        "group": "กลุ่มสินค้า",
+        "status": "สถานะ",
+        "price": "ราคา"
+    },
+    "status": {
+        "active": "ปกติ",
+        "disabled": "ปิด"
+    },
+    "unit": {
+        "baht": "บาท"
+    },
+    "button": {
+        "add_product": "เพิ่มสินค้า"
+    }
+}

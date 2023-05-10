@@ -1,5 +1,6 @@
 <!-- Navbar -->
 <script lang="ts">
+  import LanguageSwitcher from '~/components/common/switchers/LanguageSwitcher.svelte';
   import Burger from '~/ui/components/elements/icons/Burger.svelte';
   import Profile from '~/ui/components/navigations/profiles/Profile.svelte';
 
@@ -17,6 +18,7 @@
     />
   </li>
   <li class="flex items-center pr-4">
+    <LanguageSwitcher />
     <Profile />
   </li>
 </ul>

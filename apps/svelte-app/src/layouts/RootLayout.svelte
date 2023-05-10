@@ -1,14 +1,14 @@
 <!-- Root -->
 <script lang="ts">
   import { SvelteComponent } from 'svelte';
-  
+
   export let Component: typeof SvelteComponent | any;
 </script>
 
 <!-- HTML -->
 <div class="root-layout">
   <slot />
-  <Component />
+  <svelte:component this={Component} />
 </div>
 
 <!-- style -->
