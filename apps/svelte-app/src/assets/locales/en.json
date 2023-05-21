@@ -1,0 +1,43 @@
+{
+    "product": {
+        "name": "Name",
+        "sku": "SKU",
+        "group": "Group",
+        "status": "Status",
+        "price": "Price"
+    },
+    "status": {
+        "active": "Active",
+        "disabled": "Disabled"
+    },
+    "unit": {
+        "baht": "Baht"
+    },
+    "button": {
+        "add-product": "Add Product",
+        "add-slot": "Add Slot",
+        "save": "Save",
+        "edit": "Edit",
+        "confirm": "Confirm",
+        "cancel": "Cancel",
+        "delete": "Delete"
+    },
+    "notification": {
+        "product-create-success": "Add Product",
+        "product-create-error": "Add Product"
+    },
+    "pagination": {
+        "message": "Showing {begin} to {end} of {total} entries",
+        "next": "Next",
+        "previous": "Previous"
+    },
+    "options": {
+        "stock": {
+            "all": "All",
+            "avaialble": "Available",
+            "out-of-stocks": "Out of stocks",
+            "less-than-20": "Stock ≤ 20%",
+            "full": "Full"
+        }
+    }
+}
