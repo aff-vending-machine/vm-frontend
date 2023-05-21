@@ -16,7 +16,7 @@
 
   // events
   const dispatch = createEventDispatcher();
-  const handleFetch = () => dispatch('fetch');
+  const handleRefresh = () => dispatch('refresh');
   const handleSave = () => dispatch('save');
   const handleCancel = () => dispatch('cancel');
 
@@ -31,7 +31,7 @@
 <div class="flex flex-col space-y-2">
   <span class="text-xs font-semibold">Instructions</span>
   <div class="block">
-    <Button i="sync" disabled={!isSynced} on:click={handleFetch}>Refresh</Button>
+    <Button i="sync" disabled={!isSynced} on:click={handleRefresh}>Refresh</Button>
     <Button i="save" disabled={!isEdited} on:click={handleSave}>Save</Button>
     <Button i="cancel" disabled={!isEdited} on:click={handleCancel}>Cancel</Button>
   </div>
