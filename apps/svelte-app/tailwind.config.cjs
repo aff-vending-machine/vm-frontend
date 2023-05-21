@@ -62,7 +62,7 @@ module.exports = {
   darkMode: 'class',
   safelist: [
     {
-      pattern: /(text|bg|border)-(primary|secondary|tertiary|info|warning|success|danger)-(500|700|800)/,
+      pattern: /(text|bg|border|fill)-(primary|secondary|tertiary|info|warning|success|danger)-(50|100|400|500|700|800)/,
       variants: ['hover'],
     },
   ],

@@ -1,1 +1,0 @@
-export type BlocState = 'initial' | 'load-in-progress' | 'load-success' | 'load-failure';
