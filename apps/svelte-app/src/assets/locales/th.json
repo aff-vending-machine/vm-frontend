@@ -1,0 +1,33 @@
+{
+    "product": {
+        "name": "ชื่อ",
+        "sku": "SKU",
+        "group": "กลุ่มสินค้า",
+        "status": "สถานะ",
+        "price": "ราคา"
+    },
+    "status": {
+        "active": "ปกติ",
+        "disabled": "ปิด"
+    },
+    "unit": {
+        "baht": "บาท"
+    },
+    "button": {
+        "add-product": "เพิ่มสินค้า",
+        "save": "บันทึก",
+        "edit": "แก้ไข",
+        "confirm": "ตกลง",
+        "cancel": "ยกเลิก",
+        "delete": "ลบ"
+    },
+    "notification": {
+        "product-create-success": "Add Product",
+        "product-create-error": "Add Product"
+    },
+    "pagination": {
+        "message": "Showing {begin} to {end} of {total} entries",
+        "next": "Next",
+        "previous": "Previous"
+    }
+}

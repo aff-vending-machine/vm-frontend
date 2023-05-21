@@ -1,0 +1,28 @@
+<!-- Export -->
+<script lang="ts">
+  import { createEventDispatcher } from 'svelte';
+  import { Machine } from '@apps/core';
+  import Button from '~/ui/components/elements/buttons/Button.svelte';
+  import Icon from '~/ui/components/elements/icons/Icon.svelte';
+
+  export let source: Machine;
+
+  const dispatch = createEventDispatcher();
+  const handleAction = (type: string) => () => dispatch('action', { type, source });
+</script>
+
+<!-- HTML -->
+<div class="flex justify-center space-x-2">
+  <Button on:click={handleAction('stock')} class="text-xs focus:outline-none" color="secondary">
+    <Icon i="ic-export" class="w-3 h-3 fill-white mr-1" />
+    Stock
+  </Button>
+  <Button on:click={handleAction('transaction')} class="text-xs focus:outline-none" color="tertiary">
+    <Icon i="ic-export" class="w-3 h-3 fill-white mr-1" />
+    Payment
+  </Button>
+</div>
+
+<!-- style -->
+<style lang="scss">
+</style>

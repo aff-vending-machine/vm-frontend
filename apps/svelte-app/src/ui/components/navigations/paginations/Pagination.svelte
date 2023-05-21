@@ -1,88 +1,77 @@
 <!-- Pagination -->
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
-  import Icon from '~/ui/components/elements/icons/Icon.svelte';
+  import { derived, Readable, writable, Writable } from 'svelte/store';
+  import Button from '~/ui/components/elements/buttons/Button.svelte';
+  import { _ } from 'svelte-i18n';
 
   export let page = 1;
-  export let limit = 10;
-  export let count = 0;
-  let goto = 1;
+  export let itemsPerPage: number;
+  export let totalItems: number;
+  export let maxVisiblePages = 3;
 
-  $: total = Math.ceil(count / limit);
-  $: bound = (index: number) => index == 0 || (index == page && (page == 1 || page == total));
+  let currentPage: Writable<number> = writable(page);
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
 
   const dispatch = createEventDispatcher();
-  const handleGoToPage = () => {
-    if (goto > total) {
-      goto = total;
-    }
-    if (goto == 0) {
-      goto = 1;
-    }
 
-    dispatch('change', { page: goto });
-  };
-  const handlePreviousPage = () => {
-    dispatch('change', { page: page - 1 });
-  };
-  const handleNextPage = () => {
-    dispatch('change', { page: page + 1 });
-  };
-
-  $: if (page > total) {
-    goto = total;
-    handleGoToPage();
+  function setPage(p: number) {
+    if (p >= 1 && p <= totalPages) {
+      currentPage.set(p);
+      page = p;
+      dispatch('page-change', { page });
+    }
   }
+
+  interface PaginationButton {
+    type: 'page' | 'ellipsis';
+    value?: number;
+  }
+
+  const paginationButtons: Readable<PaginationButton[]> = derived([currentPage], ([currentPage]) => {
+    const buttons: PaginationButton[] = [];
+    for (let i = 1; i <= totalPages; i++) {
+      if (i === 1 || i === totalPages || Math.abs(currentPage - i) <= Math.floor(maxVisiblePages / 2)) {
+        buttons.push({ type: 'page', value: i });
+      } else if (
+        i === currentPage - Math.floor(maxVisiblePages / 2) - 1 ||
+        i === currentPage + Math.floor(maxVisiblePages / 2) + 1
+      ) {
+        buttons.push({ type: 'ellipsis' });
+      }
+    }
+    return buttons;
+  });
 </script>
 
-<!-- HTML -->
-<nav class={$$props.class} aria-label="pagination">
-  <div />
-  <ul class="inline-flex items-center space-x-1 rounded-md text-sm">
-    <li>
-      <button
-        class="inline-flex items-center space-x-2 rounded-md border border-gray-300 bg-white px-4 py-2 font-medium text-gray-500 hover:bg-gray-50 disabled:bg-slate-300"
-        on:click={handlePreviousPage}
-        disabled={bound(1)}
-      >
-        <Icon i="chevron-left" class="h-5 w-5 fill-slate-500" />
-        <span>Previous</span>
-      </button>
-    </li>
-    <li>
-      <span class="inline-flex items-center rounded-md bg-white px-4 py-2 text-gray-500">
-        Page <b class="mx-1">{page}</b> of <b class="ml-1">{total} </b>
-      </span>
-    </li>
-
-    <li>
-      <button
-        class="inline-flex items-center space-x-2 rounded-md border border-gray-300 bg-white px-4 py-2 font-medium text-gray-500 hover:bg-gray-50 disabled:bg-slate-300"
-        on:click={handleNextPage}
-        disabled={bound(total)}
-      >
-        <span>Next</span>
-        <Icon i="chevron-right" class="h-5 w-5 fill-slate-500" />
-      </button>
-    </li>
-  </ul>
-  <div class="inline-flex space-x-2">
-    <input
-      class="block w-full rounded-md border-gray-300 text-sm shadow-sm focus:border-primary-300 focus:ring focus:ring-primary-200 focus:ring-opacity-50"
-      type="number"
-      min={1}
-      max={total}
-      bind:value={goto}
-    />
-    <button
-      class="rounded-md border border-gray-300 bg-white px-4 py-2 font-medium text-gray-500 hover:bg-gray-50 disabled:bg-slate-300"
-      on:click={handleGoToPage}
-    >
-      <span>Go</span>
-    </button>
-  </div>
-</nav>
-
-<!-- style -->
-<style lang="scss">
-</style>
+<div class="flex items-center justify-between mt-4">
+  <p class="text-sm text-gray-700">
+    {$_('pagination.message', {
+      values: {
+        begin: ($currentPage - 1) * itemsPerPage + 1,
+        end: Math.min($currentPage * itemsPerPage, totalItems),
+        total: totalItems,
+      },
+    })}
+  </p>
+  <nav class="flex items-center">
+    <Button class="w-24" on:click={() => setPage($currentPage - 1)} disabled={$currentPage === 1}>Previous</Button>
+    <div class="mx-2 flex flex-wrap gap-1">
+      {#each $paginationButtons as button}
+        {#if button.type === 'page'}
+          <button
+            class="px-3 py-2 rounded-md text-sm font-medium text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring focus:ring-gray-300"
+            class:active:bg-primary-200={$currentPage === button.value}
+            class:bg-red-200={$currentPage === button.value}
+            on:click={() => setPage(button.value)}
+          >
+            {button.value}
+          </button>
+        {:else}
+          <span class="px-2 py-1 text-sm font-medium text-gray-500">...</span>
+        {/if}
+      {/each}
+    </div>
+    <Button class="w-24" on:click={() => setPage($currentPage + 1)} disabled={$currentPage === totalPages}>Next</Button>
+  </nav>
+</div>
