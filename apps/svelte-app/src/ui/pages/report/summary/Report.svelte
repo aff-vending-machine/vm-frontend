@@ -12,6 +12,7 @@
     TransactionReportState,
     provideStockReportBloc,
     provideSummaryReportBloc,
+    provideSyncBloc,
     provideTransactionReportBloc,
   } from '@apps/core';
 
@@ -31,6 +32,7 @@
   const bloc = provideSummaryReportBloc();
   const stockBloc = provideStockReportBloc();
   const transactionBloc = provideTransactionReportBloc();
+  const syncBloc = provideSyncBloc();
 
   const state = useBlocState<SummaryReportState>(bloc);
   const stockState = useBlocState<StockReportState>(stockBloc);
@@ -55,7 +57,13 @@
   ];
 
   const reload = async () => {
-    await bloc.report($filters);
+    const status = await bloc.report($filters);
+
+    if (status === 'success') {
+      $state.list.forEach(async data => {
+        await syncBloc.pullTransactions(data.id);
+      });
+    }
   };
 
   const handleAction = (e: CustomEvent) => {
