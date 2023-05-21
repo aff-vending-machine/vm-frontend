@@ -11,7 +11,7 @@
 
   dayjs.extend(utc);
   dayjs.extend(timezone);
-  dayjs.extend(relativeTime)
+  dayjs.extend(relativeTime);
   dayjs.tz.setDefault('Asia/Bangkok');
 
   const dispatch = createEventDispatcher();
@@ -34,10 +34,16 @@
   $: startDateTime = dayjs(from).toDate();
   $: endDateTime = dayjs(to).toDate();
 
+  const handleRefresh = () => dispatch('refresh');
   const handleFilter = (e: CustomEvent) => {
     from = dayjs(startDateTime).toISOString();
     to = dayjs(endDateTime).toISOString();
     dispatch('filter', e.detail);
+  };
+
+  const showTime = (date?: Date) => {
+    if (!date) return 'never';
+    return dayjs(date).fromNow();
   };
 </script>
 
@@ -65,7 +71,7 @@
       *Report from
       <span class="text-secondary-700">{dayjs(startDateTime).format('DD MMMM YYYY HH:mm')}</span> to
       <span class="text-secondary-700">{dayjs(endDateTime).format('DD MMMM YYYY HH:mm')}</span>
-      <br/>
+      <br />
       <span class="float-right">({dayjs(startDateTime).from(dayjs(endDateTime), true)})</span>
     </span>
   </div>

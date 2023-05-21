@@ -45,7 +45,6 @@
   const productBloc = provideCatalogProductBloc();
 
   const state = useBlocState<MachineSlotState>(bloc);
-  const actionState = useBlocState<MachineSlotState>(actionBloc);
   const machineState = useBlocState<MachineState>(machineBloc);
   const groupState = useBlocState<GroupState>(groupBloc);
   const productState = useBlocState<ProductState>(productBloc);
@@ -278,6 +277,9 @@
     await loadGroupOptions();
     await loadProductOptions();
     await reload($state.list);
+
+    console.log($machineState.data);
+    
   });
 
   $: filter = { search: '', stock: null, enable: null, edit: null };
