@@ -18,13 +18,17 @@
   const filename = field('filename', `${machine.name}-${action}`, [required()]);
   const filenameForm = form(filename);
 
-  const handleSubmit = async () => {
+  async function handleSubmit() {
     await filenameForm.validate();
 
     if ($filenameForm.valid) {
       dispatch('download', { action, machine, filename: $filename.value });
     }
-  };
+  }
+
+  function handleCancel() {
+    dispatch('cancel');
+  }
 </script>
 
 <div class="h-full overflow-y-auto mr-2" style="z-index: 999;">
@@ -44,6 +48,6 @@
 
   <div class="flex justify-end space-x-4 mt-4">
     <Button color="secondary" type="submit" form={formID}>Export</Button>
-    <Button color="warning" outline on:click={() => dispatch('cancel')}>Cancel</Button>
+    <Button color="warning" outline on:click={handleCancel}>Cancel</Button>
   </div>
 </div>

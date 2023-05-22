@@ -71,51 +71,7 @@
     await bloc.list($filters);
   };
 
-  const loadChannelOptions = async () => {
-    const status = await channelBloc.list();
-
-    if (status === 'success') {
-      const options = $channelState.list.map((c: PaymentChannel) => ({ value: c.id, label: c.channel }));
-      channelOptions.set(options);
-    }
-  };
-
-  const handleAction = async (e: CustomEvent) => {
-    const { type, source } = e.detail;
-    let status: OperationStatus = 'idle';
-
-    switch (type) {
-      case 'done':
-        status = await actionBloc.done(source.id);
-        handleActionStatus(status, 'Transaction done successfully', 'Transaction done failed');
-        break;
-
-      case 'cancel':
-        status = await actionBloc.cancel(source.id);
-        handleActionStatus(status, 'Transaction cancelled successfully', 'Transaction cancelled failed');
-        break;
-    }
-  };
-
-  const handleSelect = (e: CustomEvent) => {
-    const { data } = e.detail;
-    action.set('view');
-    transaction.set(data as PaymentTransaction);
-  };
-
-  const handleClose = (e: CustomEvent) => {
-    action.set(null);
-    transaction.set(null);
-  };
-
-  const handlePageChange = (e: CustomEvent) => {
-    const { page } = e.detail;
-    $filters.page = page;
-    $filters.offset = (page - 1) * $filters.limit;
-    reload();
-  };
-
-  const handleActionStatus = (status: OperationStatus, successMessage: string, errorMessage: string) => {
+  const notify = (status: OperationStatus, successMessage: string, errorMessage: string) => {
     switch (status) {
       case 'success':
         reload();
@@ -127,6 +83,50 @@
         break;
     }
   };
+
+  const loadChannelOptions = async () => {
+    const status = await channelBloc.list();
+
+    if (status === 'success') {
+      const options = $channelState.list.map((c: PaymentChannel) => ({ value: c.id, label: c.channel }));
+      channelOptions.set(options);
+    }
+  };
+
+  async function handleAction(e: CustomEvent) {
+    const { type, source } = e.detail;
+    let status: OperationStatus = 'idle';
+
+    switch (type) {
+      case 'done':
+        status = await actionBloc.done(source.id);
+        notify(status, 'Transaction done successfully', 'Transaction done failed');
+        break;
+
+      case 'cancel':
+        status = await actionBloc.cancel(source.id);
+        notify(status, 'Transaction cancelled successfully', 'Transaction cancelled failed');
+        break;
+    }
+  }
+
+  function handleSelect(e: CustomEvent) {
+    const { data } = e.detail;
+    action.set('view');
+    transaction.set(data as PaymentTransaction);
+  }
+
+  function handleClose(e: CustomEvent) {
+    action.set(null);
+    transaction.set(null);
+  }
+
+  function handlePageChange(e: CustomEvent) {
+    const { page } = e.detail;
+    $filters.page = page;
+    $filters.offset = (page - 1) * $filters.limit;
+    reload();
+  }
 
   onMount(async () => {
     await loadChannelOptions();
