@@ -94,17 +94,16 @@
   };
 
   async function handleAction(e: CustomEvent) {
-    const { type, source } = e.detail;
     let status: OperationStatus = 'idle';
 
-    switch (type) {
+    switch (e.detail?.type || e.type) {
       case 'done':
-        status = await actionBloc.done(source.id);
+        status = await actionBloc.done(e.detail?.source.id);
         notify(status, 'Transaction done successfully', 'Transaction done failed');
         break;
 
       case 'cancel':
-        status = await actionBloc.cancel(source.id);
+        status = await actionBloc.cancel(e.detail?.source.id);
         notify(status, 'Transaction cancelled successfully', 'Transaction cancelled failed');
         break;
     }

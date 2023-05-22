@@ -62,9 +62,8 @@
   };
 
   function handleAction(e: CustomEvent) {
-    const { type, source } = e.detail;
-    action.set(type || e.type);
-    channel.set(source);
+    action.set(e.detail?.type || e.type);
+    channel.set(e.detail?.source);
   }
 
   function handleSelect(e: CustomEvent) {
