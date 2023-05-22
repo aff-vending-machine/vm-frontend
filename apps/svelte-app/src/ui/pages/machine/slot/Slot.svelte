@@ -110,42 +110,121 @@
     }
   };
 
-  const handleAction = (e: CustomEvent) => {
+  const isEdited = (a: any, b: any) => {
+    return JSON.stringify(a) !== JSON.stringify(b);
+  };
+
+  const isPassed5Seconds = (date?: Date) => {
+    if (!date) return true;
+    if (dayjs().isAfter(dayjs(date).add(5, 'second'), 'second')) return true;
+    return false;
+  };
+
+  function handleAction(e: CustomEvent) {
     const { type, source } = e.detail;
     action.set(type || e.type);
     slot.set(source as MachineSlot);
-  };
+  }
 
-  const handleSelect = (e: CustomEvent) => {
+  function handleSelect(e: CustomEvent) {
     const { data } = e.detail;
     action.set('edit');
     slot.set(data as MachineSlot);
-  };
+  }
 
-  const handleClose = (e: CustomEvent) => {
+  function handleClose(e: CustomEvent) {
     action.set(null);
     slot.set(null);
-  };
+  }
 
-  const handleCreate = async (e: CustomEvent) => {
+  async function handleCreate(e: CustomEvent) {
     handleClose(e);
     const data = e.detail;
     const slot: MachineSlot = { ...data, id: 0, product: $productState.list.find(p => p.id === data.product_id) };
     local = [...local, slot];
-  };
+  }
 
-  const handleUpdate = async (e: CustomEvent) => {
+  async function handleUpdate(e: CustomEvent) {
     handleClose(e);
     const data = e.detail;
     const idx = local.findIndex(s => s.id === data.id);
     local[idx] = { ...local[idx], ...data };
-  };
+  }
 
-  const handleDelete = async (e: CustomEvent) => {
+  async function handleDelete(e: CustomEvent) {
     handleClose(e);
     const data = e.detail;
     local = local.filter(s => s.id !== data.id);
-  };
+  }
+
+  function handleAdjustStock(e: CustomEvent) {
+    const { id, stock } = e.detail;
+    const idx = local.findIndex((s: MachineSlot) => s.id === id);
+    local[idx].stock = stock;
+  }
+
+  async function handleRefresh(e: CustomEvent) {
+    await syncBloc.fetchSlots($machineId);
+    await reload($state.list);
+  }
+
+  async function handleSave(e: CustomEvent) {
+    const createdSlots = local.filter(s => s.id === 0);
+    createdSlots.forEach(async s => {
+      const data: CreateMachineSlot = {
+        product_id: s.product_id,
+        code: s.code,
+        stock: s.stock,
+        capacity: s.capacity,
+        is_enable: s.is_enable,
+      };
+      await actionBloc.create($machineId, data);
+    });
+
+    const deletedSlot = $state.list.filter(s => local.findIndex(l => l.id === s.id) === -1);
+    deletedSlot.forEach(async s => {
+      await actionBloc.delete($machineId, s.id);
+    });
+
+    const slots: BulkUpdateMachineSlot = local
+      .filter(s =>
+        isEdited(
+          s,
+          $state.list.find(ss => s.id === ss.id),
+        ),
+      )
+      .filter(s => s.id !== 0)
+      .map(s => ({
+        id: s.id,
+        product_id: s.product_id,
+        stock: s.stock,
+        capacity: s.capacity,
+        is_enable: s.is_enable,
+      }));
+
+    const status = await actionBloc.bulkUpdate($machineId, slots);
+
+    if (status === 'success') {
+      await syncBloc.pushSlots($machineId);
+      await bloc.list($machineId, { preloads: 'CatalogProduct' });
+    }
+  }
+
+  function handleCancel(e: CustomEvent) {
+    local = $state.list.map(s => ({ ...s }));
+  }
+
+  onMount(async () => {
+    machineId.set(parseInt(id, 10));
+    await syncBloc.fetchSlots($machineId);
+    await loadMachineData();
+    await loadGroupOptions();
+    await loadProductOptions();
+    await reload($state.list);
+  });
+
+  $: filter = { search: '', stock: null, enable: null, edit: null };
+  $: local = $state.list?.map(s => ({ ...s }));
 
   $: fillSlots = (origin: MachineSlot[], filter: any, rows: number, cols: number): MachineSlot[] => {
     let filled = [];
@@ -202,88 +281,6 @@
 
     return filled;
   };
-
-  const isEdited = (a: any, b: any) => {
-    return JSON.stringify(a) !== JSON.stringify(b);
-  };
-
-  const isPassed5Seconds = (date?: Date) => {
-    if (!date) return true;
-    if (dayjs().isAfter(dayjs(date).add(5, 'second'), 'second')) return true;
-    return false;
-  };
-
-  const handleAdjustStock = (e: CustomEvent) => {
-    const { id, stock } = e.detail;
-    const idx = local.findIndex((s: MachineSlot) => s.id === id);
-    local[idx].stock = stock;
-  };
-
-  const handleRefresh = async (e: CustomEvent) => {
-    await syncBloc.fetchSlots($machineId);
-    await reload($state.list);
-  };
-
-  const handleSave = async (e: CustomEvent) => {
-    const createdSlots = local.filter(s => s.id === 0);
-    createdSlots.forEach(async s => {
-      const data: CreateMachineSlot = {
-        product_id: s.product_id,
-        code: s.code,
-        stock: s.stock,
-        capacity: s.capacity,
-        is_enable: s.is_enable,
-      };
-      await actionBloc.create($machineId, data);
-    });
-
-    const deletedSlot = $state.list.filter(s => local.findIndex(l => l.id === s.id) === -1);
-    deletedSlot.forEach(async s => {
-      await actionBloc.delete($machineId, s.id);
-    });
-
-    const slots: BulkUpdateMachineSlot = local
-      .filter(s =>
-        isEdited(
-          s,
-          $state.list.find(ss => s.id === ss.id),
-        ),
-      )
-      .filter(s => s.id !== 0)
-      .map(s => ({
-        id: s.id,
-        product_id: s.product_id,
-        stock: s.stock,
-        capacity: s.capacity,
-        is_enable: s.is_enable,
-      }));
-
-    const status = await actionBloc.bulkUpdate($machineId, slots);
-
-    if (status === 'success') {
-      await syncBloc.pushSlots($machineId);
-      await bloc.list($machineId, { preloads: 'CatalogProduct' });
-    }
-  };
-
-  const handleCancel = (e: CustomEvent) => {
-    local = $state.list.map(s => ({ ...s }));
-  };
-
-  onMount(async () => {
-    machineId.set(parseInt(id, 10));
-    await syncBloc.fetchSlots($machineId);
-    await loadMachineData();
-    await loadGroupOptions();
-    await loadProductOptions();
-    await reload($state.list);
-
-    console.log($machineState.data);
-    
-  });
-
-  $: filter = { search: '', stock: null, enable: null, edit: null };
-  $: local = $state.list?.map(s => ({ ...s }));
 </script>
 
 <!-- HTML -->

@@ -23,19 +23,15 @@
     if (token) {
       navigate('/main', { replace: true });
     }
-  })
-  
-  $: handleSubmit = async () => {
-    try {
-      await bloc.login(username, password, remember);
+  });
 
-      if ($state.status === 'success') {
-        access.set($state.data as TokenData);
-      }
-    } catch (e) {
-      console.log(e);
+  async function handleSubmit() {
+    const status = await bloc.login(username, password, remember);
+
+    if (status === 'success') {
+      access.set($state.data as TokenData);
     }
-  };
+  }
 </script>
 
 <!-- HTML -->

@@ -15,7 +15,7 @@
 
   const dispatch = createEventDispatcher();
 
-  function setPage(p: number) {
+  const setPage = (p: number) => {
     if (p >= 1 && p <= totalPages) {
       currentPage.set(p);
       page = p;
@@ -42,6 +42,14 @@
     }
     return buttons;
   });
+
+  function handlePrevious() {
+    setPage($currentPage - 1)
+  }
+
+  function handleNext() {
+    setPage($currentPage + 1)
+  }
 </script>
 
 <div class="flex items-center justify-between mt-4">
@@ -55,7 +63,7 @@
     })}
   </p>
   <nav class="flex items-center">
-    <Button class="w-24" on:click={() => setPage($currentPage - 1)} disabled={$currentPage === 1}>Previous</Button>
+    <Button class="w-24" on:click={handlePrevious} disabled={$currentPage === 1}>Previous</Button>
     <div class="mx-2 flex flex-wrap gap-1">
       {#each $paginationButtons as button}
         {#if button.type === 'page'}
@@ -72,6 +80,6 @@
         {/if}
       {/each}
     </div>
-    <Button class="w-24" on:click={() => setPage($currentPage + 1)} disabled={$currentPage === totalPages}>Next</Button>
+    <Button class="w-24" on:click={handleNext} disabled={$currentPage === totalPages}>Next</Button>
   </nav>
 </div>

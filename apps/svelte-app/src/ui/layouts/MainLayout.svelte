@@ -15,8 +15,12 @@
   export let Component: SvelteComponentDev;
 
   let active = false;
-  let params = {...$$props}
-  delete params["Component"]
+  let params = { ...$$props };
+  delete params['Component'];
+
+  function handleClose() {
+    active = false;
+  }
 </script>
 
 <!-- HTML -->
@@ -43,7 +47,7 @@
               2xl:left-0 2xl:ml-6 2xl:translate-x-0"
       class:active
     >
-      <Sidebar title="Vending Machine" list={sidebar} on:close={() => (active = false)} />
+      <Sidebar title="Vending Machine" list={sidebar} on:close={handleClose} />
     </aside>
   </div>
   <footer class="p-4 shadow">

@@ -7,18 +7,28 @@
   export let source: Machine;
 
   const dispatch = createEventDispatcher();
-  const handleAction = (type: string) => () => dispatch('action', { type, source });
+  function handleView() {
+    dispatch('action', { type: 'view', source });
+  }
+
+  function handleEdit() {
+    dispatch('action', { type: 'edit', source });
+  }
+
+  function handleDelete() {
+    dispatch('action', { type: 'delete', source });
+  }
 </script>
 
 <!-- HTML -->
 <div class="flex justify-center space-x-4">
-  <button on:click|stopPropagation={handleAction('view')} class="focus:outline-none">
+  <button on:click|stopPropagation={handleView} class="focus:outline-none">
     <Icon class="w-4 h-4 fill-gray-500 hover:fill-green-500" i="ic-view" />
   </button>
-  <button on:click|stopPropagation={handleAction('edit')} class="focus:outline-none">
+  <button on:click|stopPropagation={handleEdit} class="focus:outline-none">
     <Icon class="w-4 h-4 fill-gray-500 hover:fill-green-500" i="ic-edit" />
   </button>
-  <button on:click|stopPropagation={handleAction('delete')} class="focus:outline-none">
+  <button on:click|stopPropagation={handleDelete} class="focus:outline-none">
     <Icon class="w-4 h-4 fill-gray-500 hover:fill-red-500" i="ic-delete" />
   </button>
 </div>

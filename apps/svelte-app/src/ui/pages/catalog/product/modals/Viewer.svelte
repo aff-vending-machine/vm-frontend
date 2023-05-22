@@ -9,6 +9,18 @@
   export let product: CatalogProduct;
 
   const dispatch = createEventDispatcher();
+
+  function handleEdit() {
+    dispatch('edit', { source: product });
+  }
+
+  function handleDelete() {
+    dispatch('delete', { source: product });
+  }
+
+  function handleCancel() {
+    dispatch('cancel');
+  }
 </script>
 
 <div class="h-full overflow-y-auto mr-2" style="z-index: 999;">
@@ -33,8 +45,8 @@
   </div>
 
   <div class="flex justify-end space-x-4 mt-4">
-    <Button color="secondary" on:click={() => dispatch('edit', { source: product })}>{$_('button.edit')}</Button>
-    <Button color="danger" on:click={() => dispatch('delete', { source: product })}>{$_('button.delete')}</Button>
-    <Button color="warning" outline on:click={() => dispatch('cancel')}>{$_('button.cancel')}</Button>
+    <Button color="secondary" on:click={handleEdit}>{$_('button.edit')}</Button>
+    <Button color="danger" on:click={handleDelete}>{$_('button.delete')}</Button>
+    <Button color="warning" outline on:click={handleCancel}>{$_('button.cancel')}</Button>
   </div>
 </div>
