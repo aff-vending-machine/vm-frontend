@@ -90,9 +90,8 @@
   };
 
   function handleAction(e: CustomEvent) {
-    const { type, source } = e.detail;
-    action.set(type || e.type);
-    product.set(source);
+    action.set(e.detail?.type || e.type);
+    product.set(e.detail?.source);
   }
 
   function handleSelect(e: CustomEvent) {
