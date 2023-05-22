@@ -18,7 +18,7 @@
       await bloc.authenticated();
 
       if ($state.status === 'success') {
-        access.set($state.data as TokenData);
+        access.set($state.data);
       }
     } catch (e) {
       console.log(e);

@@ -64,13 +64,13 @@
   function handleAction(e: CustomEvent) {
     const { type, source } = e.detail;
     action.set(type || e.type);
-    channel.set(source as PaymentChannel);
+    channel.set(source);
   }
 
   function handleSelect(e: CustomEvent) {
     const { data } = e.detail;
     action.set('view');
-    channel.set(data as PaymentChannel);
+    channel.set(data);
   }
 
   function handleClose(e: CustomEvent) {

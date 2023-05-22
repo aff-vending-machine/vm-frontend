@@ -92,13 +92,13 @@
   function handleAction(e: CustomEvent) {
     const { type, source } = e.detail;
     action.set(type || e.type);
-    product.set(source as Product);
+    product.set(source);
   }
 
   function handleSelect(e: CustomEvent) {
     const { data } = e.detail;
     action.set('view');
-    product.set(data as Product);
+    product.set(data);
   }
 
   function handleClose(e: CustomEvent) {
