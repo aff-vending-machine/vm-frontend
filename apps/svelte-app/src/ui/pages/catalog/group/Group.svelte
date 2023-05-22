@@ -38,29 +38,29 @@
     await bloc.list($filters);
   };
 
-  const handleAction = (e: CustomEvent) => {
+  function handleAction(e: CustomEvent) {
     const { type, source } = e.detail;
     action.set(type || e.type);
     group.set(source as ProductGroup);
-  };
+  }
 
-  const handleSelect = (e: CustomEvent) => {
+  function handleSelect(e: CustomEvent) {
     const { data } = e.detail;
     action.set('view');
     group.set(data as ProductGroup);
-  };
+  }
 
-  const handleClose = (e: CustomEvent) => {
+  function handleClose(e: CustomEvent) {
     action.set(null);
     group.set(null);
-  };
+  }
 
-  const handlePageChange = (e: CustomEvent) => {
+  function handlePageChange(e: CustomEvent) {
     const { page } = e.detail;
     $filters.page = page;
     $filters.offset = (page - 1) * $filters.limit;
     reload();
-  };
+  }
 
   onMount(async () => {
     await bloc.list(filters);

@@ -20,7 +20,6 @@
   const dispatch = createEventDispatcher();
 
   const formID = 'product-editor-form';
-
   const id = field('id', product.id, [required()]);
   const sku = field('sku', product.sku, [required()]);
   const group_id = field('group_id', product.group_id, [required()]);
@@ -28,19 +27,22 @@
   const imageUrl = field('image_url', product.image_url, []);
   const price = field('sale_price', product.sale_price, [required(), min(0)]);
   const is_enable = field('is_enable', product.is_enable, [required()]);
-
   const productForm = form(id, sku, name, group_id, imageUrl, price, is_enable);
 
-  const handleSubmit = async () => {
+  async function handleSubmit() {
     await productForm.validate();
     if ($productForm.valid) {
       dispatch('update', productForm.summary());
     }
-  };
+  }
+
+  function handleCancel() {
+    dispatch('cancel');
+  }
 </script>
 
 <div class="h-full overflow-y-auto mr-2" style="z-index: 999;">
-  <h2 class="text-xl font-bold mb-4">Update Products: {product.name || 'Untitled'}</h2>
+  <h2 class="text-xl font-bold mb-4">Update Product: {product.name || 'Untitled'}</h2>
   <div class="m-4 flex justify-center">
     <Image class="border h-32 w-32 mx-auto" src={$imageUrl.value} alt={$name.value} />
   </div>
@@ -66,6 +68,6 @@
 
   <div class="flex justify-end space-x-4 mt-4">
     <Button color="secondary" type="submit" form={formID}>{$_('button.save')}</Button>
-    <Button color="warning" outline on:click={() => dispatch('cancel')}>{$_('button.cancel')}</Button>
+    <Button color="warning" outline on:click={handleCancel}>{$_('button.cancel')}</Button>
   </div>
 </div>

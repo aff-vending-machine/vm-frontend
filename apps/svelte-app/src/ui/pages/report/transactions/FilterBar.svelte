@@ -39,11 +39,15 @@
   $: startDateTime = dayjs(from).toDate();
   $: endDateTime = dayjs(to).toDate();
 
-  const handleFilter = (e: CustomEvent) => {
+  function handleFilter(e: CustomEvent) {
     from = dayjs(startDateTime).toISOString();
     to = dayjs(endDateTime).toISOString();
     dispatch('filter', e.detail);
-  };
+  }
+
+  function handleExport(e: CustomEvent) {
+    dispatch('export');
+  }
 </script>
 
 <div class="flex justify-between border rounded p-4 bg-secondary-50">
@@ -74,7 +78,7 @@
     />
   </div>
   <div class="flex items-end align-bottom space-x-2">
-    <Button outline class="group" on:click={() => dispatch('export')}>
+    <Button outline class="group" on:click={handleExport}>
       <Icon i="ic-export" class="h-4 w-4 fill-red-500 group-hover:fill-white" />
       <span class="ml-2">Export</span>
     </Button>

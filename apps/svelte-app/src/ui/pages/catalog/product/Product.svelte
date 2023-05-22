@@ -39,6 +39,7 @@
   const groupState = useBlocState<GroupState>(groupBloc);
   const statePromise: Readable<Promise<ProductState>> = derived(state, stateDerived);
 
+  const groupOptions = writable<SelectOptionsType[]>([]);
   const filters = writable({
     page: 1,
     offset: 0,
@@ -48,7 +49,8 @@
     search: '',
     preloads: 'Group',
   });
-  const groupOptions = writable<SelectOptionsType[]>([]);
+  const action = writable<string | null>();
+  const product = writable<Product | null>();
 
   const columns: ColumnType[] = [
     { key: 'id', index: 'id', title: 'ID', sortable: true },
@@ -60,8 +62,6 @@
     { key: 'action', title: 'Action', render: () => Action },
   ];
 
-  const action = writable<string | null>();
-  const product = writable<Product | null>();
 
   const reload = async () => {
     await bloc.list($filters);
@@ -76,31 +76,44 @@
     }
   };
 
-  const handleAction = (e: CustomEvent) => {
+  const notifyStatus = (status: OperationStatus, successMessage: string, errorMessage: string) => {
+    switch (status) {
+      case 'success':
+        reload();
+        notification.add('success', successMessage);
+        break;
+
+      case 'failure':
+        notification.add('danger', errorMessage);
+        break;
+    }
+  };
+
+  function handleAction(e: CustomEvent) {
     const { type, source } = e.detail;
     action.set(type || e.type);
     product.set(source as Product);
-  };
+  }
 
-  const handleSelect = (e: CustomEvent) => {
+  function handleSelect(e: CustomEvent) {
     const { data } = e.detail;
     action.set('view');
     product.set(data as Product);
-  };
+  }
 
-  const handleClose = (e: CustomEvent) => {
+  function handleClose(e: CustomEvent) {
     action.set(null);
     product.set(null);
-  };
+  }
 
-  const handlePageChange = (e: CustomEvent) => {
+  function handlePageChange(e: CustomEvent) {
     const { page } = e.detail;
     $filters.page = page;
     $filters.offset = (page - 1) * $filters.limit;
     reload();
-  };
+  }
 
-  const handleCreate = async (e: CustomEvent) => {
+  async function handleCreate(e: CustomEvent) {
     handleClose(e);
     const payload: CreateProduct = {
       group_id: e.detail.group_id,
@@ -114,10 +127,10 @@
       is_enable: true,
     };
     const status = await actionBloc.create(payload);
-    handleActionStatus(status, 'Product created successfully', 'Product creation failed');
-  };
+    notifyStatus(status, 'Product created successfully', 'Product creation failed');
+  }
 
-  const handleUpdate = async (e: CustomEvent) => {
+  async function handleUpdate(e: CustomEvent) {
     handleClose(e);
     const payload: UpdateProduct = {
       group_id: e.detail.group_id,
@@ -128,27 +141,14 @@
       is_enable: e.detail.is_enable,
     };
     const status = await actionBloc.update(e.detail.id, payload);
-    handleActionStatus(status, 'Product updated successfully', 'Product update failed');
-  };
+    notifyStatus(status, 'Product updated successfully', 'Product update failed');
+  }
 
-  const handleDelete = async (e: CustomEvent) => {
+  async function handleDelete(e: CustomEvent) {
     handleClose(e);
     const status = await actionBloc.delete(e.detail.id);
-    handleActionStatus(status, 'Product deleted successfully', 'Product deletion failed');
-  };
-
-  const handleActionStatus = (status: OperationStatus, successMessage: string, errorMessage: string) => {
-    switch (status) {
-      case 'success':
-        reload();
-        notification.add('success', successMessage);
-        break;
-
-      case 'failure':
-        notification.add('danger', errorMessage);
-        break;
-    }
-  };
+    notifyStatus(status, 'Product deleted successfully', 'Product deletion failed');
+  }
 
   onMount(async () => {
     await reload();
@@ -200,7 +200,7 @@
 </section>
 
 <!-- Display modals -->
-{#if $product}
+{#if $action}
   <Modal on:close={handleClose}>
     {#if $action === 'create'}
       <ProductCreator

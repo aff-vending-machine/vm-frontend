@@ -10,49 +10,49 @@ export type SidebarItemType = {
 export const sidebar: SidebarItemType[] = [
     {
         title: 'Report',
-        icon: 'report',
+        icon: 'icx-report',
         link: MAIN_REPORTS,
         role: 'staff'
     },
     {
         title: 'Machines',
-        icon: 'machine',
+        icon: 'icx-machine',
         link: MAIN_MACHINES,
         role: 'staff'
     },
     {
         title: 'Product Groups',
-        icon: 'group',
+        icon: 'ic-group',
         link: MAIN_PRODUCT_GROUPS,
         role: 'manager'
     },
     {
         title: 'Products',
-        icon: 'product',
+        icon: 'ic-product',
         link: MAIN_PRODUCTS,
         role: 'manager'
     },
     {
         title: 'Channels',
-        icon: 'channel',
+        icon: 'ic-channel',
         link: MAIN_PAYMENT_CHANNELS,
         role: 'super-admin'
     },
     {
         title: 'Transactions',
-        icon: 'transaction',
+        icon: 'icx-transaction',
         link: MAIN_PAYMENT_TRNASACTIONS,
         role: 'staff'
     },
     {
         title: 'User',
-        icon: 'user',
+        icon: 'icx-user',
         link: MAIN_USERS,
         role: 'super-admin'
     },
     {
         title: 'Role',
-        icon: 'role',
+        icon: 'icx-role',
         link: MAIN_ROLES,
         role: 'super-admin'
     },

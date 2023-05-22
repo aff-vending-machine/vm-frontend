@@ -9,7 +9,9 @@
 
   const dispatch = createEventDispatcher();
 
-  const handleFilter = () => dispatch('filter', { data: {} });
+  function handleFilter() {
+    dispatch('filter', { data: {} });
+  }
 </script>
 
 <div class="flex justify-between border rounded p-4 bg-secondary-50">

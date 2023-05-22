@@ -15,8 +15,12 @@
 
   const dispatch = createEventDispatcher();
 
-  const handleFilter = () => dispatch('filter', { data: {} });
-  const handleCreate = () => dispatch('create', { data: {} });
+  function handleFilter() {
+    dispatch('filter');
+  }
+  function handleCreate() {
+    dispatch('create');
+  }
 </script>
 
 <div class="flex justify-between border rounded p-4 bg-secondary-50">
