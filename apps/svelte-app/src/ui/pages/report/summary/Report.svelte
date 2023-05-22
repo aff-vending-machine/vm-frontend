@@ -69,7 +69,7 @@
   function handleAction(e: CustomEvent) {
     const { type, source } = e.detail;
     action.set(type || e.type);
-    machine.set(source as Machine);
+    machine.set(source);
   }
 
   function handleSelect(e: CustomEvent) {
