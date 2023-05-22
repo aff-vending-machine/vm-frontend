@@ -26,6 +26,12 @@
 
   const today = new Date();
 
+  function handleFilter(e: CustomEvent) {
+    from = dayjs(startDateTime).toISOString();
+    to = dayjs(endDateTime).toISOString();
+    dispatch('filter', e.detail);
+  }
+
   if (from === '') from = dayjs(today).startOf('month').subtract(1, 'day').set('hour', 21).toISOString();
   if (to === '')
     to = dayjs(today).set('millisecond', 0).set('second', 0).set('minute', 0).set('hour', 21).toISOString();
@@ -34,12 +40,6 @@
   $: lastDateTime = dayjs(today).set('minute', 0).set('hour', 23).toDate();
   $: startDateTime = dayjs(from).toDate();
   $: endDateTime = dayjs(to).toDate();
-
-  const handleFilter = (e: CustomEvent) => {
-    from = dayjs(startDateTime).toISOString();
-    to = dayjs(endDateTime).toISOString();
-    dispatch('filter', e.detail);
-  };
 </script>
 
 <div class="flex justify-between border rounded p-4 bg-secondary-50">

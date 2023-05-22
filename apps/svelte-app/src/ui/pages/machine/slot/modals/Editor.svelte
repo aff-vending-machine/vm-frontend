@@ -31,20 +31,28 @@
 
   const slotForm = form(id, code, group_id, product_id, stock, capacity, is_enable);
 
-  const handleGroup = async () => {
-    if (productOptions.findIndex(p => p.filter === $product_id.value) === -1) {
-      const firstProduct = productOptions.filter(p => p.filter === $group_id.value)[0];
-      product_id.set(firstProduct.value);
-    }
-  };
-
-  const handleSubmit = async () => {
+  async function handleSubmit() {
     await slotForm.validate();
     if ($slotForm.valid) {
       dispatch('update', slotForm.summary());
     }
-  };
+  }
 
+  async function handleGroup() {
+    if (productOptions.findIndex(p => p.filter === $product_id.value) === -1) {
+      const firstProduct = productOptions.filter(p => p.filter === $group_id.value)[0];
+      product_id.set(firstProduct.value);
+    }
+  }
+
+  function handleDelete() {
+    dispatch('delete', { source: slot });
+  }
+
+  function handleCancel() {
+    dispatch('cancel');
+  }
+  
   onMount(() => {
     handleGroup();
   });
@@ -82,7 +90,7 @@
 
   <div class="flex justify-end space-x-4 mt-4">
     <Button color="secondary" type="submit" form={formID}>{$_('button.save')}</Button>
-    <Button color="danger" outline on:click={() => dispatch('delete', { source: slot })}>{$_('button.delete')}</Button>
-    <Button color="warning" outline on:click={() => dispatch('cancel')}>{$_('button.cancel')}</Button>
+    <Button color="danger" outline on:click={handleDelete}>{$_('button.delete')}</Button>
+    <Button color="warning" outline on:click={handleCancel}>{$_('button.cancel')}</Button>
   </div>
 </div>

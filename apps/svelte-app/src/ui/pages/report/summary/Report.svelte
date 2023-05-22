@@ -66,23 +66,23 @@
     }
   };
 
-  const handleAction = (e: CustomEvent) => {
+  function handleAction(e: CustomEvent) {
     const { type, source } = e.detail;
     action.set(type || e.type);
     machine.set(source as Machine);
-  };
+  }
 
-  const handleSelect = (e: CustomEvent) => {
+  function handleSelect(e: CustomEvent) {
     const { data } = e.detail;
     navigate(MAIN_REPORT_TRANSACTIONS(data.id) + '?from=' + $filters.from + '&to=' + $filters.to);
-  };
+  }
 
-  const handleClose = (e: CustomEvent) => {
+  function handleClose(e: CustomEvent) {
     action.set(null);
     machine.set(null);
-  };
+  }
 
-  const handleDownload = async (e: CustomEvent) => {
+  async function handleDownload(e: CustomEvent) {
     handleClose(e);
     const { action, machine, filename } = e.detail;
     let status: OperationStatus;
@@ -111,7 +111,7 @@
     tempLink.href = csvURL;
     tempLink.setAttribute('download', `${filename}.csv`);
     tempLink.click();
-  };
+  }
 
   onMount(async () => {
     await reload();
@@ -120,18 +120,6 @@
   $: totalCreditCard = $state.list?.reduce((total, row) => total + row.total_payments['creditcard'], 0);
   $: totalPromptPay = $state.list?.reduce((total, row) => total + row.total_payments['promptpay'], 0);
   $: totalPayment = totalCreditCard + totalPromptPay;
-
-  const currencySpans = document.querySelectorAll('.currency-format');
-  currencySpans.forEach(span => {
-    const number = parseFloat(span.getAttribute('data-number'));
-    const currency = number.toLocaleString('th-TH', {
-      style: 'currency',
-      currency: 'THB',
-    });
-    span.setAttribute('data-number', number.toFixed(2));
-    span.setAttribute('data-currency', currency);
-    span.textContent = currency;
-  });
 </script>
 
 <section class="card">

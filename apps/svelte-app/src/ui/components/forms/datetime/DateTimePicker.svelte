@@ -22,17 +22,6 @@
   let datetime = value;
   let time = new Date(0, 0, 0, 22, 0);
 
-  onMount(() => {
-    // Close picker when clicked outside
-    const handleClickOutside = (e: any) => {
-      if (!e.target.closest(`.date-time-picker-${id}`)) {
-        showPicker = false;
-      }
-    };
-    window.addEventListener('click', handleClickOutside);
-    return () => window.removeEventListener('click', handleClickOutside);
-  });
-
   const togglePicker = () => {
     showPicker = !showPicker;
   };
@@ -42,7 +31,7 @@
     timeoutID = setTimeout(() => (showTime = 2), 100);
   };
 
-  const handleTimeChange = (e: CustomEvent) => {
+  function handleTimeChange(e: CustomEvent) {
     let dateChanged = e.detail;
     if (rangeFrom !== null && dayjs(dateChanged).isBefore(rangeFrom, 'hour')) {
       datetime.setHours(time.getHours());
@@ -78,13 +67,24 @@
           return;
       }
     }
-  };
+  }
 
-  const handleChange = () => {
+  function handleChange() {
     togglePicker();
     value = datetime;
     dispatch('change', { value: datetime });
-  };
+  }
+
+  onMount(() => {
+    // Close picker when clicked outside
+    const handleClickOutside = (e: any) => {
+      if (!e.target.closest(`.date-time-picker-${id}`)) {
+        showPicker = false;
+      }
+    };
+    window.addEventListener('click', handleClickOutside);
+    return () => window.removeEventListener('click', handleClickOutside);
+  });
 </script>
 
 <div class={`date-time-picker-${id} relative w-48`}>

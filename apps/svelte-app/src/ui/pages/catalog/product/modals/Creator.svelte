@@ -19,21 +19,23 @@
   const dispatch = createEventDispatcher();
 
   const formID = 'product-creator-form';
-
   const group_id = field('group_id', 1, [required()]);
   const name = field('name', '', [required()]);
   const sku = field('sku', genSKU(total), [required()]);
   const imageUrl = field('image_url', '', []);
   const price = field('sale_price', 0, [required(), min(0)]);
-
   const productForm = form(name, group_id, sku, imageUrl, price);
 
-  const handleSubmit = async () => {
+  async function handleSubmit() {
     await productForm.validate();
     if ($productForm.valid) {
       dispatch('create', productForm.summary());
     }
-  };
+  }
+
+  function handleCancel() {
+    dispatch('cancel')
+  }
 </script>
 
 <div class="h-full overflow-y-auto mr-2" style="z-index: 999;">
@@ -62,6 +64,6 @@
 
   <div class="flex justify-end space-x-4 mt-4">
     <Button color="secondary" type="submit" form={formID}>{$_('button.add-product')}</Button>
-    <Button color="warning" outline on:click={() => dispatch('cancel')}>{$_('button.cancel')}</Button>
+    <Button color="warning" outline on:click={handleCancel}>{$_('button.cancel')}</Button>
   </div>
 </div>

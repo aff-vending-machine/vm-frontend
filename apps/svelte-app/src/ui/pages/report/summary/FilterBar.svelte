@@ -18,6 +18,12 @@
 
   const today = new Date();
 
+  function handleFilter(e: CustomEvent) {
+    from = dayjs(startDateTime).toISOString();
+    to = dayjs(endDateTime).toISOString();
+    dispatch('filter', e.detail);
+  }
+
   if (from === '')
     from = dayjs(today)
       .set('millisecond', 0)
@@ -30,21 +36,9 @@
     to = dayjs(today).set('millisecond', 0).set('second', 0).set('minute', 0).set('hour', 21).toISOString();
 
   $: firstDateTime = dayjs(today).set('year', 2023).startOf('year').toDate();
-  $: lastDateTime = dayjs(today).set('minute', 0).set('hour', 23).toDate();
+  $: lastDateTime = dayjs(today).set('minute', 0).set('hour', 21).toDate();
   $: startDateTime = dayjs(from).toDate();
   $: endDateTime = dayjs(to).toDate();
-
-  const handleRefresh = () => dispatch('refresh');
-  const handleFilter = (e: CustomEvent) => {
-    from = dayjs(startDateTime).toISOString();
-    to = dayjs(endDateTime).toISOString();
-    dispatch('filter', e.detail);
-  };
-
-  const showTime = (date?: Date) => {
-    if (!date) return 'never';
-    return dayjs(date).fromNow();
-  };
 </script>
 
 <div class="flex flex-col md:flex-row justify-between border rounded p-4 bg-secondary-50">

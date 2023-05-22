@@ -9,6 +9,14 @@
   export let channel: PaymentChannel;
 
   const dispatch = createEventDispatcher();
+
+  function handleDelete() {
+    dispatch('delete', { data: channel });
+  }
+
+  function handleCancel() {
+    dispatch('cancel');
+  }
 </script>
 
 <div class="h-full overflow-y-auto mr-2" style="z-index: 999;">
@@ -19,7 +27,7 @@
   </div>
 
   <div class="flex justify-end space-x-4 mt-4">
-    <Button color="success" on:click={() => dispatch('delete', { data: channel })}>{$_('button.confirm')}</Button>
-    <Button color="danger" outline on:click={() => dispatch('cancel')}>{$_('button.cancel')}</Button>
+    <Button color="success" on:click={handleDelete}>{$_('button.confirm')}</Button>
+    <Button color="danger" outline on:click={handleCancel}>{$_('button.cancel')}</Button>
   </div>
 </div>

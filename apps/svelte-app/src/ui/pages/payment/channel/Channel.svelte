@@ -4,12 +4,7 @@
   import { onMount } from 'svelte';
   import { Readable, derived, writable } from 'svelte/store';
 
-  import {
-    providePaymentChannelBloc,
-    PaymentChannelState,
-    PaymentChannel,
-    OperationStatus,
-  } from '@apps/core';
+  import { providePaymentChannelBloc, PaymentChannelState, PaymentChannel, OperationStatus } from '@apps/core';
 
   import Table from '~/ui/components/elements/tables/Table.svelte';
   import Pagination from '~/ui/components/navigations/paginations/Pagination.svelte';
@@ -35,7 +30,7 @@
     limit: 10,
     sort_by: 'id:asc',
     group_id: '',
-    search: ''
+    search: '',
   });
   const action = writable<string | null>();
   const channel = writable<PaymentChannel | null>();
@@ -53,31 +48,7 @@
     await bloc.list($filters);
   };
 
-  const handleAction = (e: CustomEvent) => {
-    const { type, source } = e.detail;
-    action.set(type || e.type);
-    channel.set(source as PaymentChannel);
-  };
-
-  const handleSelect = (e: CustomEvent) => {
-    const { data } = e.detail;
-    action.set('view');
-    channel.set(data as PaymentChannel);
-  };
-
-  const handleClose = (e: CustomEvent) => {
-    action.set(null);
-    channel.set(null);
-  };
-
-  const handlePageChange = (e: CustomEvent) => {
-    const { page } = e.detail;
-    $filters.page = page;
-    $filters.offset = (page - 1) * $filters.limit;
-    reload();
-  };
-
-  const handleActionStatus = (status: OperationStatus, successMessage: string, errorMessage: string) => {
+  const notifyStatus = (status: OperationStatus, successMessage: string, errorMessage: string) => {
     switch (status) {
       case 'success':
         reload();
@@ -89,6 +60,30 @@
         break;
     }
   };
+
+  function handleAction(e: CustomEvent) {
+    const { type, source } = e.detail;
+    action.set(type || e.type);
+    channel.set(source as PaymentChannel);
+  }
+
+  function handleSelect(e: CustomEvent) {
+    const { data } = e.detail;
+    action.set('view');
+    channel.set(data as PaymentChannel);
+  }
+
+  function handleClose(e: CustomEvent) {
+    action.set(null);
+    channel.set(null);
+  }
+
+  function handlePageChange(e: CustomEvent) {
+    const { page } = e.detail;
+    $filters.page = page;
+    $filters.offset = (page - 1) * $filters.limit;
+    reload();
+  }
 
   onMount(async () => {
     await reload();
@@ -133,7 +128,7 @@
 </section>
 
 <!-- Display modals -->
-{#if $channel}
+{#if $action && $channel}
   <Modal on:close={handleClose}>
     {#if $action === 'view'}
       <Viewer channel={$channel} on:edit={handleAction} on:delete={handleAction} on:cancel={handleClose} />

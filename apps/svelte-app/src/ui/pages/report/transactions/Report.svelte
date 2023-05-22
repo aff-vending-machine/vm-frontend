@@ -43,6 +43,8 @@
     channel_id: '',
     sort_by: 'confirmed_paid_at:desc',
   });
+  const machineId = writable<number | null>();
+    
   const columns: ColumnType[] = [
     { key: 'index', title: 'No.', render: index => index + 1 },
     { key: 'merchant_order_id', index: 'merchant_order_id', title: 'Order ID', sortable: true },
@@ -53,7 +55,6 @@
     { key: 'received_quantity', index: 'received_quantity', title: 'Quantity', sortable: true, type: 'number' },
     { key: 'paid_price', index: 'paid_price', title: 'Paid Price', sortable: true, type: 'currency' },
   ];
-  const machineId = writable<number | null>();
 
   const reload = async () => {
     await bloc.report($machineId, $filters);
@@ -68,7 +69,7 @@
     }
   };
 
-  const handleExport = async (e: CustomEvent) => {
+  async function handleExport(e: CustomEvent) {
     const csv = Papa.unparse($state.list.map(parseDateReport));
     const csvData = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const csvURL = window.URL.createObjectURL(csvData);
@@ -76,7 +77,7 @@
     tempLink.href = csvURL;
     tempLink.setAttribute('download', 'report_' + '.csv');
     tempLink.click();
-  };
+  }
 
   onMount(async () => {
     machineId.set(parseInt(id, 10));

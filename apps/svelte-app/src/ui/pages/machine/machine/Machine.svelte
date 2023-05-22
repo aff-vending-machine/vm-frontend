@@ -19,7 +19,7 @@
   import { stateDerived } from '~/utils/helpers/state';
   import { useBlocState } from '~/utils/hooks/useBlocState';
   import { MAIN_MACHINE_SLOTS } from '~/utils/constants/links';
-  import Action from './tables/Action.svelte';
+  // import Action from './tables/Action.svelte';
   import { ColumnType } from '~/utils/types/table';
 
   const bloc = provideMachineBloc();
@@ -54,45 +54,7 @@
     await bloc.list($filters);
   };
 
-  const handleAction = (e: CustomEvent) => {
-    const { type, source } = e.detail;
-    action.set(type || e.type);
-    machine.set(source as Machine);
-  };
-
-  const handleSelect = (e: CustomEvent) => {
-    const { data } = e.detail;
-    navigate(MAIN_MACHINE_SLOTS(data.id), { replace: false });
-  };
-
-  const handleClose = (e: CustomEvent) => {
-    action.set(null);
-    machine.set(null);
-  };
-
-  const handlePageChange = (e: CustomEvent) => {
-    const { page } = e.detail;
-    $filters.page = page;
-    $filters.offset = (page - 1) * $filters.limit;
-    reload();
-  };
-
-  const handleUpdate = async (e: CustomEvent) => {
-    handleClose(e);
-    const payload: UpdateMachine = {
-      name: e.detail.name,
-    };
-    const status = await actionBloc.update(e.detail.id, payload);
-    handleActionStatus(status, 'Machine updated successfully', 'Machine update failed');
-  };
-
-  const handleDelete = async (e: CustomEvent) => {
-    handleClose(e);
-    const status = await actionBloc.delete(e.detail.id);
-    handleActionStatus(status, 'Product deleted successfully', 'Machine deletion failed');
-  };
-
-  const handleActionStatus = (status: OperationStatus, successMessage: string, errorMessage: string) => {
+  const notifyStatus = (status: OperationStatus, successMessage: string, errorMessage: string) => {
     switch (status) {
       case 'success':
         reload();
@@ -104,6 +66,44 @@
         break;
     }
   };
+
+  function handleAction(e: CustomEvent) {
+    const { type, source } = e.detail;
+    action.set(type || e.type);
+    machine.set(source as Machine);
+  }
+
+  function handleSelect(e: CustomEvent) {
+    const { data } = e.detail;
+    navigate(MAIN_MACHINE_SLOTS(data.id), { replace: false });
+  }
+
+  function handleClose(e: CustomEvent) {
+    action.set(null);
+    machine.set(null);
+  }
+
+  function handlePageChange(e: CustomEvent) {
+    const { page } = e.detail;
+    $filters.page = page;
+    $filters.offset = (page - 1) * $filters.limit;
+    reload();
+  }
+
+  async function handleUpdate(e: CustomEvent) {
+    handleClose(e);
+    const payload: UpdateMachine = {
+      name: e.detail.name,
+    };
+    const status = await actionBloc.update(e.detail.id, payload);
+    notifyStatus(status, 'Machine updated successfully', 'Machine update failed');
+  }
+
+  async function handleDelete(e: CustomEvent) {
+    handleClose(e);
+    const status = await actionBloc.delete(e.detail.id);
+    notifyStatus(status, 'Product deleted successfully', 'Machine deletion failed');
+  }
 
   onMount(async () => {
     await reload();
@@ -148,7 +148,7 @@
 </section>
 
 <!-- Display modals -->
-{#if $machine}
+{#if $action && $machine}
   <Modal on:close={handleClose}>
     {#if $action === 'view'}
       <MachineViewer machine={$machine} on:edit={handleAction} on:delete={handleAction} on:cancel={handleClose} />

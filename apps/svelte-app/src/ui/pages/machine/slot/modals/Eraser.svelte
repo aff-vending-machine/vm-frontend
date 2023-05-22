@@ -19,12 +19,16 @@
 
   const slotForm = form(id, code);
 
-  const handleSubmit = async () => {
+  async function handleSubmit() {
     await slotForm.validate();
     if ($slotForm.valid) {
       dispatch('delete', slotForm.summary());
     }
-  };
+  }
+
+  function handleCancel() {
+    dispatch('cancel');
+  }
 </script>
 
 <div class="h-full overflow-y-auto mr-2" style="z-index: 999;">
@@ -41,6 +45,6 @@
 
   <div class="flex justify-end space-x-4 mt-4">
     <Button color="danger" type="submit" form={formID}>{$_('button.delete')}</Button>
-    <Button color="warning" outline on:click={() => dispatch('cancel')}>{$_('button.cancel')}</Button>
+    <Button color="warning" outline on:click={handleCancel}>{$_('button.cancel')}</Button>
   </div>
 </div>
