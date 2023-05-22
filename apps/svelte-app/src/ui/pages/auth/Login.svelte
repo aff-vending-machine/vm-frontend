@@ -29,7 +29,7 @@
     const status = await bloc.login(username, password, remember);
 
     if (status === 'success') {
-      access.set($state.data as TokenData);
+      access.set($state.data);
     }
   }
 </script>

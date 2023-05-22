@@ -113,7 +113,7 @@
   function handleSelect(e: CustomEvent) {
     const { data } = e.detail;
     action.set('view');
-    transaction.set(data as PaymentTransaction);
+    transaction.set(data);
   }
 
   function handleClose(e: CustomEvent) {

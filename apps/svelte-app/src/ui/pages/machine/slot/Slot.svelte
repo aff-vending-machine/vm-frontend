@@ -123,13 +123,13 @@
   function handleAction(e: CustomEvent) {
     const { type, source } = e.detail;
     action.set(type || e.type);
-    slot.set(source as MachineSlot);
+    slot.set(source);
   }
 
   function handleSelect(e: CustomEvent) {
     const { data } = e.detail;
     action.set('edit');
-    slot.set(data as MachineSlot);
+    slot.set(data);
   }
 
   function handleClose(e: CustomEvent) {

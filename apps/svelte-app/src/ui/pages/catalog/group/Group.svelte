@@ -41,13 +41,13 @@
   function handleAction(e: CustomEvent) {
     const { type, source } = e.detail;
     action.set(type || e.type);
-    group.set(source as ProductGroup);
+    group.set(source);
   }
 
   function handleSelect(e: CustomEvent) {
     const { data } = e.detail;
     action.set('view');
-    group.set(data as ProductGroup);
+    group.set(data);
   }
 
   function handleClose(e: CustomEvent) {
