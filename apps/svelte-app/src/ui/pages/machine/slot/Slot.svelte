@@ -147,6 +147,7 @@
     handleClose(e);
     const data = e.detail;
     const idx = local.findIndex(s => s.id === data.id);
+    data.product = $productState.list.find(p => p.id === data.product_id);
     local[idx] = { ...local[idx], ...data };
   }
 
@@ -196,6 +197,7 @@
       .map(s => ({
         id: s.id,
         product_id: s.product_id,
+        catalog_product_id: s.product_id,
         stock: s.stock,
         capacity: s.capacity,
         is_enable: s.is_enable,
