@@ -62,7 +62,6 @@
     { key: 'action', title: 'Action', render: () => Action },
   ];
 
-
   const reload = async () => {
     await bloc.list($filters);
   };
@@ -139,6 +138,7 @@
       sale_price: e.detail.price,
       is_enable: e.detail.is_enable,
     };
+
     const status = await actionBloc.update(e.detail.id, payload);
     notifyStatus(status, 'Product updated successfully', 'Product update failed');
   }

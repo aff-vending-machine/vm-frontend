@@ -24,10 +24,10 @@
   const sku = field('sku', product.sku, [required()]);
   const group_id = field('group_id', product.group_id, [required()]);
   const name = field('name', product.name, [required()]);
-  const imageUrl = field('image_url', product.image_url, []);
-  const price = field('sale_price', product.sale_price, [required(), min(0)]);
+  const image_url = field('image_url', product.image_url, []);
+  const price = field('price', product.sale_price, [required(), min(0)]);
   const is_enable = field('is_enable', product.is_enable, [required()]);
-  const productForm = form(id, sku, name, group_id, imageUrl, price, is_enable);
+  const productForm = form(id, sku, name, group_id, image_url, price, is_enable);
 
   async function handleSubmit() {
     await productForm.validate();
@@ -44,7 +44,7 @@
 <div class="h-full overflow-y-auto mr-2" style="z-index: 999;">
   <h2 class="text-xl font-bold mb-4">Update Product: {product.name || 'Untitled'}</h2>
   <div class="m-4 flex justify-center">
-    <Image class="border h-32 w-32 mx-auto" src={$imageUrl.value} alt={$name.value} />
+    <Image class="border h-32 w-32 mx-auto" src={$image_url.value} alt={$name.value} />
   </div>
   <form
     id={formID}
@@ -61,7 +61,7 @@
       unselected={false}
     />
     <TextInputField id="name" label="Name" bind:value={$name.value} error={$name.errors?.at(0)} />
-    <TextInputField id="image_url" label="Image URL" bind:value={$imageUrl.value} error={$imageUrl.errors?.at(0)} />
+    <TextInputField id="image_url" label="Image URL" bind:value={$image_url.value} error={$image_url.errors?.at(0)} />
     <NumberInputField id="price" label="Price" bind:value={$price.value} error={$price.errors?.at(0)} />
     <ToggleField id="is_enable" label="Active" bind:value={$is_enable.value} />
   </form>
