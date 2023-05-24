@@ -9,20 +9,19 @@
   import Button from '~/ui/components/elements/buttons/Button.svelte';
   import TextInputField from '~/ui/components/forms/input/TextInputField.svelte';
 
-  export let action: string;
   export let machine: Machine;
 
   const dispatch = createEventDispatcher();
 
   const formID = 'filename-form';
-  const filename = field('filename', `${machine.name}-${action}`, [required()]);
+  const filename = field('filename', `${machine.name}-transactions`, [required()]);
   const filenameForm = form(filename);
 
   async function handleSubmit() {
     await filenameForm.validate();
 
     if ($filenameForm.valid) {
-      dispatch('download', { action, machine, filename: $filename.value });
+      dispatch('download', { machine, filename: $filename.value });
     }
   }
 
@@ -32,7 +31,7 @@
 </script>
 
 <div class="h-full overflow-y-auto mr-2" style="z-index: 999;">
-  <h2 class="text-xl font-bold mb-4">Export Report: {action}</h2>
+  <h2 class="text-xl font-bold mb-4">Export Report: Transactions</h2>
   <form
     id={formID}
     on:submit|preventDefault={handleSubmit}

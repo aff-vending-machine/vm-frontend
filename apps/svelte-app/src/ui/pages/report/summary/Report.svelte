@@ -1,50 +1,30 @@
 <script lang="ts">
-  import Papa from 'papaparse';
   import { onMount } from 'svelte';
   import { navigate } from 'svelte-navigator';
   import { Readable, derived, writable } from 'svelte/store';
 
-  import {
-    Machine,
-    OperationStatus,
-    StockReportState,
-    SummaryReportState,
-    TransactionReportState,
-    provideStockReportBloc,
-    provideSummaryReportBloc,
-    provideSyncBloc,
-    provideTransactionReportBloc,
-  } from '@apps/core';
+  import { SummaryReportState, provideSummaryReportBloc, provideSyncBloc } from '@apps/core';
 
   import Table from '~/ui/components/elements/tables/Table.svelte';
   import Currency from '~/ui/components/elements/labels/Currency.svelte';
-  import { MAIN_REPORT_TRANSACTIONS } from '~/utils/constants/links';
+  import { MAIN_REPORT_STOCKS, MAIN_REPORT_TRANSACTIONS } from '~/utils/constants/links';
   import { useBlocState } from '~/utils/hooks/useBlocState';
   import { stateDerived } from '~/utils/helpers/state';
   import { ColumnType } from '~/utils/types/table';
 
   import FilterBar from './FilterBar.svelte';
-  import Export from './tables/Export.svelte';
-  import Modal from '~/ui/components/overlays/modals/Modal.svelte';
-  import Filename from './modals/Filename.svelte';
-  import { parseDateReport } from '~/utils/helpers/parse';
+  import Reports from './tables/Reports.svelte';
 
   const bloc = provideSummaryReportBloc();
-  const stockBloc = provideStockReportBloc();
-  const transactionBloc = provideTransactionReportBloc();
   const syncBloc = provideSyncBloc();
 
   const state = useBlocState<SummaryReportState>(bloc);
-  const stockState = useBlocState<StockReportState>(stockBloc);
-  const transactionState = useBlocState<TransactionReportState>(transactionBloc);
   const statePromise: Readable<Promise<SummaryReportState>> = derived(state, stateDerived);
 
   const filters = writable({
     from: '',
     to: '',
   });
-  const action = writable<string | null>();
-  const machine = writable<Machine | null>();
 
   const columns: ColumnType[] = [
     { key: 'id', index: 'id', title: 'Machine ID', sortable: true },
@@ -53,7 +33,7 @@
     { key: 'creditcard', index: 'total_payments.creditcard', title: 'Credit Card', sortable: true, type: 'currency' },
     { key: 'promptpay', index: 'total_payments.promptpay', title: 'Promptpay', sortable: true, type: 'currency' },
     { key: 'total', index: 'total', title: 'Total', sortable: true, type: 'currency' },
-    { key: 'report', title: 'Export Report', render: () => Export },
+    { key: 'report', title: 'Reports', render: () => Reports },
   ];
 
   const reload = async () => {
@@ -67,49 +47,23 @@
   };
 
   function handleAction(e: CustomEvent) {
-    action.set(e.detail?.type || e.type);
-    machine.set(e.detail?.source);
+    const type = e.detail?.type || e.type;
+    const { source } = e.detail;
+
+    switch (type) {
+      case 'stock':
+        navigate(MAIN_REPORT_STOCKS(source.id) + '?from=' + $filters.from + '&to=' + $filters.to);
+        break;
+
+      case 'transaction':
+        navigate(MAIN_REPORT_TRANSACTIONS(source.id) + '?from=' + $filters.from + '&to=' + $filters.to);
+        break;
+    }
   }
 
   function handleSelect(e: CustomEvent) {
     const { data } = e.detail;
     navigate(MAIN_REPORT_TRANSACTIONS(data.id) + '?from=' + $filters.from + '&to=' + $filters.to);
-  }
-
-  function handleClose(e: CustomEvent) {
-    action.set(null);
-    machine.set(null);
-  }
-
-  async function handleDownload(e: CustomEvent) {
-    handleClose(e);
-    const { action, machine, filename } = e.detail;
-    let status: OperationStatus;
-    let data = [];
-
-    switch (action) {
-      case 'stock':
-        status = await stockBloc.report(machine.id, $filters);
-        if (status === 'success') {
-          data = [...$stockState.list];
-        }
-        break;
-
-      case 'transaction':
-        status = await transactionBloc.report(machine.id, $filters);
-        if (status === 'success') {
-          data = $transactionState.list.map(parseDateReport);
-        }
-        break;
-    }
-
-    const csv = Papa.unparse(data);
-    const csvData = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-    const csvURL = window.URL.createObjectURL(csvData);
-    const tempLink = document.createElement('a');
-    tempLink.href = csvURL;
-    tempLink.setAttribute('download', `${filename}.csv`);
-    tempLink.click();
   }
 
   onMount(async () => {
@@ -152,13 +106,6 @@
     </div>
   </div>
 </section>
-
-<!-- Display modals -->
-{#if $machine}
-  <Modal on:close={handleClose}>
-    <Filename action={$action} machine={$machine} on:download={handleDownload} on:cancel={handleClose} />
-  </Modal>
-{/if}
 
 <style>
   .card {

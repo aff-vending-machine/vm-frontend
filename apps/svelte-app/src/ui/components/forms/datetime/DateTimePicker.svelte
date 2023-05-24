@@ -6,6 +6,7 @@
   import { TimePicker } from 'svelte-time-picker';
   import dayjs from 'dayjs';
   import Icon from '~/ui/components/elements/icons/Icon.svelte';
+  import Button from '../../elements/buttons/Button.svelte';
 
   export let value: Date;
   export let id: string = null;
@@ -133,7 +134,7 @@
           <TimePicker date={time} options={{ is24h: true }} />
         {/if}
         <div>
-          <button on:click={handleChange} class="w-full bg-primary-500">Done</button>
+          <Button on:click={handleChange} color="secondary" class="w-full uppercase text-xl rounded-none">Done</Button>
         </div>
       </div>
     </div>
