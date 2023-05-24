@@ -1,15 +1,17 @@
 <!-- Cart -->
 <script lang="ts">
-  import { TransactionReport } from '@apps/core';
+  import { CartItem, TransactionReport } from '@apps/core';
 
   export let source: TransactionReport;
+
+  $: cart = source['cart'] as CartItem[];
 </script>
 
 <!-- HTML -->
 <div class="whitespace-nowrap">
-  {#each source['cart'] as item}
-    <span class="font-mono">[{item.code}: {item.price} x {item.quantity} = {item.price * item.quantity}]</span>
-    <br/>
+  {#each cart as item}
+    <span class="font-mono">[{item.name}: {item.price} x {item.quantity} = {item.price * item.quantity}]</span>
+    <br />
   {/each}
 </div>
 
