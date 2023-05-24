@@ -1,3 +1,3 @@
 export const genSKU = (n: number) => {
-    return 'P' + String(n + 1).padStart(6, '0');
-}
+  return 'CP-' + String(n + 1).padStart(5, '0');
+};
