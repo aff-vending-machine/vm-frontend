@@ -20,11 +20,11 @@
   const formID = 'slot-creator-form';
   const code = field('code', slotcode, [required()]);
   const group_id = field('group_id', 1, [required()]);
-  const product_id = field('product_id', 0, [required()]);
+  const productID = field('product_id', 0, [required()]);
   const stock = field('stock', 0, [required(), min(0)]);
   const capacity = field('capacity', 0, [required(), min(0)]);
   const is_enable = field('is_enable', true, [required()]);
-  const slotForm = form(code, group_id, product_id, stock, capacity, is_enable);
+  const slotForm = form(code, group_id, productID, stock, capacity, is_enable);
 
   async function handleSubmit() {
     await slotForm.validate();
@@ -34,9 +34,9 @@
   }
 
   async function handleGroup() {
-    if (productOptions.findIndex(p => p.filter === $product_id.value) === -1) {
+    if (productOptions.findIndex(p => p.filter === $productID.value) === -1) {
       const firstProduct = productOptions.filter(p => p.filter === $group_id.value)[0];
-      product_id.set(firstProduct.value);
+      productID.set(firstProduct.value);
     }
   }
 
@@ -68,8 +68,8 @@
     <SelectField
       id="product_id"
       label="Product"
-      bind:value={$product_id.value}
-      error={$product_id.errors?.at(0)}
+      bind:value={$productID.value}
+      error={$productID.errors?.at(0)}
       options={productOptions.filter(p => p.filter === $group_id.value)}
       unselected={false}
     />

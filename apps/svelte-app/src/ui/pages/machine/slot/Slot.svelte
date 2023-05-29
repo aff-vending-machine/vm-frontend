@@ -16,7 +16,6 @@
     provideSyncBloc,
     MachineSlotState,
     MachineState,
-    SyncState,
     BulkUpdateMachineSlot,
     CreateMachineSlot,
   } from '@apps/core';
@@ -85,7 +84,7 @@
 
   const loadMachineData = async () => {
     await machineBloc.get($machineId);
-    await bloc.list($machineId, { preloads: 'CatalogProduct' });
+    await bloc.list($machineId, { preloads: 'Product' });
   };
 
   const loadGroupOptions = async () => {
@@ -197,7 +196,6 @@
       .map(s => ({
         id: s.id,
         product_id: s.product_id,
-        catalog_product_id: s.product_id,
         stock: s.stock,
         capacity: s.capacity,
         is_enable: s.is_enable,
@@ -207,7 +205,7 @@
 
     if (status === 'success') {
       await syncBloc.pushSlots($machineId);
-      await bloc.list($machineId, { preloads: 'CatalogProduct' });
+      await bloc.list($machineId, { preloads: 'Product' });
     }
   }
 
