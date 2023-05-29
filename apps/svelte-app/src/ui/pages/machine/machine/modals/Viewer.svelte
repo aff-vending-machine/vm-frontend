@@ -11,10 +11,10 @@
   const dispatch = createEventDispatcher();
 
   function handleEdit() {
-    dispatch('edit', { data: machine });
+    dispatch('edit', { source: machine });
   }
   function handleDelete() {
-    dispatch('delete', { data: machine });
+    dispatch('delete', { source: machine });
   }
   function handleCancel() {
     dispatch('cancel');
@@ -23,8 +23,17 @@
 
 <div class="h-full overflow-y-auto mr-2" style="z-index: 999;">
   <div class="flex flex-wrap">
-    <div class="w-full md:w-2/3 md:pl-4 space-y-1">
+    <div class="w-full md:pl-4 space-y-1">
       <h1 class="text-xl font-bold pb-2">{machine.name}</h1>
+      <div class="grid grid-cols-3 gap-4">
+        <p class="text-gray-700">serial number:</p>
+        <p class="text-gray-700 col-span-2">{machine.serial_number}</p>
+        <p class="text-gray-700">location:</p>
+        <p class="text-gray-700 col-span-2">{machine.location}</p>
+        <p class="text-gray-700">vendor:</p>
+        <p class="text-gray-700 col-span-2">{machine.vendor}</p>
+      </div>
+      <p ></p>
     </div>
   </div>
 

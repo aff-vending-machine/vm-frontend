@@ -1,5 +1,9 @@
 <!-- Navbar -->
 <script lang="ts">
+  import { LogOut } from 'lucide-svelte';
+  import { navigate } from 'svelte-navigator';
+
+  import { LOGOUT } from '~/utils/constants/links';
   import LanguageSwitcher from '~/ui/components/elements/switchers/LanguageSwitcher.svelte';
   import Burger from '~/ui/components/elements/icons/Burger.svelte';
 
@@ -7,6 +11,10 @@
 
   function handleClick() {
     active = !active;
+  }
+
+  function handleLogoutClick() {
+    navigate(LOGOUT);
   }
 </script>
 
@@ -17,6 +25,9 @@
   </li>
   <li class="flex items-center pr-4">
     <LanguageSwitcher />
+    <button class="p-2 cursor-pointer" on:click={handleLogoutClick}>
+      <LogOut color="white" />
+    </button>
   </li>
 </ul>
 

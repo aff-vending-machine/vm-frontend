@@ -5,11 +5,13 @@
 
   // core
   import { provideAuthBloc } from '@apps/core';
+  import { access } from '~/stores/access';
 
   const bloc = provideAuthBloc();
   let timeoutId: number;
 
   onMount(async () => {
+    access.set(null);
     await bloc.logout();
     timeoutId = setTimeout(() => {
       navigate('/', { replace: true });

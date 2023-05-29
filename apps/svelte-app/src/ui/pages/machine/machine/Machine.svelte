@@ -6,21 +6,21 @@
   import { Readable, derived, writable } from 'svelte/store';
 
   import { provideMachineBloc, MachineState, Machine, UpdateMachine, OperationStatus } from '@apps/core';
-
-  import Table from '~/ui/components/elements/tables/Table.svelte';
-  import Pagination from '~/ui/components/navigations/paginations/Pagination.svelte';
-  import FilterBar from './FilterBar.svelte';
-  import Modal from '~/ui/components/overlays/modals/Modal.svelte';
-  import MachineEditor from './modals/Editor.svelte';
-  import MachineViewer from './modals/Viewer.svelte';
-  import MachineEraser from './modals/Eraser.svelte';
-
   import notification from '~/stores/notification';
   import { stateDerived } from '~/utils/helpers/state';
   import { useBlocState } from '~/utils/hooks/useBlocState';
   import { MAIN_MACHINE_SLOTS } from '~/utils/constants/links';
-  // import Action from './tables/Action.svelte';
   import { ColumnType } from '~/utils/types/table';
+
+  import Table from '~/ui/components/elements/tables/Table.svelte';
+  import Pagination from '~/ui/components/navigations/paginations/Pagination.svelte';
+  import Modal from '~/ui/components/overlays/modals/Modal.svelte';
+  import FilterBar from './FilterBar.svelte';
+
+  import MachineEditor from './modals/Editor.svelte';
+  import MachineViewer from './modals/Viewer.svelte';
+  import MachineEraser from './modals/Eraser.svelte';
+  import Action from './tables/Action.svelte';
 
   const bloc = provideMachineBloc();
   const actionBloc = provideMachineBloc();
@@ -33,7 +33,6 @@
     offset: 0,
     limit: 10,
     sort_by: 'id:asc',
-    group_id: '',
     search: '',
   });
   const action = writable<string | null>();
@@ -47,7 +46,7 @@
     { key: 'type', index: 'type', title: 'Type', sortable: true },
     { key: 'vendor', index: 'vendor', title: 'Vendor', sortable: true },
     { key: 'status', index: 'status', title: 'Status', sortable: true },
-    // { key: 'action', title: 'Action', render: () => Action },
+    { key: 'action', title: 'Action', render: () => Action },
   ];
 
   const reload = async () => {
@@ -101,7 +100,7 @@
   async function handleDelete(e: CustomEvent) {
     handleClose(e);
     const status = await actionBloc.delete(e.detail.id);
-    notifyStatus(status, 'Product deleted successfully', 'Machine deletion failed');
+    notifyStatus(status, 'Machine deleted successfully', 'Machine deletion failed');
   }
 
   onMount(async () => {
