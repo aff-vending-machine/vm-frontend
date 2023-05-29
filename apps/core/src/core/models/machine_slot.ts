@@ -32,7 +32,6 @@ export type UpdateMachineSlot = {
 export type BulkUpdateMachineSlot = {
   id?: UniqueID;
   product_id?: UniqueID;
-  catalog_product_id?: UniqueID;
   stock?: number;
   capacity?: number;
   is_enable?: boolean;

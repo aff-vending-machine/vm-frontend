@@ -24,12 +24,12 @@
   const id = field('id', slot.id, [required()]);
   const code = field('code', slot.code, [required()]);
   const group_id = field('group_id', slot.product?.group_id, [required()]);
-  const product_id = field('product_id', slot.product_id, []);
+  const productID = field('product_id', slot.product_id, []);
   const stock = field('stock', slot.stock, [required(), min(0)]);
   const capacity = field('capacity', slot.capacity, [required(), min(0)]);
   const is_enable = field('is_enable', slot.is_enable, [required()]);
 
-  const slotForm = form(id, code, group_id, product_id, stock, capacity, is_enable);
+  const slotForm = form(id, code, group_id, productID, stock, capacity, is_enable);
 
   async function handleSubmit() {
     await slotForm.validate();
@@ -39,9 +39,9 @@
   }
 
   async function handleGroup() {
-    if (productOptions.findIndex(p => p.filter === $product_id.value) === -1) {
+    if (productOptions.findIndex(p => p.filter === $productID.value) === -1) {
       const firstProduct = productOptions.filter(p => p.filter === $group_id.value)[0];
-      product_id.set(firstProduct.value);
+      productID.set(firstProduct.value);
     }
   }
 
@@ -78,8 +78,8 @@
     <SelectField
       id="product_id"
       label="Product"
-      bind:value={$product_id.value}
-      error={$product_id.errors?.at(0)}
+      bind:value={$productID.value}
+      error={$productID.errors?.at(0)}
       options={productOptions.filter(p => p.filter === $group_id.value)}
       unselected={false}
     />
