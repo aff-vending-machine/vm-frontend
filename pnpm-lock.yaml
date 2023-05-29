@@ -65,6 +65,9 @@ importers:
       dayjs:
         specifier: ^1.11.7
         version: 1.11.7
+      lucide-svelte:
+        specifier: ^0.224.0
+        version: 0.224.0(svelte@3.55.1)
       papaparse:
         specifier: ^5.4.1
         version: 5.4.1
@@ -3356,6 +3359,14 @@ packages:
     resolution: {integrity: sha512-BpdYkt9EvGl8OfWHDQPISVpcl5xZthb+XPsbELj5AQXxIC8IriDZIQYjBJPEm5rS420sjZ0TLEzRcq5KdBhYrQ==}
     dependencies:
       es5-ext: 0.10.62
+    dev: false
+
+  /lucide-svelte@0.224.0(svelte@3.55.1):
+    resolution: {integrity: sha512-YULcRMvvAGzwKG6hdZHc5V7zYfMSDZX/gmzpJudpT1+XMCIIuYIrKtoQZUPOS8ya8eYYQ76MdheUKQvZ5djCIg==}
+    peerDependencies:
+      svelte: ^3.49.0
+    dependencies:
+      svelte: 3.55.1
     dev: false
 
   /magic-string@0.25.9:

@@ -3,13 +3,10 @@
   import { Machine } from '@apps/core';
   import { createEventDispatcher } from 'svelte';
   import { field, form } from 'svelte-forms';
-  import { min, required } from 'svelte-forms/validators';
+  import { required } from 'svelte-forms/validators';
 
-  import Image from '~/ui/components/elements/images/Image.svelte';
   import Button from '~/ui/components/elements/buttons/Button.svelte';
-  import SelectField from '~/ui/components/forms/input/SelectField.svelte';
   import TextInputField from '~/ui/components/forms/input/TextInputField.svelte';
-  import NumberInputField from '~/ui/components/forms/input/NumberInputField.svelte';
 
   export let machine: Machine;
 
@@ -48,13 +45,13 @@
   >
     <TextInputField id="name" label="Name" bind:value={$name.value} error={$name.errors?.at(0)} />
 
-    <SelectField
+    <!-- <SelectField
       id="branch_id"
       label="Branch"
       bind:value={$branchId.value}
       error={$branchId.errors?.at(0)}
       options={[]}
-    />
+    /> -->
 
     <TextInputField id="location" label="Location" bind:value={$location.value} error={$location.errors?.at(0)} />
 

@@ -1,21 +1,23 @@
-<!-- MachineViewer -->
+<!-- Viewer -->
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
   import { _ } from 'svelte-i18n';
-  import { Machine } from '@apps/core';
+  import { CatalogGroup } from '@apps/core';
 
   import Button from '~/ui/components/elements/buttons/Button.svelte';
 
-  export let machine: Machine;
+  export let group: CatalogGroup;
 
   const dispatch = createEventDispatcher();
 
   function handleEdit() {
-    dispatch('edit', { source: machine });
+    dispatch('edit', { source: group });
   }
+
   function handleDelete() {
-    dispatch('delete', { source: machine });
+    dispatch('delete', { source: group });
   }
+
   function handleCancel() {
     dispatch('cancel');
   }
@@ -23,17 +25,17 @@
 
 <div class="h-full overflow-y-auto mr-2" style="z-index: 999;">
   <div class="flex flex-wrap">
-    <div class="w-full md:pl-4 space-y-1">
-      <h1 class="text-xl font-bold pb-2">{machine.name}</h1>
-      <div class="grid grid-cols-3 gap-4">
-        <p class="text-gray-700">serial number:</p>
-        <p class="text-gray-700 col-span-2">{machine.serial_number}</p>
-        <p class="text-gray-700">location:</p>
-        <p class="text-gray-700 col-span-2">{machine.location}</p>
-        <p class="text-gray-700">vendor:</p>
-        <p class="text-gray-700 col-span-2">{machine.vendor}</p>
-      </div>
-      <p ></p>
+    <div class="w-full  md:pl-4 space-y-1">
+      <h1 class="text-xl font-bold pb-2">{group.name}</h1>
+      <p class="text-gray-700">{group.description}</p>
+      <p class="text-gray-700">
+        Status:
+        {#if group.is_enable}
+          <span class="text-green-500">{$_('status.active')}</span>
+        {:else}
+          <span class="text-red-500">{$_('status.disabled')}</span>
+        {/if}
+      </p>
     </div>
   </div>
 

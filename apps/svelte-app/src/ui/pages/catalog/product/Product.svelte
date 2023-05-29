@@ -15,20 +15,21 @@
     provideCatalogGroupBloc,
     provideCatalogProductBloc,
   } from '@apps/core';
-  import { useBlocState } from '~/utils/hooks/useBlocState';
-  import Table from '~/ui/components/elements/tables/Table.svelte';
-  import Pagination from '~/ui/components/navigations/paginations/Pagination.svelte';
-  import FilterBar from './FilterBar.svelte';
-  import Modal from '~/ui/components/overlays/modals/Modal.svelte';
-
-  import ProductCreator from './modals/Creator.svelte';
-  import ProductEditor from './modals/Editor.svelte';
-  import ProductViewer from './modals/Viewer.svelte';
-  import ProductEraser from './modals/Eraser.svelte';
   import { SelectOptionsType } from '~/utils/types/options';
   import { stateDerived } from '~/utils/helpers/state';
-  import notification from '~/stores/notification';
+  import { useBlocState } from '~/utils/hooks/useBlocState';
   import { ColumnType } from '~/utils/types/table';
+  import notification from '~/stores/notification';
+
+  import Table from '~/ui/components/elements/tables/Table.svelte';
+  import Pagination from '~/ui/components/navigations/paginations/Pagination.svelte';
+  import Modal from '~/ui/components/overlays/modals/Modal.svelte';
+  import FilterBar from './FilterBar.svelte';
+
+  import Creator from './modals/Creator.svelte';
+  import Editor from './modals/Editor.svelte';
+  import Viewer from './modals/Viewer.svelte';
+  import Eraser from './modals/Eraser.svelte';
   import Action from './tables/Action.svelte';
 
   const bloc = provideCatalogProductBloc();
@@ -202,18 +203,18 @@
 {#if $action}
   <Modal on:close={handleClose}>
     {#if $action === 'create'}
-      <ProductCreator
+      <Creator
         total={$state.count}
         groupOptions={$groupOptions}
         on:create={handleCreate}
         on:cancel={handleClose}
       />
     {:else if $action === 'view'}
-      <ProductViewer product={$product} on:edit={handleAction} on:delete={handleAction} on:cancel={handleClose} />
+      <Viewer product={$product} on:edit={handleAction} on:delete={handleAction} on:cancel={handleClose} />
     {:else if $action === 'edit'}
-      <ProductEditor product={$product} groupOptions={$groupOptions} on:update={handleUpdate} on:cancel={handleClose} />
+      <Editor product={$product} groupOptions={$groupOptions} on:update={handleUpdate} on:cancel={handleClose} />
     {:else if $action === 'delete'}
-      <ProductEraser product={$product} on:delete={handleDelete} on:cancel={handleClose} />
+      <Eraser product={$product} on:delete={handleDelete} on:cancel={handleClose} />
     {/if}
   </Modal>
 {/if}
