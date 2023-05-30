@@ -16,6 +16,15 @@ module.exports = {
         "auto": 'auto auto',
       },
       gridTemplateColumns: {
+        "1-auto": 'auto',
+        "2-auto": 'auto auto',
+        "3-auto": 'auto auto auto',
+        "4-auto": 'auto auto auto auto',
+        "5-auto": 'auto auto auto auto auto',
+        "6-auto": 'auto auto auto auto auto auto',
+        "7-auto": 'auto auto auto auto auto auto auto',
+        "8-auto": 'auto auto auto auto auto auto auto auto',
+        "9-auto": 'auto auto auto auto auto auto auto auto auto',
         "10-auto": 'auto auto auto auto auto auto auto auto auto auto',
       },
       colors: {
@@ -64,6 +73,9 @@ module.exports = {
     {
       pattern: /(text|bg|border|fill)-(primary|secondary|tertiary|info|warning|success|danger)-(50|100|400|500|700|800)/,
       variants: ['hover'],
+    },
+    {
+      pattern: /(grid-cols)-(1|2|3|4|5|6|7|8|9|10)-(auto)/,
     },
   ],
 }

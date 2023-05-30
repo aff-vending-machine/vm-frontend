@@ -10,5 +10,5 @@ export const statusOptions = [
     { label: 'PAID', value: 'PAID' },
     { label: 'CANCELLED', value: 'CANCELLED' },
     { label: 'DONE', value: 'DONE' },
-    { label: 'DONE_BROKEN', value: 'DONE_BROKEN' },
+    { label: 'DONE-BROKEN', value: 'DONE-BROKEN' },
 ]

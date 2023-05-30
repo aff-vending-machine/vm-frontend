@@ -280,6 +280,10 @@
 
     return filled;
   };
+
+  function getMaxGrid(col: number) {
+    return `grid-cols-${col}-auto`
+  }
 </script>
 
 <!-- HTML -->
@@ -320,7 +324,7 @@
       {#await $statePromise}
         <div class="text-center py-4">Loading...</div>
       {:then $state}
-        <div class="grid max-w-full grid-cols-10-auto gap-2 overflow-auto">
+        <div class="grid max-w-full {getMaxGrid($maxCols)} gap-2 overflow-auto">
           {#each fillSlots(local, filter, $maxRows, $maxCols) as slot}
             {#if slot.id >= 0}
               <SlotCard
