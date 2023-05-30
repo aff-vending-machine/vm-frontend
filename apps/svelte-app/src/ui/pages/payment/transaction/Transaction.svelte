@@ -12,6 +12,9 @@
     OperationStatus,
     PaymentChannelState,
     providePaymentChannelBloc,
+    provideMachineBloc,
+    MachineState,
+    Machine,
   } from '@apps/core';
 
   import Table from '~/ui/components/elements/tables/Table.svelte';
@@ -30,12 +33,15 @@
 
   const bloc = providePaymentTransactionBloc();
   const actionBloc = providePaymentTransactionBloc();
+  const machineBloc = provideMachineBloc();
   const channelBloc = providePaymentChannelBloc();
 
   const state = useBlocState<PaymentTransactionState>(bloc);
+  const machineState = useBlocState<MachineState>(machineBloc);
   const channelState = useBlocState<PaymentChannelState>(channelBloc);
   const statePromise: Readable<Promise<PaymentTransactionState>> = derived(state, stateDerived);
 
+  const machineOptions = writable<SelectOptionsType[]>([]);
   const channelOptions = writable<SelectOptionsType[]>([]);
 
   const filters = writable({
@@ -47,6 +53,7 @@
     search: '',
     from: '',
     to: '',
+    machine_id: '',
     channel_id: '',
     order_status: '',
     preloads: 'Branch:Machine:Channel',
@@ -81,6 +88,15 @@
       case 'failure':
         notification.add('danger', errorMessage);
         break;
+    }
+  };
+
+  const loadMachineOptions = async () => {
+    const status = await machineBloc.list();
+
+    if (status === 'success') {
+      const options = $machineState.list.map((c: Machine) => ({ value: c.id, label: c.name }));
+      machineOptions.set(options);
     }
   };
 
@@ -128,6 +144,7 @@
   }
 
   onMount(async () => {
+    await loadMachineOptions();
     await loadChannelOptions();
     await reload();
   });
@@ -142,8 +159,10 @@
       <FilterBar
         bind:from={$filters.from}
         bind:to={$filters.to}
+        bind:machine={$filters.machine_id}
         bind:channel={$filters.channel_id}
         bind:status={$filters.order_status}
+        machineOptions={$machineOptions}
         channelOptions={$channelOptions}
         bind:limit={$filters.limit}
         bind:search={$filters.search}

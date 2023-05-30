@@ -14,8 +14,10 @@
   export let search: string;
   export let from: string;
   export let to: string;
+  export let machine: string;
   export let channel: string;
   export let status: string;
+  export let machineOptions: SelectOptionsType[];
   export let channelOptions: SelectOptionsType[];
 
   dayjs.extend(utc);
@@ -58,6 +60,14 @@
       rangeFrom={startDateTime}
       rangeTo={lastDateTime}
       bind:value={endDateTime}
+      on:change={handleFilter}
+    />
+    <SelectField
+      id="machine_id"
+      label="Machine"
+      bind:value={machine}
+      options={machineOptions}
+      placeholder="no filter"
       on:change={handleFilter}
     />
     <SelectField
