@@ -10,7 +10,7 @@
 <!-- HTML -->
 <div class="whitespace-nowrap">
   {#each cart as item}
-    <span class="font-mono">[{item.name}: {item.price} x {item.quantity} = {item.price * item.quantity}]</span>
+    <span class="font-mono">[{item.code} ({item.name}): {item.price} x {item.quantity} = {item.price * item.quantity}]</span>
     <br />
   {/each}
 </div>
