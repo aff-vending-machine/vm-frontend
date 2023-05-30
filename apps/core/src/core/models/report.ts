@@ -33,6 +33,7 @@ export type TransactionReport = {
     received_quantity: number;
     order_price: number;
     paid_price: number;
+    raw_reference: string;
     reference1: string;
     reference2: string;
     reference3: string;

@@ -9,6 +9,7 @@ export const parseTransactionReport = (transaction: TransactionReport) => {
   transaction.cart = (transaction.cart as CartItem[])
     .map(item => `[${item.code} (${item.name}): ${item.price} x ${item.quantity} = ${item.price * item.quantity}]`)
     .join(' ');
+  delete transaction.raw_reference;
 
   return transaction;
 };
