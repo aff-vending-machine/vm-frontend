@@ -25,8 +25,8 @@ COPY apps/core/package.json /app/apps/core/
 # Copy the package.json files for the Svelte app
 COPY apps/svelte-app/package.json /app/apps/svelte-app/
 
-# Copy only the necessary package.json, pnpm-lock.yaml and pnpm-workspace.yaml files
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml /app/
+# Copy only the necessary package.json and pnpm-workspace.yaml files
+COPY package.json pnpm-workspace.yaml /app/
 
 # Install PNPM and dependencies
 RUN npm install -g pnpm && pnpm i
