@@ -39,7 +39,7 @@
   }
 
   async function handleGroup() {
-    if (productOptions.findIndex(p => p.filter === $productID.value) === -1) {
+    if (productOptions.findIndex(p => p.value === $productID.value) === -1) {
       const firstProduct = productOptions.filter(p => p.filter === $group_id.value)[0];
       productID.set(firstProduct.value);
     }
