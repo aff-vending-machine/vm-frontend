@@ -44,6 +44,8 @@
         await syncBloc.pullTransactions(data.id);
       });
     }
+
+    await bloc.report($filters);
   };
 
   function handleAction(e: CustomEvent) {
@@ -85,19 +87,23 @@
     </div>
     <div class="w-full table-container">
       {#await $statePromise}
-        <div class="text-center py-4">Loading...</div>
+        <div class="text-center py-4">Syncing...</div>
       {:then $state}
-        <Table {columns} source={$state.list} on:sort={reload} on:select={handleSelect} on:action={handleAction}>
-          <tfoot class="sticky bottom-0 z-1 font-bold border-y border-gray-300 ">
-            <tr class="bg-gray-50">
-              <td class="px-6 py-4" colspan={columns.length - 4}>Total</td>
-              <td class="px-6 py-4"><Currency amount={totalCreditCard} /></td>
-              <td class="px-6 py-4"><Currency amount={totalPromptPay} /></td>
-              <td class="px-6 py-4"><Currency amount={totalPayment} /></td>
-              <td />
-            </tr>
-          </tfoot>
-        </Table>
+        {#if $state.status === 'loading'}
+          <div class="text-center py-4">Loading...</div>
+        {:else if $state.status === 'success'}
+          <Table {columns} source={$state.list} on:sort={reload} on:select={handleSelect} on:action={handleAction}>
+            <tfoot class="sticky bottom-0 z-1 font-bold border-y border-gray-300">
+              <tr class="bg-gray-50">
+                <td class="px-6 py-4" colspan={columns.length - 4}>Total</td>
+                <td class="px-6 py-4"><Currency amount={totalCreditCard} /></td>
+                <td class="px-6 py-4"><Currency amount={totalPromptPay} /></td>
+                <td class="px-6 py-4"><Currency amount={totalPayment} /></td>
+                <td />
+              </tr>
+            </tfoot>
+          </Table>
+        {/if}
       {:catch error}
         <div class="text-center text-red-500 py-4">
           {error.message || 'An error occurred while loading the data.'}

@@ -167,7 +167,7 @@
         bind:search={$filters.search}
         groupOptions={$groupOptions}
         on:create={handleAction}
-        on:filter={reload}
+        on:filter={handlePageChange}
       />
     </div>
     <div class="w-full table-container">

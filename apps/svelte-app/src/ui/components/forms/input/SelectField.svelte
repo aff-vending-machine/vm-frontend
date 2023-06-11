@@ -8,13 +8,16 @@
   export let options: SelectOptionsType[];
   export let placeholder = 'Select an option';
   export let unselected = true;
+  export let disabled = false;
+  export let hidden = false;
 </script>
 
-<div>
+<div class="{hidden ? 'hidden': ''}">
   <label for={id} class="block mb-1 text-sm font-medium">{label}:</label>
   <select
     {id}
     name={id}
+    {disabled}
     bind:value
     on:change
     class="w-full min-w-[160px] px-2 py-1 text-sm text-gray-700 border border-gray-300 rounded"

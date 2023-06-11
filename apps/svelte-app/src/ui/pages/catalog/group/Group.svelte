@@ -112,7 +112,7 @@
   }
 
   onMount(async () => {
-    await bloc.list(filters);
+    await bloc.list($filters);
   });
 </script>
 
@@ -124,7 +124,7 @@
     <div class="mb-4">
       <FilterBar
         on:create={handleAction}
-        on:filter={reload}
+        on:filter={handlePageChange}
       />
     </div>
     <div class="w-full table-container">
@@ -161,7 +161,6 @@
   <Modal on:close={handleClose}>
     {#if $action === 'create'}
       <Creator
-        total={$state.count}
         on:create={handleCreate}
         on:cancel={handleClose}
       />

@@ -16,10 +16,10 @@
   const dispatch = createEventDispatcher();
 
   function handleFilter() {
-    dispatch('filter');
+    dispatch('filter', { page: 1 });
   }
   function handleCreate() {
-    dispatch('create');
+    dispatch('create', { page: 1 });
   }
 </script>
 

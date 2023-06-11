@@ -16,8 +16,9 @@ export type AccountUser = {
 };
 
 export type CreateAccountUser = {
+  branch_id?: UniqueID;
+  role_id: UniqueID;
   username: string;
-  role: string;
   password: string;
 };
 

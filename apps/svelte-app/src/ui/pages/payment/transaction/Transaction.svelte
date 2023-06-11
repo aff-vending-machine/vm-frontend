@@ -95,7 +95,7 @@
     const status = await machineBloc.list();
 
     if (status === 'success') {
-      const options = $machineState.list.map((c: Machine) => ({ value: c.id, label: c.name }));
+      const options = ($machineState.list || []).map((c: Machine) => ({ value: c.id, label: c.name }));
       machineOptions.set(options);
     }
   };
@@ -166,7 +166,7 @@
         channelOptions={$channelOptions}
         bind:limit={$filters.limit}
         bind:search={$filters.search}
-        on:filter={reload}
+        on:filter={handlePageChange}
       />
     </div>
     <div class="w-full table-container">

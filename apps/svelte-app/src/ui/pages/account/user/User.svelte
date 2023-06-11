@@ -1,5 +1,6 @@
 <!-- User -->
 <script lang="ts">
+  import { access } from '~/stores/access';
   import { navigate } from 'svelte-navigator';
   import { _ } from 'svelte-i18n';
   import { onMount } from 'svelte';
@@ -16,6 +17,7 @@
     provideStoreBranchBloc,
     BranchState,
     StoreBranch,
+    CreateAccountUser,
   } from '@apps/core';
   import { SelectOptionsType } from '~/utils/types/options';
   import { stateDerived } from '~/utils/helpers/state';
@@ -29,10 +31,12 @@
   import Modal from '~/ui/components/overlays/modals/Modal.svelte';
   import FilterBar from './FilterBar.svelte';
 
-  import UserEditor from './modals/Editor.svelte';
-  import UserViewer from './modals/Viewer.svelte';
-  import UserEraser from './modals/Eraser.svelte';
+  import Editor from './modals/Editor.svelte';
+  import Viewer from './modals/Viewer.svelte';
+  import Eraser from './modals/Eraser.svelte';
   import Action from './tables/Action.svelte';
+  import Creator from './modals/Creator.svelte';
+  import { requestRole } from '~/utils/helpers/role';
 
   const bloc = provideAccountUserBloc();
   const actionBloc = provideAccountUserBloc();
@@ -64,6 +68,7 @@
     { key: 'name', index: 'username', title: 'Name', sortable: true },
     { key: 'role', index: 'role.name', title: 'Role', sortable: true },
     { key: 'branch', index: 'branch.name', title: 'Branch', sortable: true },
+    { key: 'created_by', index: 'created_by', title: 'Created By', sortable: true },
     { key: 'action', title: 'Action', render: () => Action },
   ];
 
@@ -124,12 +129,26 @@
     reload();
   }
 
+  async function handleCreate(e: CustomEvent) {
+    handleClose(e);
+    const payload: CreateAccountUser = {
+      branch_id: e.detail.branch_id,
+      role_id: e.detail.role_id,
+      username: e.detail.username,
+      password: e.detail.password,
+    };
+    const status = await actionBloc.create(payload);
+    notifyStatus(status, 'User created successfully', 'User creation failed');
+  }
+
   async function handleUpdate(e: CustomEvent) {
     handleClose(e);
   }
 
   async function handleDelete(e: CustomEvent) {
     handleClose(e);
+    const status = await actionBloc.delete(e.detail.id);
+    notifyStatus(status, 'User deleted successfully', 'User deletion failed');
   }
 
   onMount(async () => {
@@ -137,6 +156,13 @@
     await loadRoleOptions();
     await loadBranchOptions();
   });
+
+  $: getRoleOptions = () =>{
+    return $roleOptions.filter(r => requestRole($access?.role, r.label))
+  }
+  $: getUsers = (list: User[]) =>{
+    return list.filter(u => requestRole($access?.role, u.role.name))
+  }
 </script>
 
 <section class="card">
@@ -149,7 +175,7 @@
         bind:role={$filters.role_id}
         bind:branch={$filters.branch_id}
         bind:search={$filters.search}
-        roleOptions={$roleOptions}
+        roleOptions={getRoleOptions()}
         branchOptions={$branchOptions}
         on:create={handleAction}
         on:filter={reload}
@@ -160,7 +186,7 @@
         {#await $statePromise}
           <div class="text-center py-4">Loading...</div>
         {:then $state}
-          <Table {columns} source={$state.list} on:sort={reload} on:select={handleSelect} on:action={handleAction}>
+          <Table {columns} source={getUsers($state.list)} on:sort={reload} on:select={handleSelect} on:action={handleAction}>
             <tfoot class="sticky bottom-0 z-1 font-bold border-y border-gray-300">
               <tr class="bg-gray-50">
                 <td class="px-6 py-4" colspan={columns.length}>
@@ -185,14 +211,22 @@
 </section>
 
 <!-- Display modals -->
-{#if $action && $user}
+{#if $action}
   <Modal on:close={handleClose}>
-    {#if $action === 'view'}
-      <UserViewer user={$user} on:edit={handleAction} on:delete={handleAction} on:cancel={handleClose} />
+    {#if $action === 'create'}
+      <Creator
+        branch={$access.branch_id || 0}
+        roleOptions={getRoleOptions()}
+        branchOptions={$branchOptions}
+        on:create={handleCreate}
+        on:cancel={handleClose}
+      />
+    {:else if $action === 'view'}
+      <Viewer user={$user} on:edit={handleAction} on:delete={handleAction} on:cancel={handleClose} />
     {:else if $action === 'edit'}
-      <UserEditor user={$user} on:update={handleUpdate} on:cancel={handleClose} />
+      <Editor user={$user} on:update={handleUpdate} on:cancel={handleClose} />
     {:else if $action === 'delete'}
-      <UserEraser user={$user} on:delete={handleDelete} on:cancel={handleClose} />
+      <Eraser user={$user} on:delete={handleDelete} on:cancel={handleClose} />
     {/if}
   </Modal>
 {/if}

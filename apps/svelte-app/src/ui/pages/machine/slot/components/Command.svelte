@@ -11,6 +11,7 @@
   export let time: Date;
   export let isSynced: boolean;
   export let isEdited: boolean;
+  export let loading: boolean;
 
   dayjs.extend(relativeTime);
 
@@ -31,9 +32,9 @@
 <div class="flex flex-col space-y-2">
   <span class="text-xs font-semibold">Instructions</span>
   <div class="block">
-    <Button i="sync" disabled={!isSynced} on:click={handleRefresh}>Refresh</Button>
-    <Button i="save" disabled={!isEdited} on:click={handleSave}>Save</Button>
-    <Button i="cancel" disabled={!isEdited} on:click={handleCancel}>Cancel</Button>
+    <Button i="sync" disabled={!isSynced} {loading} on:click={handleRefresh}>Refresh</Button>
+    <Button i="save" disabled={!isEdited} {loading} on:click={handleSave}>Save</Button>
+    <Button i="cancel" disabled={!isEdited} {loading} on:click={handleCancel}>Cancel</Button>
   </div>
   <span class="text-xs">Last time sync: {showTime(time)}</span>
 </div>

@@ -7,9 +7,11 @@
   import Button from '~/ui/components/elements/buttons/Button.svelte';
   import Icon from '~/ui/components/elements/icons/Icon.svelte';
   import DateTimeField from '~/ui/components/forms/input/DateTimeField.svelte';
+  import ToggleField from '~/ui/components/forms/input/ToggleField.svelte';
 
   export let from: string;
   export let to: string;
+  export let group: boolean;
 
   dayjs.extend(utc);
   dayjs.extend(timezone);
@@ -62,6 +64,12 @@
       rangeFrom={startDateTime}
       rangeTo={lastDateTime}
       bind:value={endDateTime}
+      on:change={handleFilter}
+    />
+    <ToggleField
+      id="toggle-group"
+      label="Group Product"
+      bind:value={group}
       on:change={handleFilter}
     />
   </div>

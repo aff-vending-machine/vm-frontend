@@ -8,11 +8,12 @@
   export let time: Date;
   export let isSynced: boolean;
   export let isEdited: boolean;
+  export let loading: boolean;
 </script>
 
 <div class="flex justify-between border rounded p-4 bg-secondary-50">
   <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
-    <Command {time} {isSynced} {isEdited} on:refresh on:save on:cancel on:create />
+    <Command {time} {isSynced} {isEdited} {loading} on:refresh on:save on:cancel on:create />
   </div>
   <div class="flex items-end align-bottom space-x-2">
     <div class="flex flex-col space-y-2">

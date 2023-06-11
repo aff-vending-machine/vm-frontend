@@ -31,7 +31,7 @@
   function handleFilter(e: CustomEvent) {
     from = dayjs(startDateTime).toISOString();
     to = dayjs(endDateTime).toISOString();
-    dispatch('filter', e.detail);
+    dispatch('filter', { ...e.detail, page: 1 });
   }
 
   if (from === '') from = dayjs(today).startOf('month').subtract(1, 'day').set('hour', 21).toISOString();

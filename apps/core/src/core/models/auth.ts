@@ -9,8 +9,12 @@ export type Auth = {
 };
 
 export type AuthUser = {
-  id: UniqueID;
+  user_id: UniqueID;
+  username: string;
+  role_id: UniqueID;
   role: string;
+  branch_id: UniqueID;
+  branch: string;
 };
 
 export type TokenData = {
@@ -22,7 +26,10 @@ export type TokenData = {
   iss: string;
   type: TokenType;
   name: string;
+  role_id: UniqueID;
   role: string;
+  branch_id: UniqueID;
+  branch: string;
 };
 
 export const parseTokenData = (token: TokenData) => {
