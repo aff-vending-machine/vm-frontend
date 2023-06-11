@@ -6,7 +6,7 @@
   import { TimePicker } from 'svelte-time-picker';
   import dayjs from 'dayjs';
   import Icon from '~/ui/components/elements/icons/Icon.svelte';
-  import Button from '../../elements/buttons/Button.svelte';
+  import Button from '~/ui/components/elements/buttons/Button.svelte';
 
   export let value: Date;
   export let id: string = null;

@@ -1,10 +1,11 @@
-import { MAIN_MACHINES, MAIN_PRODUCTS, MAIN_PRODUCT_GROUPS, MAIN_REPORTS, MAIN_ROLES, MAIN_PAYMENT_TRNASACTIONS, MAIN_USERS, MAIN_PAYMENT_CHANNELS } from '~/utils/constants/links';
+import { MAIN_MACHINES, MAIN_PRODUCTS, MAIN_PRODUCT_GROUPS, MAIN_REPORTS, MAIN_PAYMENT_TRNASACTIONS, MAIN_PAYMENT_CHANNELS, MAIN_ACCOUNT_ROLES, MAIN_ACCOUNT_USERS } from '~/utils/constants/links';
+import { RoleType } from './role';
 
 export type SidebarItemType = {
     title: string;
     icon: string;
     link: string;
-    role: string; // staff | manager | admin | super-admin
+    role: RoleType;
 };
 
 export const sidebar: SidebarItemType[] = [
@@ -47,13 +48,13 @@ export const sidebar: SidebarItemType[] = [
     {
         title: 'User',
         icon: 'icx-user',
-        link: MAIN_USERS,
+        link: MAIN_ACCOUNT_USERS,
         role: 'super-admin'
     },
     {
         title: 'Role',
         icon: 'icx-role',
-        link: MAIN_ROLES,
+        link: MAIN_ACCOUNT_ROLES,
         role: 'super-admin'
     },
 ];

@@ -67,7 +67,12 @@ const routes: Route[] = [
     layout: MainLayout,
     requiresAuth: true,
   },
-  // { path: '/main/users', component: Users, layout: MainLayout, requiresAuth: true },
+  {
+    path: '/main/users',
+    component: import('~/ui/pages/account/user/User.svelte'),
+    layout: MainLayout,
+    requiresAuth: true,
+  },
   // { path: '/main/roles', component: Roles, layout: MainLayout, requiresAuth: true },
   { path: '/main', redirect: '/main/reports' },
   // { path: '/admin/reports', redirect: '/main/reports' },

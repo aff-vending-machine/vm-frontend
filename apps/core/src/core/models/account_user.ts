@@ -1,11 +1,16 @@
 import { toDateTime, toAnyDateTime } from '~/utils';
+import { StoreBranch } from './store_branch';
+import { AccountRole } from './account_role';
 
 export type AccountUser = {
   id: UniqueID;
+  branch?: StoreBranch;
+  branch_id?: UniqueID;
+  role: AccountRole;
+  role_id: UniqueID;
   created_at: DateTime;
   updated_at: DateTime;
   username: string;
-  role: string;
   created_by: string;
   last_login?: AnyDateTime;
 };
