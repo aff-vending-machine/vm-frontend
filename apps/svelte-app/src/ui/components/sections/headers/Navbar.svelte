@@ -6,6 +6,7 @@
   import { LOGOUT } from '~/utils/constants/links';
   import LanguageSwitcher from '~/ui/components/elements/switchers/LanguageSwitcher.svelte';
   import Burger from '~/ui/components/elements/icons/Burger.svelte';
+  import { access } from '~/stores/access';
 
   export let active = false;
 
@@ -24,6 +25,7 @@
     <Burger bind:active on:click={handleClick} />
   </li>
   <li class="flex items-center pr-4">
+    <span class="text-white mx-2">{$access.name}</span>
     <LanguageSwitcher />
     <button class="p-2 cursor-pointer" on:click={handleLogoutClick}>
       <LogOut color="white" />

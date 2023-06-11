@@ -5,7 +5,6 @@
 
   import {
     MachineState,
-    OperationStatus,
     PaymentChannel,
     PaymentChannelState,
     TransactionReportState,
@@ -21,6 +20,7 @@
 
   import FilterBar from './FilterBar.svelte';
   import Cart from './tables/Cart.svelte';
+  import Reference from './tables/Reference.svelte';
   import { SelectOptionsType } from '~/utils/types/options';
   import Currency from '~/ui/components/elements/labels/Currency.svelte';
   import Number from '~/ui/components/elements/labels/Number.svelte';
@@ -53,9 +53,10 @@
   const columns: ColumnType[] = [
     { key: 'index', title: 'No.', render: index => index + 1 },
     { key: 'merchant_order_id', index: 'merchant_order_id', title: 'Order ID', sortable: true },
-    { key: 'machine_name', index: 'machine_name', title: 'Machine', sortable: true },
+    // { key: 'machine_name', index: 'machine_name', title: 'Machine', sortable: true },
     { key: 'payment_channel', index: 'payment_channel', title: 'Payment Channel', sortable: true },
     { key: 'confirmed_paid_at', index: 'confirmed_paid_at', title: 'Timestamp', sortable: true, type: 'date' },
+    { key: 'reference', index: 'reference', title: 'Reference', render: () => Reference },
     { key: 'cart', index: 'cart', title: 'Cart', render: () => Cart },
     { key: 'received_quantity', index: 'received_quantity', title: 'Quantity', sortable: true, type: 'number' },
     { key: 'paid_price', index: 'paid_price', title: 'Paid Price', sortable: true, type: 'currency' },
@@ -117,7 +118,9 @@
 <section class="card">
   <div class="report-page">
     <div class="mb-4 p-4">
-      <h4 class="text-xl font-medium">Transaction Report: Machine {id}</h4>
+      <h4 class="text-xl font-medium">
+        Transaction Report: <span class="text-secondary-500">{$machineState.data?.name}</span>
+      </h4>
     </div>
     <div class="mb-4">
       <FilterBar
@@ -134,7 +137,7 @@
         <div class="text-center py-4">Loading...</div>
       {:then $state}
         <Table {columns} source={$state.list} on:sort={reload}>
-          <tfoot class="sticky bottom-0 z-1 font-bold border-y border-gray-300 ">
+          <tfoot class="sticky bottom-0 z-1 font-bold border-y border-gray-300">
             <tr class="bg-gray-50">
               <td class="px-6 py-4" colspan={columns.length - 2}>Total</td>
               <td class="px-6 py-4"><Number amount={totalQuantity} /></td>

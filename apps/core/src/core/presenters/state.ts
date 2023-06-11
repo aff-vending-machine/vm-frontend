@@ -9,7 +9,7 @@ export type MachineState = OperationState<Machine>
 export type MachineSlotState = OperationState<MachineSlot>
 export type PaymentChannelState = OperationState<PaymentChannel>
 export type PaymentTransactionState = OperationState<PaymentTransaction>
-export type Branch = OperationState<StoreBranch>
+export type BranchState = OperationState<StoreBranch>
 
 export type AuthState = OperationState<TokenData>
 export type SummaryReportState = OperationState<MachineReport>

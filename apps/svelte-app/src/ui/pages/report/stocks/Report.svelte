@@ -7,6 +7,7 @@
     MachineState,
     OperationStatus,
     PaymentChannel,
+    StockReport,
     StockReportState,
     parseStockReport,
     provideMachineBloc,
@@ -37,6 +38,7 @@
   const filters = writable({
     from: '',
     to: '',
+    group: true,
   });
   const machineId = writable<number | null>();
   const action = writable<string | null>();
@@ -65,7 +67,7 @@
   async function handleDownload(e: CustomEvent) {
     handleClose(e);
     const { filename } = e.detail;
-    let data = $state.list.map(parseStockReport);
+    let data = source($state.list, $filters.group).map(parseStockReport);
 
     const csv = Papa.unparse(data);
     const csvData = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
@@ -89,24 +91,56 @@
     await reload();
   });
 
-  $: totalQuantity = $state.list?.reduce((total, row) => total + row.sold, 0);
-  $: totalPayment = $state.list?.reduce((total, row) => total + row.total_price, 0);
+  $: totalQuantity = source($state.list, $filters.group).reduce((total, row) => total + row.sold, 0);
+  $: totalPayment = source($state.list, $filters.group).reduce((total, row) => total + row.total_price, 0);
+
+  $: source = (list: StockReport[], group: boolean) => {
+    if (group) {
+      return (list || []).reduce((result, data) => {
+        const idx = result.findIndex(r => r.name === data.name && r.sale_price === data.sale_price);
+
+        if (idx >= 0) {
+          if (!result[idx].code.includes(data.code)) {
+            let codes = result[idx].code.split(',')
+            codes = codes.concat(data.code).sort()
+            result[idx].code = codes.join(',')
+          }
+          result[idx].sold += data.sold;
+          result[idx].total_price = result[idx].sale_price * result[idx].sold;
+        } else {
+          result = result.concat(data);
+        }
+
+        return result;
+      }, [] as StockReport[]);
+    } else {
+      return list || [];
+    }
+  };
 </script>
 
 <section class="card">
   <div class="report-page">
     <div class="mb-4 p-4">
-      <h4 class="text-xl font-medium">Stock Report: Machine {id}</h4>
+      <h4 class="text-xl font-medium">
+        Stock Report: <span class="text-secondary-500">{$machineState.data?.name}</span>
+      </h4>
     </div>
     <div class="mb-4">
-      <FilterBar bind:from={$filters.from} bind:to={$filters.to} on:filter={reload} on:export={handleExport} />
+      <FilterBar
+        bind:from={$filters.from}
+        bind:to={$filters.to}
+        bind:group={$filters.group}
+        on:filter={reload}
+        on:export={handleExport}
+      />
     </div>
     <div class="w-full table-container">
       {#await $statePromise}
         <div class="text-center py-4">Loading...</div>
       {:then $state}
-        <Table {columns} source={$state.list} on:sort={reload}>
-          <tfoot class="sticky bottom-0 z-1 font-bold border-y border-gray-300 ">
+        <Table {columns} source={source($state.list, $filters.group)} on:sort={reload}>
+          <tfoot class="sticky bottom-0 z-1 font-bold border-y border-gray-300">
             <tr class="bg-gray-50">
               <td class="px-6 py-4" colspan={columns.length - 2}>Total</td>
               <td class="px-6 py-4"><Number amount={totalQuantity} /></td>
@@ -126,7 +160,7 @@
 <!-- Display modals -->
 {#if $action}
   <Modal on:close={handleClose}>
-    <Filename machine={$machineState.data} on:download={handleDownload} on:cancel={handleClose} />
+    <Filename machine={$machineState.data} from={$filters.from} to={$filters.to} on:download={handleDownload} on:cancel={handleClose} />
   </Modal>
 {/if}
 

@@ -18,6 +18,7 @@
     MachineState,
     BulkUpdateMachineSlot,
     CreateMachineSlot,
+    OperationStatus,
   } from '@apps/core';
   import { useBlocState } from '~/utils/hooks/useBlocState';
   import { stateDerived } from '~/utils/helpers/state';
@@ -31,6 +32,7 @@
   import Creator from './modals/Creator.svelte';
   import Editor from './modals/Editor.svelte';
   import Eraser from './modals/Eraser.svelte';
+  import notification from '~/stores/notification';
 
   // props
   export let id: string;
@@ -44,6 +46,7 @@
   const productBloc = provideCatalogProductBloc();
 
   const state = useBlocState<MachineSlotState>(bloc);
+  const actionState = useBlocState<MachineSlotState>(actionBloc);
   const machineState = useBlocState<MachineState>(machineBloc);
   const groupState = useBlocState<GroupState>(groupBloc);
   const productState = useBlocState<ProductState>(productBloc);
@@ -117,6 +120,19 @@
     if (!date) return true;
     if (dayjs().isAfter(dayjs(date).add(5, 'second'), 'second')) return true;
     return false;
+  };
+
+  const notifyStatus = (status: OperationStatus, successMessage: string, errorMessage: string) => {
+    switch (status) {
+      case 'success':
+        loadMachineData();
+        notification.add('success', successMessage);
+        break;
+
+      case 'failure':
+        notification.add('danger', errorMessage);
+        break;
+    }
   };
 
   function handleAction(e: CustomEvent) {
@@ -202,11 +218,7 @@
       }));
 
     const status = await actionBloc.bulkUpdate($machineId, slots);
-
-    if (status === 'success') {
-      await syncBloc.pushSlots($machineId);
-      await bloc.list($machineId, { preloads: 'Product' });
-    }
+    notifyStatus(status, 'Update successfully', 'Update failed');
   }
 
   function handleCancel(e: CustomEvent) {
@@ -282,7 +294,7 @@
   };
 
   function getMaxGrid(col: number) {
-    return `grid-cols-${col}-auto`
+    return `grid-cols-${col}-auto`;
   }
 </script>
 
@@ -290,7 +302,9 @@
 <section class="mx-4">
   <div class="w-full bg-white rounded-xl shadow-xl shadow-primary-100 space-y-4 py-4">
     <div class="px-8 pt-4">
-      <h4 class="text-xl font-semibold text-gray-700">Machine: {$machineState.data?.serial_number}</h4>
+      <h4 class="text-xl font-semibold text-gray-700">
+        Machine: <span class="text-secondary-500">{$machineState.data?.name}</span>
+      </h4>
     </div>
     <div class="p-4">
       <FilterBar
@@ -298,6 +312,7 @@
         time={$machineState.data?.sync_slot_time}
         isEdited={isEdited(local, $state.list)}
         isSynced={isPassed5Seconds($machineState.data?.sync_slot_time)}
+        loading={$actionState.status === 'loading'}
         on:refresh={handleRefresh}
         on:save={handleSave}
         on:cancel={handleCancel}
@@ -324,27 +339,31 @@
       {#await $statePromise}
         <div class="text-center py-4">Loading...</div>
       {:then $state}
-        <div class="grid max-w-full {getMaxGrid($maxCols)} gap-2 overflow-auto">
-          {#each fillSlots(local, filter, $maxRows, $maxCols) as slot}
-            {#if slot.id >= 0}
-              <SlotCard
-                {slot}
-                isEdited={isEdited(
-                  slot,
-                  $state.list.find(s => s.id === slot.id),
-                )}
-                on:stock={handleAdjustStock}
-                on:select={handleSelect}
-              />
-            {:else}
-              <SlotEmpty
-                code={slot.code}
-                isExist={$state.list.findIndex(s => s.code === slot.code) !== -1}
-                on:create={handleAction}
-              />
-            {/if}
-          {/each}
-        </div>
+        {#if $state.status === 'loading'}
+          <div class="text-center py-4">Loading...</div>
+        {:else}
+          <div class="grid max-w-full {getMaxGrid($maxCols)} gap-2 overflow-auto">
+            {#each fillSlots(local, filter, $maxRows, $maxCols) as slot}
+              {#if slot.id >= 0}
+                <SlotCard
+                  {slot}
+                  isEdited={isEdited(
+                    slot,
+                    $state.list.find(s => s.id === slot.id),
+                  )}
+                  on:stock={handleAdjustStock}
+                  on:select={handleSelect}
+                />
+              {:else}
+                <SlotEmpty
+                  code={slot.code}
+                  isExist={$state.list.findIndex(s => s.code === slot.code) !== -1}
+                  on:create={handleAction}
+                />
+              {/if}
+            {/each}
+          </div>
+        {/if}
       {:catch error}
         <div class="text-center text-red-500 py-4">
           {error.message || 'An error occurred while loading the data.'}
