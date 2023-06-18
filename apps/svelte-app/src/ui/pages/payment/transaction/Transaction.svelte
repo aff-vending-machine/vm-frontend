@@ -19,16 +19,17 @@
 
   import Table from '~/ui/components/elements/tables/Table.svelte';
   import Pagination from '~/ui/components/navigations/paginations/Pagination.svelte';
-  import FilterBar from './FilterBar.svelte';
   import Modal from '~/ui/components/overlays/modals/Modal.svelte';
+  import FilterBar from './FilterBar.svelte';
   import Viewer from './modals/Viewer.svelte';
   import Action from './tables/Action.svelte';
+  import Reference from './tables/Reference.svelte';
+  import Status from './tables/Status.svelte';
 
   import notification from '~/stores/notification';
   import { stateDerived } from '~/utils/helpers/state';
   import { useBlocState } from '~/utils/hooks/useBlocState';
   import { ColumnType } from '~/utils/types/table';
-  import Status from './tables/Status.svelte';
   import { SelectOptionsType } from '~/utils/types/options';
 
   const bloc = providePaymentTransactionBloc();
@@ -68,6 +69,7 @@
     { key: 'machine', index: 'machine.name', title: 'Machine', sortable: true },
     { key: 'channel', index: 'channel.channel', title: 'Payment Channel', sortable: true },
     { key: 'confirmed_paid_at', index: 'confirmed_paid_at', title: 'Timestamp', sortable: true },
+    { key: 'reference', index: 'reference', title: 'Reference', sortable: true, render: () => Reference },
     { key: 'order_price', index: 'order_price', title: 'Order Price', sortable: true },
     { key: 'paid_price', index: 'paid_price', title: 'Paid Price', sortable: true },
     { key: 'status', index: 'order_status', title: 'Status', sortable: true, render: () => Status },

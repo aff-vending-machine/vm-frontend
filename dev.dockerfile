@@ -6,7 +6,7 @@ LABEL maintainer="Tanawat Hongthai <ztrixack.th@gmail.com>"
 # USER nginx
 
 # Copy the built Vite.js app from the builder stage
-COPY ./dist /usr/share/nginx/html
+COPY dist /usr/share/nginx/html
 
 # Copy the Nginx configuration file
 COPY nginx.conf /etc/nginx/conf.d/default.conf

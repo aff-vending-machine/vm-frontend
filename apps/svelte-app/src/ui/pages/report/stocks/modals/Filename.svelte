@@ -19,6 +19,7 @@
   export let machine: Machine;
   export let from: string;
   export let to: string;
+  export let group: boolean;
 
   const dispatch = createEventDispatcher();
 
@@ -26,7 +27,7 @@
   const to_ = dayjs(to).format('YYMMDD_HHmm');
 
   const formID = 'filename-form'; 
-  const filename = field('filename', `${machine.name}-stocks-${from_}-${to_}`, [required()]);
+  const filename = field('filename', `${machine.name}-stocks-${from_}-${to_}${group ? '-group' : ''}`, [required()]);
   const filenameForm = form(filename);
 
   async function handleSubmit() {

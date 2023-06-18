@@ -5,11 +5,8 @@
 
   import {
     MachineState,
-    OperationStatus,
-    PaymentChannel,
     StockReport,
     StockReportState,
-    parseStockReport,
     provideMachineBloc,
     provideStockReportBloc,
   } from '@apps/core';
@@ -18,6 +15,7 @@
   import { useBlocState } from '~/utils/hooks/useBlocState';
   import { stateDerived } from '~/utils/helpers/state';
   import { ColumnType } from '~/utils/types/table';
+  import { parseStockReport } from '~/utils/helpers/parse';
 
   import FilterBar from './FilterBar.svelte';
   import Currency from '~/ui/components/elements/labels/Currency.svelte';
@@ -69,7 +67,7 @@
   async function handleDownload(e: CustomEvent) {
     handleClose(e);
     const { filename } = e.detail;
-    let data = source($state.list, $filters.group).map(parseStockReport);
+    let data = source.map(parseStockReport);
 
     const csv = Papa.unparse(data);
     const csvData = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
@@ -93,27 +91,40 @@
     await reload();
   });
 
-  $: totalQuantity = source($state.list, $filters.group).reduce((total, row) => total + row.sold, 0);
-  $: totalPayment = source($state.list, $filters.group).reduce((total, row) => total + row.total_price, 0);
+  $: source = groupFilter($state.list, $filters.group);
 
-  $: source = (list: StockReport[], group: boolean) => {
+  $: totalQuantity = source.reduce((total, row) => total + row.sold, 0);
+  $: totalCreditCard = source.reduce((total, row) => total + (row.total_payments?.creditcard || 0), 0);
+  $: totalPromptPay = source.reduce((total, row) => total + (row.total_payments?.promptpay || 0), 0);
+  $: totalPayment = source.reduce((total, row) => total + row.total_price, 0);
+
+  function groupFilter(list: StockReport[], group: boolean) {
     if (group) {
       return (list || []).reduce((result, data) => {
         const idx = result.findIndex(r => r.name === data.name && r.sale_price === data.sale_price);
 
         if (idx >= 0) {
           if (!result[idx].code.includes(data.code)) {
-            let codes = result[idx].code.split(',')
-            codes = codes.concat(data.code).sort()
-            result[idx].code = codes.join(',')
+            let codes = result[idx].code.split(',');
+            codes = codes.concat(data.code).sort();
+            result[idx].code = codes.join(',');
           }
+
           result[idx].sold += data.sold;
           result[idx].total_price = result[idx].sale_price * result[idx].sold;
+
           for (const [key, value] of Object.entries(data.total_payments)) {
-            result[idx].total_payments[key] += value
+            if (!result[idx].total_payments[key]) {
+              result[idx].total_payments[key] = value;
+            } else {
+              result[idx].total_payments[key] += value;
+            }
+          }
+          if (idx === 0) {
+            console.log(result);
           }
         } else {
-          result = result.concat(data);
+          result = result.concat(Object.assign({}, { ...data }));
         }
 
         return result;
@@ -121,7 +132,7 @@
     } else {
       return list || [];
     }
-  };
+  }
 </script>
 
 <section class="card">
@@ -144,11 +155,13 @@
       {#await $statePromise}
         <div class="text-center py-4">Loading...</div>
       {:then $state}
-        <Table {columns} source={source($state.list, $filters.group)} on:sort={reload}>
+        <Table {columns} {source} on:sort={reload}>
           <tfoot class="sticky bottom-0 z-1 font-bold border-y border-gray-300">
             <tr class="bg-gray-50">
-              <td class="px-6 py-4" colspan={columns.length - 2}>Total</td>
+              <td class="px-6 py-4" colspan={columns.length - 4}>Total</td>
               <td class="px-6 py-4"><Number amount={totalQuantity} /></td>
+              <td class="px-6 py-4"><Currency amount={totalCreditCard} /></td>
+              <td class="px-6 py-4"><Currency amount={totalPromptPay} /></td>
               <td class="px-6 py-4"><Currency amount={totalPayment} /></td>
             </tr>
           </tfoot>
@@ -165,7 +178,14 @@
 <!-- Display modals -->
 {#if $action}
   <Modal on:close={handleClose}>
-    <Filename machine={$machineState.data} from={$filters.from} to={$filters.to} on:download={handleDownload} on:cancel={handleClose} />
+    <Filename
+      machine={$machineState.data}
+      from={$filters.from}
+      to={$filters.to}
+      group={$filters.group}
+      on:download={handleDownload}
+      on:cancel={handleClose}
+    />
   </Modal>
 {/if}
 

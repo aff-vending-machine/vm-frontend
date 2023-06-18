@@ -9,6 +9,11 @@
 
   // Function to format the value as currency
   function formatValue() {
+    if (!amount) {
+      formattedValue = '฿0.00';
+      return
+    }
+
     value = parseFloat(amount.toFixed(2));
     if (!Number.isNaN(value)) {
       formattedValue = value.toLocaleString('th-TH', {

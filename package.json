@@ -12,7 +12,7 @@
     "format": "pnpm run -r --parallel format",
     "lint": "pnpm run -r --parallel lint",
     "lint:fix": "pnpm run -r --parallel lint:fix",
-    "build": "pnpm core build && pnpm svelte build",
+    "build": "rm -rf dist && pnpm core build && pnpm svelte build",
     "core": "pnpm --filter @apps/core",
     "svelte": "pnpm --filter @apps/svelte-app",
     "dev": "pnpm core rmbuild & pnpm core build & pnpm svelte dev"
