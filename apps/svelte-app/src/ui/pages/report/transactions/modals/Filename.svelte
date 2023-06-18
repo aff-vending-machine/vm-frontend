@@ -1,5 +1,8 @@
 <!-- Filename -->
 <script lang="ts">
+  import dayjs from 'dayjs';
+  import utc from 'dayjs/plugin/utc';
+  import timezone from 'dayjs/plugin/timezone';
   import { createEventDispatcher } from 'svelte';
   import { field, form } from 'svelte-forms';
   import { required } from 'svelte-forms/validators';
@@ -9,12 +12,22 @@
   import Button from '~/ui/components/elements/buttons/Button.svelte';
   import TextInputField from '~/ui/components/forms/input/TextInputField.svelte';
 
+  dayjs.extend(utc);
+  dayjs.extend(timezone);
+  dayjs.tz.setDefault('Asia/Bangkok');
+
   export let machine: Machine;
+  export let from: string;
+  export let to: string;
+  export let channel: string | null | undefined;
 
   const dispatch = createEventDispatcher();
 
+  const from_ = dayjs(from).format('YYMMDD_HHmm');
+  const to_ = dayjs(to).format('YYMMDD_HHmm');
+
   const formID = 'filename-form';
-  const filename = field('filename', `${machine.name}-transactions`, [required()]);
+  const filename = field('filename', `${machine.name}-transactions-${from_}-${to_}${channel ? '-' + channel : ''}`, [required()]);
   const filenameForm = form(filename);
 
   async function handleSubmit() {

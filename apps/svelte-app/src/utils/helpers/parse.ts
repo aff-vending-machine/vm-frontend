@@ -41,9 +41,9 @@ export const parseTransactionReport = (transaction: TransactionReport): Transact
   "Received Quantity": transaction.received_quantity,
   "Order Price": transaction.order_price,
   "Paid Price": transaction.paid_price,
-  "Reference 1": transaction.reference1,
-  "Reference 2": transaction.reference2,
-  "Reference 3": transaction.reference3,
+  "Reference 1": "'" + transaction.reference1,
+  "Reference 2": "'" + transaction.reference2,
+  "Reference 3": "'" + transaction.reference3,
   "Note": transaction.note,
 })
 
@@ -60,7 +60,7 @@ export type StockReportCSV = {
 
 
 export const parseStockReport = (stock: StockReport): StockReportCSV => ({
-  "Slot Code": stock.code,
+  "Slot Code": "'" + stock.code,
   "Product Name": stock.name,
   "Sold": stock.sold,
   "Product Price": stock.sale_price,
