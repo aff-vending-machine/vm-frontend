@@ -49,7 +49,9 @@
     { key: 'name', index: 'name', title: 'Product Name', sortable: true },
     { key: 'sale_price', index: 'sale_price', title: 'Sale Price', sortable: true, type: 'currency' },
     { key: 'sold', index: 'sold', title: 'Sold', sortable: true },
-    { key: 'total_price', index: 'total_price', title: 'Total Price', sortable: true, type: 'currency' },
+    { key: 'creditcard', index: 'total_payments.creditcard', title: 'Credit Card', sortable: true, type: 'currency' },
+    { key: 'promptpay', index: 'total_payments.promptpay', title: 'Promptpay', sortable: true, type: 'currency' },
+    { key: 'total', index: 'total_price', title: 'Total Price', sortable: true, type: 'currency' },
   ];
 
   const reload = async () => {
@@ -107,6 +109,9 @@
           }
           result[idx].sold += data.sold;
           result[idx].total_price = result[idx].sale_price * result[idx].sold;
+          for (const [key, value] of Object.entries(data.total_payments)) {
+            result[idx].total_payments[key] += value
+          }
         } else {
           result = result.concat(data);
         }
