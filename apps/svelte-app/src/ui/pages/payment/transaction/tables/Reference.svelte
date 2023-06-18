@@ -1,10 +1,10 @@
 <!-- Reference -->
 <script lang="ts">
-  import { TransactionReport } from '@apps/core';
+  import { PaymentTransaction } from '@apps/core';
 
-  export let source: TransactionReport;
+  export let source: PaymentTransaction;
 
-  $: channel = source['payment_channel'] as string;
+  $: channel = source['channel'].channel as string;
   $: ksherRef = source['reference2'] as string;
   $: link2500Ref = source['reference3'] as string;
   $: defRef = source['reference1'] as string;
