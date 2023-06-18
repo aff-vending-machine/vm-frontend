@@ -157,7 +157,14 @@
 <!-- Display modals -->
 {#if $action}
   <Modal on:close={handleClose}>
-    <Filename machine={$machineState.data} on:download={handleDownload} on:cancel={handleClose} />
+    <Filename
+      machine={$machineState.data}
+      bind:from={$filters.from}
+      bind:to={$filters.to}
+      channel={$channelOptions?.find(c => c.value === $filters.channel_id)?.label}
+      on:download={handleDownload}
+      on:cancel={handleClose}
+    />
   </Modal>
 {/if}
 
