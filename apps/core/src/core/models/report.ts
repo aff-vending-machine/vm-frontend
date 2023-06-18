@@ -13,6 +13,7 @@ export type StockReport = {
     name: string;
     sold: number;
     sale_price: number;
+    total_payments: Record<string, number>;
     total_price: number;
 }
 
