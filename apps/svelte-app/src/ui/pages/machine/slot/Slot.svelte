@@ -219,6 +219,8 @@
 
     const status = await actionBloc.bulkUpdate($machineId, slots);
     notifyStatus(status, 'Update successfully', 'Update failed');
+    const syncStatus = await syncBloc.pushSlots($machineId);
+    notifyStatus(syncStatus, 'Sync successfully', 'Sync failed');
   }
 
   function handleCancel(e: CustomEvent) {
@@ -300,7 +302,7 @@
 
 <!-- HTML -->
 <section class="mx-4">
-  <div class="w-full bg-white rounded-xl shadow-xl shadow-primary-100 space-y-4 py-4">
+  <div class="shadow-primary-100 w-full space-y-4 rounded-xl bg-white py-4 shadow-xl">
     <div class="px-8 pt-4">
       <h4 class="text-xl font-semibold text-gray-700">
         Machine: <span class="text-secondary-500">{$machineState.data?.name}</span>
@@ -317,7 +319,7 @@
         on:save={handleSave}
         on:cancel={handleCancel}
       />
-      <div class="hidden md:flex float-right space-x-2 my-1">
+      <div class="float-right my-1 hidden space-x-2 md:flex">
         <div class="bg-red-100 px-4">
           <span>disable</span>
         </div>
@@ -337,10 +339,10 @@
     </div>
     <div class="border-t border-b border-gray-300 p-4">
       {#await $statePromise}
-        <div class="text-center py-4">Loading...</div>
+        <div class="py-4 text-center">Loading...</div>
       {:then $state}
         {#if $state.status === 'loading'}
-          <div class="text-center py-4">Loading...</div>
+          <div class="py-4 text-center">Loading...</div>
         {:else}
           <div class="grid max-w-full {getMaxGrid($maxCols)} gap-2 overflow-auto">
             {#each fillSlots(local, filter, $maxRows, $maxCols) as slot}
@@ -365,7 +367,7 @@
           </div>
         {/if}
       {:catch error}
-        <div class="text-center text-red-500 py-4">
+        <div class="py-4 text-center text-red-500">
           {error.message || 'An error occurred while loading the data.'}
         </div>
       {/await}
