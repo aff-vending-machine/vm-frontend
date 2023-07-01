@@ -44,7 +44,7 @@
 <div class="h-full overflow-y-auto mr-2" style="z-index: 999;">
   <h2 class="text-xl font-bold mb-4">Update Product: {product.name || 'Untitled'}</h2>
   <div class="m-4 flex justify-center">
-    <Image class="border h-32 w-32 mx-auto" src={$image_url.value} alt={$name.value} />
+    <Image class="border h-32 w-32 mx-auto object-contain" src={$image_url.value} alt={$name.value} />
   </div>
   <form
     id={formID}

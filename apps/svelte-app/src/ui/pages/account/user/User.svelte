@@ -2,6 +2,7 @@
 <script lang="ts">
   import { access } from '~/stores/access';
   import { navigate } from 'svelte-navigator';
+  import { dragscroll } from '@svelte-put/dragscroll';
   import { _ } from 'svelte-i18n';
   import { onMount } from 'svelte';
   import { Readable, derived, writable } from 'svelte/store';
@@ -182,7 +183,7 @@
       />
     </div>
     <div class="w-full table-container">
-      <div class="border border-gray-200">
+      <div class="border border-gray-200 overflow-x-auto" use:dragscroll={{ event: 'pointer' }}>
         {#await $statePromise}
           <div class="text-center py-4">Loading...</div>
         {:then $state}

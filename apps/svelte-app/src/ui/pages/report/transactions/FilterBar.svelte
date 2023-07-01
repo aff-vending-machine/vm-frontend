@@ -9,6 +9,7 @@
   import DateTimeField from '~/ui/components/forms/input/DateTimeField.svelte';
   import SelectField from '~/ui/components/forms/input/SelectField.svelte';
   import { SelectOptionsType } from '~/utils/types/options';
+  import Filterbar from '~/ui/components/sections/headers/Filterbar.svelte';
 
   export let from: string;
   export let to: string;
@@ -50,40 +51,39 @@
   }
 </script>
 
-<div class="flex justify-between border rounded p-4 bg-secondary-50">
-  <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
-    <DateTimeField
-      id="start-date-time"
-      label="Start Date"
-      rangeFrom={firstDateTime}
-      rangeTo={lastDateTime}
-      bind:value={startDateTime}
-      on:change={handleFilter}
-    />
-    <DateTimeField
-      id="end-date-time"
-      label="End Date"
-      rangeFrom={startDateTime}
-      rangeTo={lastDateTime}
-      bind:value={endDateTime}
-      on:change={handleFilter}
-    />
-    <SelectField
-      id="channel_id"
-      label="Payment Channel"
-      bind:value={channel}
-      options={channelOptions}
-      placeholder="no filter"
-      on:change={handleFilter}
-    />
-  </div>
-  <div class="flex items-end align-bottom space-x-2">
+<Filterbar>
+  <DateTimeField
+    id="start-date-time"
+    label="Start Date"
+    rangeFrom={firstDateTime}
+    rangeTo={lastDateTime}
+    bind:value={startDateTime}
+    on:change={handleFilter}
+  />
+  <DateTimeField
+    id="end-date-time"
+    label="End Date"
+    rangeFrom={startDateTime}
+    rangeTo={lastDateTime}
+    bind:value={endDateTime}
+    on:change={handleFilter}
+  />
+  <SelectField
+    id="channel_id"
+    label="Payment Channel"
+    bind:value={channel}
+    options={channelOptions}
+    placeholder="no filter"
+    on:change={handleFilter}
+  />
+
+  <svelte:fragment slot="right">
     <Button outline class="group" on:click={handleExport}>
       <Icon i="ic-export" class="h-4 w-4 fill-red-500 group-hover:fill-white" />
       <span class="ml-2">Export</span>
     </Button>
-  </div>
-</div>
+  </svelte:fragment>
+</Filterbar>
 
 <style>
   /* Add any necessary styles for the filter bar */

@@ -6,6 +6,7 @@
   import { min, required } from 'svelte-forms/validators';
   import { _ } from 'svelte-i18n';
 
+  import Image from '~/ui/components/elements/images/Image.svelte';
   import Button from '~/ui/components/elements/buttons/Button.svelte';
   import SelectField from '~/ui/components/forms/input/SelectField.svelte';
   import TextInputField from '~/ui/components/forms/input/TextInputField.svelte';
@@ -60,6 +61,9 @@
 
 <div class="h-full overflow-y-auto mr-2" style="z-index: 999;">
   <h2 class="text-xl font-bold mb-4">Update Slots: {slot.code} ({slot.product?.name || '-'})</h2>
+  <div class="m-4 flex justify-center">
+    <Image class="border h-32 w-32 mx-auto object-contain" src={productOptions.find(p => p.value === $productID.value).more?.image} alt='images' />
+  </div>
   <form
     id={formID}
     on:submit|preventDefault={handleSubmit}

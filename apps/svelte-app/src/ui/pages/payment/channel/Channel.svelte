@@ -3,6 +3,7 @@
   import { _ } from 'svelte-i18n';
   import { onMount } from 'svelte';
   import { Readable, derived, writable } from 'svelte/store';
+  import { dragscroll } from '@svelte-put/dragscroll';
 
   import { providePaymentChannelBloc, PaymentChannelState, PaymentChannel, OperationStatus } from '@apps/core';
 
@@ -98,7 +99,7 @@
       <FilterBar bind:limit={$filters.limit} bind:search={$filters.search} on:filter={reload} />
     </div>
     <div class="w-full table-container">
-      <div class="border border-gray-200">
+      <div class="border border-gray-200 overflow-x-auto" use:dragscroll={{ event: 'pointer' }}>
         {#await $statePromise}
           <div class="text-center py-4">Loading...</div>
         {:then $state}

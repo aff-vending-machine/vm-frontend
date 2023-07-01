@@ -3,6 +3,7 @@
   import { onMount } from 'svelte';
   import { Readable, derived, writable } from 'svelte/store';
   import { _ } from 'svelte-i18n';
+  import { dragscroll } from '@svelte-put/dragscroll';
 
   import {
     CatalogGroup,
@@ -171,7 +172,7 @@
       />
     </div>
     <div class="w-full table-container">
-      <div class="border border-gray-200">
+      <div class="border border-gray-200 overflow-x-auto" use:dragscroll={{ event: 'pointer' }}>
         {#await $statePromise}
           <div class="text-center py-4">Loading...</div>
         {:then $state}
@@ -203,12 +204,7 @@
 {#if $action}
   <Modal on:close={handleClose}>
     {#if $action === 'create'}
-      <Creator
-        total={$state.count}
-        groupOptions={$groupOptions}
-        on:create={handleCreate}
-        on:cancel={handleClose}
-      />
+      <Creator total={$state.count} groupOptions={$groupOptions} on:create={handleCreate} on:cancel={handleClose} />
     {:else if $action === 'view'}
       <Viewer product={$product} on:edit={handleAction} on:delete={handleAction} on:cancel={handleClose} />
     {:else if $action === 'edit'}

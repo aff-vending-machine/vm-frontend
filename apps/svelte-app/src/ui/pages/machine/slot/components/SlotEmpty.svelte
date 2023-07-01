@@ -13,7 +13,7 @@
 
 <!-- HTML -->
 <button
-  class="flex flex-col items-center rounded-md p-2 w-28 h-32 border border-gray-300 bg-transaction"
+  class="flex flex-col items-center rounded-md p-2 w-32 h-36 border border-gray-300 bg-transaction"
   on:click={!isExist && handleCreateEvent}
 >
   <div class="font-bold text-gray-300">{code}</div>

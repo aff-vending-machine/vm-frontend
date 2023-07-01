@@ -13,6 +13,7 @@
     "@apps/core": "workspace:*",
     "@packages/eslint-ts-svelte": "workspace:*",
     "@packages/prettier-ts-svelte": "workspace:*",
+    "@svelte-put/dragscroll": "^2.0.0",
     "date-picker-svelte": "^2.4.3",
     "dayjs": "^1.11.7",
     "lucide-svelte": "^0.224.0",

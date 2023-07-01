@@ -2,6 +2,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { writable, Readable, derived } from 'svelte/store';
+  import { dragscroll } from '@svelte-put/dragscroll';
   import dayjs from 'dayjs';
 
   // core
@@ -107,6 +108,9 @@
         value: p.id,
         label: `${p.name} (${p.sale_price}.-)`,
         filter: p.group_id,
+        more: {
+          image: p.image_url,
+        },
       }));
       productOptions.set(options);
     }
@@ -337,14 +341,14 @@
         </div>
       </div>
     </div>
-    <div class="border-t border-b border-gray-300 p-4">
+    <div class="border-t border-b border-gray-300 p-4 overflow-x-auto" use:dragscroll={{ axis: 'both', event: 'pointer' }}>
       {#await $statePromise}
         <div class="py-4 text-center">Loading...</div>
       {:then $state}
         {#if $state.status === 'loading'}
           <div class="py-4 text-center">Loading...</div>
         {:else}
-          <div class="grid max-w-full {getMaxGrid($maxCols)} gap-2 overflow-auto">
+          <div class="grid max-w-full {getMaxGrid($maxCols)} gap-2">
             {#each fillSlots(local, filter, $maxRows, $maxCols) as slot}
               {#if slot.id >= 0}
                 <SlotCard

@@ -2,6 +2,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { Readable, derived, writable } from 'svelte/store';
+  import { dragscroll } from '@svelte-put/dragscroll';
 
   import { provideCatalogGroupBloc, GroupState, CatalogGroup, OperationStatus, CreateCatalogGroup, UpdateCatalogGroup } from '@apps/core';
   import { useBlocState } from '~/utils/hooks/useBlocState';
@@ -128,7 +129,7 @@
       />
     </div>
     <div class="w-full table-container">
-      <div class="border border-gray-200">
+      <div class="border border-gray-200 overflow-x-auto" use:dragscroll={{ event: 'pointer' }}>
         {#await $statePromise}
           <div class="text-center py-4">Loading...</div>
         {:then $state}

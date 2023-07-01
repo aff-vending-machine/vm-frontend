@@ -2,14 +2,9 @@
   import Papa from 'papaparse';
   import { onMount } from 'svelte';
   import { Readable, derived, writable } from 'svelte/store';
+  import { dragscroll } from '@svelte-put/dragscroll';
 
-  import {
-    MachineState,
-    StockReport,
-    StockReportState,
-    provideMachineBloc,
-    provideStockReportBloc,
-  } from '@apps/core';
+  import { MachineState, StockReport, StockReportState, provideMachineBloc, provideStockReportBloc } from '@apps/core';
 
   import Table from '~/ui/components/elements/tables/Table.svelte';
   import { useBlocState } from '~/utils/hooks/useBlocState';
@@ -152,27 +147,31 @@
       />
     </div>
     <div class="w-full table-container">
-      {#await $statePromise}
-        <div class="text-center py-4">Loading...</div>
-      {:then $state}
-        <Table {columns} {source} on:sort={reload}>
-          <tfoot class="sticky bottom-0 z-1 font-bold border-y border-gray-300">
-            <tr class="bg-gray-50">
-              <td class="px-6 py-4" colspan={columns.length - 4}>Total</td>
-              <td class="px-6 py-4"><Number amount={totalQuantity} /></td>
-              <td class="px-6 py-4"><Currency amount={totalCreditCard} /></td>
-              <td class="px-6 py-4"><Currency amount={totalPromptPay} /></td>
-              <td class="px-6 py-4"><Currency amount={totalPayment} /></td>
-            </tr>
-          </tfoot>
-        </Table>
-      {:catch error}
-        <div class="text-center text-red-500 py-4">
-          {error.message || 'An error occurred while loading the data.'}
-        </div>
-      {/await}
+      <div class="border border-gray-200" use:dragscroll={{ event: 'pointer' }}>
+        {#await $statePromise}
+          <div class="text-center py-4">Loading...</div>
+        {:then $state}
+          <Table {columns} {source} on:sort={reload}>
+            <tfoot class="sticky bottom-0 z-1 font-bold border-y border-gray-300">
+              <tr class="bg-gray-50">
+                <td class="px-6 py-4" colspan={columns.length - 4}>Total</td>
+                <td class="px-6 py-4"><Number amount={totalQuantity} /></td>
+                <td class="px-6 py-4"><Currency amount={totalCreditCard} /></td>
+                <td class="px-6 py-4"><Currency amount={totalPromptPay} /></td>
+                <td class="px-6 py-4"><Currency amount={totalPayment} /></td>
+              </tr>
+            </tfoot>
+          </Table>
+        {:catch error}
+          <div class="text-center text-red-500 py-4">
+            {error.message || 'An error occurred while loading the data.'}
+          </div>
+        {/await}
+      </div>
     </div>
   </div>
+
+  
 </section>
 
 <!-- Display modals -->

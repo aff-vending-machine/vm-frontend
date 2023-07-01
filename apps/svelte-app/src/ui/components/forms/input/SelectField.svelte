@@ -12,7 +12,7 @@
   export let hidden = false;
 </script>
 
-<div class="{hidden ? 'hidden': ''}">
+<div class="{$$props.class}{hidden ? ' hidden': ''}">
   <label for={id} class="block mb-1 text-sm font-medium">{label}:</label>
   <select
     {id}
@@ -20,7 +20,7 @@
     {disabled}
     bind:value
     on:change
-    class="w-full min-w-[160px] px-2 py-1 text-sm text-gray-700 border border-gray-300 rounded"
+    class="w-full min-w-[120px] px-2 py-1 text-sm text-gray-700 border border-gray-300 rounded"
   >
     {#if unselected}
     <option value="">{placeholder}</option>
