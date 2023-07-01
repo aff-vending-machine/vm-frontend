@@ -88,11 +88,11 @@
   });
 </script>
 
-<div class={`date-time-picker-${id} relative w-48`}>
-  <button class="flex items-center border border-gray-300 bg-white rounded-md cursor-pointer" on:click={togglePicker}>
+<div class="date-time-picker-{id} relative">
+  <button class="flex items-center border border-gray-300 bg-white rounded-md cursor-pointer w-full" on:click={togglePicker}>
     <input
       {id}
-      class="border-0 px-2 py-1 w-36 text-sm text-gray-700 bg-transparent focus:border-none focus:outline-none box-shadow-none"
+      class="border-0 px-2 py-1 text-sm w-full text-gray-700 bg-transparent focus:border-none focus:outline-none box-shadow-none"
       readonly
       type="text"
       value={dayjs(value).format('YYYY-MM-DD HH:mm')}

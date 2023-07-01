@@ -6,7 +6,7 @@
   export let columnWidths: Record<string, number>;
 </script>
 
-<thead class="sticky top-0 bg-gray-50 z-1">
+<thead class="sticky top-0 bg-gray-50 z-1 start-0">
   <tr>
     {#each columns as column}
       <TableHeaderField {column} width={columnWidths[column.key] ?? 100} on:sort on:resize />

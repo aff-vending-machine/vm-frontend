@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
   import { navigate } from 'svelte-navigator';
   import { Readable, derived, writable } from 'svelte/store';
+  import { dragscroll } from '@svelte-put/dragscroll';
 
   import { SummaryReportState, provideSummaryReportBloc, provideSyncBloc } from '@apps/core';
 
@@ -86,29 +87,31 @@
       <FilterBar bind:from={$filters.from} bind:to={$filters.to} on:filter={reload} />
     </div>
     <div class="w-full table-container">
-      {#await $statePromise}
-        <div class="text-center py-4">Syncing...</div>
-      {:then $state}
-        {#if $state.status === 'loading'}
-          <div class="text-center py-4">Loading...</div>
-        {:else if $state.status === 'success'}
-          <Table {columns} source={$state.list} on:sort={reload} on:select={handleSelect} on:action={handleAction}>
-            <tfoot class="sticky bottom-0 z-1 font-bold border-y border-gray-300">
-              <tr class="bg-gray-50">
-                <td class="px-6 py-4" colspan={columns.length - 4}>Total</td>
-                <td class="px-6 py-4"><Currency amount={totalCreditCard} /></td>
-                <td class="px-6 py-4"><Currency amount={totalPromptPay} /></td>
-                <td class="px-6 py-4"><Currency amount={totalPayment} /></td>
-                <td />
-              </tr>
-            </tfoot>
-          </Table>
-        {/if}
-      {:catch error}
-        <div class="text-center text-red-500 py-4">
-          {error.message || 'An error occurred while loading the data.'}
-        </div>
-      {/await}
+      <div class="border border-gray-200" use:dragscroll={{ event: 'pointer' }}>
+        {#await $statePromise}
+          <div class="text-center py-4">Syncing...</div>
+        {:then $state}
+          {#if $state.status === 'loading'}
+            <div class="text-center py-4">Loading...</div>
+          {:else if $state.status === 'success'}
+            <Table {columns} source={$state.list} on:sort={reload} on:select={handleSelect} on:action={handleAction}>
+              <tfoot class="sticky bottom-0 z-1 font-bold border-y border-gray-300">
+                <tr class="bg-gray-50">
+                  <td class="px-6 py-4" colspan={columns.length - 4}>Total</td>
+                  <td class="px-6 py-4"><Currency amount={totalCreditCard} /></td>
+                  <td class="px-6 py-4"><Currency amount={totalPromptPay} /></td>
+                  <td class="px-6 py-4"><Currency amount={totalPayment} /></td>
+                  <td />
+                </tr>
+              </tfoot>
+            </Table>
+          {/if}
+        {:catch error}
+          <div class="text-center text-red-500 py-4">
+            {error.message || 'An error occurred while loading the data.'}
+          </div>
+        {/await}
+      </div>
     </div>
   </div>
 </section>

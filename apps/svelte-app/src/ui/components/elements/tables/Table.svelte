@@ -27,11 +27,12 @@
   });
 </script>
 
-<table class="w-full border-collapse bg-white text-gray-500 font-mono">
+<table class="w-full border-collapse bg-white text-gray-500 font-mono select-none">
   <TableHeader {columns} {columnWidths} on:sort on:resize={handleResize} />
   <TableBody {columns} {columnWidths} {source} on:select on:action />
   <slot />
 </table>
 
 <style>
+
 </style>

@@ -9,14 +9,17 @@
   import TextInputField from '~/ui/components/forms/input/TextInputField.svelte';
   import { limitOptions, statusOptions } from '~/utils/constants/options';
   import { SelectOptionsType } from '~/utils/types/options';
+  import Filterbar from '~/ui/components/sections/headers/Filterbar.svelte';
 
   export let limit: number;
   export let search: string;
   export let from: string;
   export let to: string;
+  export let branch: string;
   export let machine: string;
   export let channel: string;
   export let status: string;
+  export let branchOptions: SelectOptionsType[];
   export let machineOptions: SelectOptionsType[];
   export let channelOptions: SelectOptionsType[];
 
@@ -44,53 +47,58 @@
   $: endDateTime = dayjs(to).toDate();
 </script>
 
-<div class="flex justify-between border rounded p-4 bg-secondary-50">
-  <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
-    <DateTimeField
-      id="start-date-time"
-      label="Start Date"
-      rangeFrom={firstDateTime}
-      rangeTo={lastDateTime}
-      bind:value={startDateTime}
-      on:change={handleFilter}
-    />
-    <DateTimeField
-      id="end-date-time"
-      label="End Date"
-      rangeFrom={startDateTime}
-      rangeTo={lastDateTime}
-      bind:value={endDateTime}
-      on:change={handleFilter}
-    />
-    <SelectField
-      id="machine_id"
-      label="Machine"
-      bind:value={machine}
-      options={machineOptions}
-      placeholder="no filter"
-      on:change={handleFilter}
-    />
-    <SelectField
-      id="channel_id"
-      label="Payment Channel"
-      bind:value={channel}
-      options={channelOptions}
-      placeholder="no filter"
-      on:change={handleFilter}
-    />
-    <SelectField
-      id="order_status"
-      label="Status"
-      bind:value={status}
-      options={statusOptions}
-      placeholder="no filter"
-      on:change={handleFilter}
-    />
-    <SelectField id="limit" label="Limit" bind:value={limit} options={limitOptions} on:change={handleFilter} />
-    <TextInputField class="hidden" id="search" label="Search" bind:value={search} on:change={handleFilter} />
-  </div>
-  <div class="flex items-end align-bottom space-x-2" />
-</div>
+<Filterbar>
+  <DateTimeField
+    id="start-date-time"
+    label="Start Date"
+    rangeFrom={firstDateTime}
+    rangeTo={lastDateTime}
+    bind:value={startDateTime}
+    on:change={handleFilter}
+  />
+  <DateTimeField
+    id="end-date-time"
+    label="End Date"
+    rangeFrom={startDateTime}
+    rangeTo={lastDateTime}
+    bind:value={endDateTime}
+    on:change={handleFilter}
+  />
+  <SelectField
+    id="branch_id"
+    label="Branch"
+    bind:value={branch}
+    options={branchOptions}
+    placeholder="no filter"
+    on:change={handleFilter}
+  />
+  <SelectField
+    id="machine_id"
+    label="Machine"
+    bind:value={machine}
+    options={machineOptions}
+    placeholder="no filter"
+    on:change={handleFilter}
+  />
+  <SelectField
+    id="channel_id"
+    label="Payment Channel"
+    bind:value={channel}
+    options={channelOptions}
+    placeholder="no filter"
+    on:change={handleFilter}
+  />
+  <SelectField
+    id="order_status"
+    label="Status"
+    bind:value={status}
+    options={statusOptions}
+    placeholder="no filter"
+    on:change={handleFilter}
+  />
+  <SelectField id="limit" label="Limit" bind:value={limit} options={limitOptions} on:change={handleFilter} />
+  <TextInputField class="hidden" id="search" label="Search" bind:value={search} on:change={handleFilter} />
+</Filterbar>
 
 <style>
   /* Add any necessary styles for the filter bar */

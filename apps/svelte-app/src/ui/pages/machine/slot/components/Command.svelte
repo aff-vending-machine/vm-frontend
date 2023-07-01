@@ -31,7 +31,7 @@
 <!-- HTML -->
 <div class="flex flex-col space-y-2">
   <span class="text-xs font-semibold">Instructions</span>
-  <div class="block">
+  <div class="block space-x-2">
     <Button i="sync" disabled={!isSynced} {loading} on:click={handleRefresh}>Refresh</Button>
     <Button i="save" disabled={!isEdited} {loading} on:click={handleSave}>Save</Button>
     <Button i="cancel" disabled={!isEdited} {loading} on:click={handleCancel}>Cancel</Button>

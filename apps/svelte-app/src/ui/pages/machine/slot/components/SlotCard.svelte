@@ -7,6 +7,7 @@
   import { MachineSlot } from '@apps/core';
   import { tippy } from 'svelte-tippy';
   import 'tippy.js/dist/tippy.css';
+  import 'tippy.js/animations/shift-away.css';
 
   // components
 
@@ -57,24 +58,31 @@
     const subString = str.slice(0, n - 1); // the original check
     return (useWordBoundary ? subString.slice(0, subString.lastIndexOf(' ')) : subString) + '...';
   };
+
+  const tooltip = `
+    <div class="m-1">
+      <span class="text-center">${slot.code}: ${slot.product?.name}</span>
+      <img class="border h-24 w-24 mt-1 mx-auto object-contain bg-white" src=${slot.product?.image_url} />
+    </div>
+  `
 </script>
 
 <!-- HTML -->
 <button
-  class={`flex flex-col rounded-md items-center p-2 w-28 h-32 ${getColor(slot)}`}
-  use:tippy={{ content: `${slot.code}: ${slot.product?.name}`, placement: 'top' }}
+  class={`flex flex-col rounded-md items-center p-2 w-32 h-36 ${getColor(slot)}`}
+  use:tippy={{ allowHTML: true, content: tooltip, placement: 'top', animation: 'shift-away' }}
   on:click={handleSelectEvent}
 >
   <div class="font-bold">{slot.code}</div>
   <div class="text-xs text-center">
     <span class="overflow-hidden text-ellipsis">
-      {truncate(slot.product?.name, 20, false)}
+      {truncate(slot.product?.name, 40, false)}
     </span>
   </div>
-  <div class="text-xs text-center">
-    Price: {slot.product?.sale_price}
-  </div>
   <div class="flex-grow" />
+  <div class="text-xs text-center">
+    Price: <span class="text-red-500 font-semibold">{slot.product?.sale_price}</span>
+  </div>
   <div class="flex justify-between items-center p-1 border border-gray-300 rounded-md bg-white w-full">
     <button
       class="

@@ -3,11 +3,13 @@
   import { _ } from 'svelte-i18n';
   import { onMount } from 'svelte';
   import { Readable, derived, writable } from 'svelte/store';
+  import { dragscroll } from '@svelte-put/dragscroll';
 
   import {
     providePaymentTransactionBloc,
     PaymentTransactionState,
     PaymentTransaction,
+    provideStoreBranchBloc,
     PaymentChannel,
     OperationStatus,
     PaymentChannelState,
@@ -15,6 +17,8 @@
     provideMachineBloc,
     MachineState,
     Machine,
+    BranchState,
+    StoreBranch,
   } from '@apps/core';
 
   import Table from '~/ui/components/elements/tables/Table.svelte';
@@ -23,6 +27,7 @@
   import FilterBar from './FilterBar.svelte';
   import Viewer from './modals/Viewer.svelte';
   import Action from './tables/Action.svelte';
+  import Cart from './tables/Cart.svelte';
   import Reference from './tables/Reference.svelte';
   import Status from './tables/Status.svelte';
 
@@ -34,14 +39,17 @@
 
   const bloc = providePaymentTransactionBloc();
   const actionBloc = providePaymentTransactionBloc();
+  const branchBloc = provideStoreBranchBloc();
   const machineBloc = provideMachineBloc();
   const channelBloc = providePaymentChannelBloc();
 
   const state = useBlocState<PaymentTransactionState>(bloc);
+  const branchState = useBlocState<BranchState>(branchBloc);
   const machineState = useBlocState<MachineState>(machineBloc);
   const channelState = useBlocState<PaymentChannelState>(channelBloc);
   const statePromise: Readable<Promise<PaymentTransactionState>> = derived(state, stateDerived);
 
+  const branchOptions = writable<SelectOptionsType[]>([]);
   const machineOptions = writable<SelectOptionsType[]>([]);
   const channelOptions = writable<SelectOptionsType[]>([]);
 
@@ -54,6 +62,7 @@
     search: '',
     from: '',
     to: '',
+    branch_id: '',
     machine_id: '',
     channel_id: '',
     order_status: '',
@@ -72,6 +81,7 @@
     { key: 'reference', index: 'reference', title: 'Reference', sortable: true, render: () => Reference },
     { key: 'order_price', index: 'order_price', title: 'Order Price', sortable: true },
     { key: 'paid_price', index: 'paid_price', title: 'Paid Price', sortable: true },
+    { key: 'cart', index: 'cart', title: 'Cart', render: () => Cart },
     { key: 'status', index: 'order_status', title: 'Status', sortable: true, render: () => Status },
     { key: 'actions', title: 'Action', render: () => Action },
   ];
@@ -90,6 +100,15 @@
       case 'failure':
         notification.add('danger', errorMessage);
         break;
+    }
+  };
+
+  const loadBranchOptions = async () => {
+    const status = await branchBloc.list();
+
+    if (status === 'success') {
+      const options = ($branchState.list || []).map((c: StoreBranch) => ({ value: c.id, label: c.name }));
+      branchOptions.set(options);
     }
   };
 
@@ -146,6 +165,7 @@
   }
 
   onMount(async () => {
+    await loadBranchOptions();
     await loadMachineOptions();
     await loadChannelOptions();
     await reload();
@@ -161,9 +181,11 @@
       <FilterBar
         bind:from={$filters.from}
         bind:to={$filters.to}
+        bind:branch={$filters.branch_id}
         bind:machine={$filters.machine_id}
         bind:channel={$filters.channel_id}
         bind:status={$filters.order_status}
+        branchOptions={$branchOptions}
         machineOptions={$machineOptions}
         channelOptions={$channelOptions}
         bind:limit={$filters.limit}
@@ -172,7 +194,7 @@
       />
     </div>
     <div class="w-full table-container">
-      <div class="border border-gray-200">
+      <div class="border border-gray-200 overflow-x-auto" use:dragscroll={{ event: 'pointer' }}>
         {#await $statePromise}
           <div class="text-center py-4">Loading...</div>
         {:then $state}

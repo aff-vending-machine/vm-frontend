@@ -9,7 +9,7 @@
   export let error: string = null;
 </script>
 
-<div>
+<div class="{$$props.class}">
   <label for={id} class="block mb-1 text-sm font-medium">{label}:</label>
   <DateTimePicker {id} {rangeFrom} {rangeTo} bind:value on:change on:input />
   {#if error}

@@ -2,6 +2,7 @@
   import Papa from 'papaparse';
   import { onMount } from 'svelte';
   import { Readable, derived, writable } from 'svelte/store';
+  import { dragscroll } from '@svelte-put/dragscroll';
 
   import {
     MachineState,
@@ -132,25 +133,27 @@
         on:export={handleExport}
       />
     </div>
-    <div class="w-full table-container">
-      {#await $statePromise}
-        <div class="text-center py-4">Loading...</div>
-      {:then $state}
-        <Table {columns} source={$state.list} on:sort={reload}>
-          <tfoot class="sticky bottom-0 z-1 font-bold border-y border-gray-300">
-            <tr class="bg-gray-50">
-              <td class="px-6 py-4" colspan={columns.length - 2}>Total</td>
-              <td class="px-6 py-4"><Number amount={totalQuantity} /></td>
-              <td class="px-6 py-4"><Currency amount={totalPayment} /></td>
-            </tr>
-          </tfoot>
-        </Table>
-      {:catch error}
-        <div class="text-center text-red-500 py-4">
-          {error.message || 'An error occurred while loading the data.'}
-        </div>
-      {/await}
-    </div>
+    <div class="w-full">
+      <div class="border border-gray-200" use:dragscroll={{ event: 'pointer' }}>
+        {#await $statePromise}
+          <div class="text-center py-4">Loading...</div>
+        {:then $state}
+          <Table {columns} source={$state.list} on:sort={reload}>
+            <tfoot class="sticky bottom-0 z-1 font-bold border-y border-gray-300">
+              <tr class="bg-gray-50">
+                <td class="px-6 py-4" colspan={columns.length - 2}>Total</td>
+                <td class="px-6 py-4"><Number amount={totalQuantity} /></td>
+                <td class="px-6 py-4"><Currency amount={totalPayment} /></td>
+              </tr>
+            </tfoot>
+          </Table>
+        {:catch error}
+          <div class="text-center text-red-500 py-4">
+            {error.message || 'An error occurred while loading the data.'}
+          </div>
+        {/await}
+      </div>
+    <!-- </div> -->
   </div>
 </section>
 
@@ -174,11 +177,5 @@
     border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 1rem;
-  }
-
-  @media (max-width: 1023px) {
-    .table-container {
-      overflow-x: auto;
-    }
   }
 </style>

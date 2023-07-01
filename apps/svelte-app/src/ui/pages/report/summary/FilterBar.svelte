@@ -5,6 +5,7 @@
   import relativeTime from 'dayjs/plugin/relativeTime';
   import { createEventDispatcher } from 'svelte';
   import DateTimeField from '~/ui/components/forms/input/DateTimeField.svelte';
+  import Filterbar from '~/ui/components/sections/headers/Filterbar.svelte';
 
   export let from: string;
   export let to: string;
@@ -41,35 +42,31 @@
   $: endDateTime = dayjs(to).toDate();
 </script>
 
-<div class="flex flex-col md:flex-row justify-between border rounded p-4 bg-secondary-50">
-  <div class="flex flex-row space-x-4">
-    <DateTimeField
-      id="start-date-time"
-      label="Start Date"
-      rangeFrom={firstDateTime}
-      rangeTo={lastDateTime}
-      bind:value={startDateTime}
-      on:change={handleFilter}
-    />
-    <DateTimeField
-      id="end-date-time"
-      label="End Date"
-      rangeFrom={startDateTime}
-      rangeTo={lastDateTime}
-      bind:value={endDateTime}
-      on:change={handleFilter}
-    />
-  </div>
-  <div class="flex justify-end items-end align-bottom mt-4">
-    <span class="text-xs">
-      *Report from
-      <span class="text-secondary-700">{dayjs(startDateTime).format('DD MMMM YYYY HH:mm')}</span> to
-      <span class="text-secondary-700">{dayjs(endDateTime).format('DD MMMM YYYY HH:mm')}</span>
-      <br />
-      <span class="float-right">({dayjs(startDateTime).from(dayjs(endDateTime), true)})</span>
-    </span>
-  </div>
-</div>
+<Filterbar>
+  <DateTimeField
+    id="start-date-time"
+    label="Start Date"
+    rangeFrom={firstDateTime}
+    rangeTo={lastDateTime}
+    bind:value={startDateTime}
+    on:change={handleFilter}
+  />
+  <DateTimeField
+    id="end-date-time"
+    label="End Date"
+    rangeFrom={startDateTime}
+    rangeTo={lastDateTime}
+    bind:value={endDateTime}
+    on:change={handleFilter}
+  />
+</Filterbar>
+<span class="text-xs float-right my-2">
+  *Report from
+  <span class="text-secondary-700">{dayjs(startDateTime).format('DD MMMM YYYY HH:mm')}</span>
+  to
+  <span class="text-secondary-700">{dayjs(endDateTime).format('DD MMMM YYYY HH:mm')}</span>
+  ({dayjs(startDateTime).from(dayjs(endDateTime), true)})
+</span>
 
 <style>
   /* Add any necessary styles for the filter bar */
