@@ -3,7 +3,7 @@
   import dayjs from 'dayjs';
   import utc from 'dayjs/plugin/utc';
   import timezone from 'dayjs/plugin/timezone';
-  import LocalizedFormat from 'dayjs/plugin/LocalizedFormat';
+  import localizedFormat from 'dayjs/plugin/localizedFormat';
   import Image from '~/ui/components/elements/images/Image.svelte';
   import Currency from '~/ui/components/elements/labels/Currency.svelte';
 
@@ -12,7 +12,7 @@
 
   dayjs.extend(utc);
   dayjs.extend(timezone);
-  dayjs.extend(LocalizedFormat);
+  dayjs.extend(localizedFormat);
   dayjs.tz.setDefault('Asia/Bangkok');
 
   function isObject(value: any) {
