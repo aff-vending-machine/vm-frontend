@@ -1,10 +1,37 @@
 {
+    "home": {
+        "loading": "Loading"
+    },
     "product": {
         "name": "Name",
         "sku": "SKU",
         "group": "Group",
         "status": "Status",
         "price": "Price"
+    },
+    "report": {
+        "title": "Reports",
+        "stock-title": "Stock Report",
+        "loading": "Loading ...",
+        "syncing": "Syncing ...",
+        "total": "Total",
+        "report_from": "Report form",
+        "report_to": "to",
+        "error": "An error occurred while loading the data.",
+        "columns": {
+            "no": "No.",
+            "machine-id": "Machine ID",
+            "machine-name": "Name",
+            "machine-slot": "Machine Slot",
+            "product-name": "Product Name",
+            "serial-number": "Serial Number",
+            "sale-price": "Sale Price",
+            "sold": "Sold",
+            "credit-card": "Credit Card",
+            "promptpay": "Prompypay",
+            "total": "Total",
+            "reports": "Reports"
+        }
     },
     "status": {
         "active": "Active",
@@ -22,7 +49,20 @@
         "edit": "Edit",
         "confirm": "Confirm",
         "cancel": "Cancel",
-        "delete": "Delete"
+        "delete": "Delete",
+        "stock": "Stock",
+        "payment": "Payment",
+        "export": "Export"
+    },
+    "field": {
+        "start-date": "Start Date",
+        "end-date": "End Date",
+        "group-product": "Group Product",
+        "group-product-on": "Group",
+        "group-product-off": "Ungroup"
+    },
+    "table": {
+        "no-data": " ~ No data available ~ "
     },
     "notification": {
         "product-create-success": "Add Product",

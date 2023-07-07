@@ -1,7 +1,7 @@
 export type ColumnType = {
     key: string;
     title: string;
-    type?:  'image' | 'currency' | 'number' | 'date';
+    type?:  string | 'image' | 'currency' | 'number' | 'date';
     index?: string;
     sortable?: boolean;
     resizable?: boolean;

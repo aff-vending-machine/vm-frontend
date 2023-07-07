@@ -1,10 +1,37 @@
 {
+    "home": {
+        "loading": "กำลังดำเนินการ"
+    },
     "product": {
         "name": "ชื่อ",
         "sku": "SKU",
         "group": "กลุ่มสินค้า",
         "status": "สถานะ",
         "price": "ราคา"
+    },
+    "report": {
+        "title": "รายงาน",
+        "stock-title": "รายงานสรุปสินค้า",
+        "loading": "กำลังดำเนินการ ...",
+        "syncing": "กำลังซิงค์ข้อมูล ...",
+        "total": "รวม",
+        "report_from": "รายงานจาก",
+        "report_to": "ถึง",
+        "error": "มีข้อผิดพลาดในขณะที่ดึงข้อมูล",
+        "columns": {
+            "no": "ลำดับที่",
+            "machine-id": "หมายเลขเครื่อง",
+            "machine-name": "ชื่อเครื่อง",
+            "machine-slot": "ช่อง",
+            "product-name": "ชื่อสินค้า",
+            "serial-number": "รหัสเครื่อง",
+            "sale-price": "ราคาขาย",
+            "sold": "ขายไปทั้งหมด",
+            "credit-card": "ยอดขายบัตรเครดิต",
+            "promptpay": "ยอดขายพร้อมเพย์",
+            "total": "ยอดขายรวมทั้งหมด",
+            "reports": "รายงานสรุป"
+        }
     },
     "status": {
         "active": "ปกติ",
@@ -20,15 +47,37 @@
         "edit": "แก้ไข",
         "confirm": "ตกลง",
         "cancel": "ยกเลิก",
-        "delete": "ลบ"
+        "delete": "ลบ",
+        "stock": "รายงานสรุปสินค้า",
+        "payment": "รายงานธุรกรรม",
+        "export": "ส่งออก"
+    },
+    "field": {
+        "start-date": "เริ่มวันที่",
+        "end-date": "สิ้นสุดวันที่",
+        "group-product": "รวมกลุ่มสินค้าชุดเดียวกัน",
+        "group-product-on": "รวมกลุ่มสินค้า",
+        "group-product-off": "แยกตามช่องสินค้า"
+    },
+    "table": {
+        "no-data": " ~ ไม่มีข้อมูล ~ "
     },
     "notification": {
-        "product-create-success": "Add Product",
+        "product-create-success": "สร้างผลิตภัณฑ์",
         "product-create-error": "Add Product"
     },
     "pagination": {
-        "message": "Showing {begin} to {end} of {total} entries",
-        "next": "Next",
-        "previous": "Previous"
+        "message": "แสดงผลข้อมูลจากชุดที่ {begin} ถึง {end} จากทั้งหมด {total} ชุด",
+        "next": "ถัดไป",
+        "previous": "ก่อนหน้า"
+    },
+    "options": {
+        "stock": {
+            "all": "ทั้งหมด",
+            "avaialble": "ที่ยังมีอยู่",
+            "out-of-stocks": "ที่หมดแล้ว",
+            "less-than-20": "ที่น้อยกว่า 20%",
+            "full": "เต็ม"
+        }
     }
 }

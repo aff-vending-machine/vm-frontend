@@ -1,9 +1,11 @@
 <script lang="ts">
+  import { createEventDispatcher } from 'svelte';
   import dayjs from 'dayjs';
   import utc from 'dayjs/plugin/utc';
   import timezone from 'dayjs/plugin/timezone';
   import relativeTime from 'dayjs/plugin/relativeTime';
-  import { createEventDispatcher } from 'svelte';
+  import { _ } from 'svelte-i18n'; 
+
   import DateTimeField from '~/ui/components/forms/input/DateTimeField.svelte';
   import Filterbar from '~/ui/components/sections/headers/Filterbar.svelte';
 
@@ -45,7 +47,7 @@
 <Filterbar>
   <DateTimeField
     id="start-date-time"
-    label="Start Date"
+    label={$_('field.start-date')}
     rangeFrom={firstDateTime}
     rangeTo={lastDateTime}
     bind:value={startDateTime}
@@ -53,7 +55,7 @@
   />
   <DateTimeField
     id="end-date-time"
-    label="End Date"
+    label={$_('field.end-date')}
     rangeFrom={startDateTime}
     rangeTo={lastDateTime}
     bind:value={endDateTime}
@@ -61,9 +63,9 @@
   />
 </Filterbar>
 <span class="text-xs float-right my-2">
-  *Report from
+  *{$_('report.report_from')}
   <span class="text-secondary-700">{dayjs(startDateTime).format('DD MMMM YYYY HH:mm')}</span>
-  to
+  {$_('report.report_to')}
   <span class="text-secondary-700">{dayjs(endDateTime).format('DD MMMM YYYY HH:mm')}</span>
   ({dayjs(startDateTime).from(dayjs(endDateTime), true)})
 </span>

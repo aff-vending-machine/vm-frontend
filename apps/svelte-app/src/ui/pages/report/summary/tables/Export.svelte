@@ -1,6 +1,8 @@
 <!-- Export -->
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
+  import { _ } from 'svelte-i18n';
+  
   import { Machine } from '@apps/core';
   import Button from '~/ui/components/elements/buttons/Button.svelte';
   import Icon from '~/ui/components/elements/icons/Icon.svelte';
@@ -15,11 +17,11 @@
 <div class="flex justify-center space-x-2">
   <Button on:click={handleAction('stock')} class="text-xs focus:outline-none" color="secondary">
     <Icon i="ic-export" class="w-3 h-3 fill-white mr-1" />
-    Stock
+    {$_('button.stock')}
   </Button>
   <Button on:click={handleAction('transaction')} class="text-xs focus:outline-none" color="tertiary">
     <Icon i="ic-export" class="w-3 h-3 fill-white mr-1" />
-    Payment
+    {$_('button.payment')}
   </Button>
 </div>
 
