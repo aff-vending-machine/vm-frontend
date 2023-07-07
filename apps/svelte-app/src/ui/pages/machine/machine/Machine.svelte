@@ -83,13 +83,13 @@
       name: e.detail.name,
     };
     const status = await actionBloc.update(e.detail.id, payload);
-    notifyStatus(status, $_('machine.subtitle'), $_('notify.update-success'), $_('notify.update-error'));
+    notifyStatus(status, $_('general.machine'), $_('notify.update-success'), $_('notify.update-error'));
   }
 
   async function handleDelete(e: CustomEvent) {
     handleClose(e);
     const status = await actionBloc.delete(e.detail.id);
-    notifyStatus(status, $_('machine.subtitle'), $_('notify.delete-success'), $_('notify.delete-error'));
+    notifyStatus(status, $_('general.machine'), $_('notify.delete-success'), $_('notify.delete-error'));
   }
 
   onMount(async () => {
@@ -119,7 +119,7 @@
     <div class="w-full table-container">
       <div class="border border-gray-200 overflow-x-auto" use:dragscroll={{ event: 'pointer' }}>
         {#await $statePromise}
-          <div class="text-center py-4">{$_('machine.loading')}</div>
+          <div class="text-center py-4">{$_('general.loading')}</div>
         {:then $state}
           <Table {columns} source={$state.list} on:sort={reload} on:select={handleSelect} on:action={handleAction}>
             <tfoot class="sticky bottom-0 z-1 font-bold border-y border-gray-300">
@@ -137,7 +137,7 @@
           </Table>
         {:catch error}
           <div class="text-center text-red-500 py-4">
-            {error.message || $_('machine.error')}
+            {error.message || $_('general.error')}
           </div>
         {/await}
       </div>

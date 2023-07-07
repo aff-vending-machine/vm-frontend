@@ -88,10 +88,10 @@
     <div class="w-full table-container">
       <div class="border border-gray-200" use:dragscroll={{ event: 'pointer' }}>
         {#await $statePromise}
-          <div class="text-center py-4">{$_('report.syncing')}</div>
+          <div class="text-center py-4">{$_('general.syncing')}</div>
         {:then $state}
           {#if $state.status === 'loading'}
-            <div class="text-center py-4">{$_('report.loading')}</div>
+            <div class="text-center py-4">{$_('general.loading')}</div>
           {:else if $state.status === 'success'}
             <Table columns={columns} source={$state.list} on:sort={reload} on:select={handleSelect} on:action={handleAction}>
               <tfoot class="sticky bottom-0 z-1 font-bold border-y border-gray-300">
@@ -107,7 +107,7 @@
           {/if}
         {:catch error}
           <div class="text-center text-red-500 py-4">
-            {error.message || $_('report.error')}
+            {error.message || $_('general.error')}
           </div>
         {/await}
       </div>

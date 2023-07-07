@@ -29,14 +29,14 @@
 </script>
 
 <div class="h-full overflow-y-auto mr-2" style="z-index: 999;">
-  <h2 class="text-xl font-bold mb-4">{$_('machine.delete-title')}: {machine.name || $_('machine.untitled')}</h2>
+  <h2 class="text-xl font-bold mb-4">{$_('machine.delete-title')}: {machine.name || $_('general.untitled')}</h2>
   <form
     id={formID}
     on:submit|preventDefault={handleSubmit}
     class="space-y-4 p-2 border border-gray-200 rounded-md text-sm"
   >
     <p class="text-center my-4 text-lg">
-      {$_('machine.delete-message')} "<span class="text-red-500">{machine.name}</span>"?
+      {$_('general.delete-message')} "<span class="text-red-500">{machine.name}</span>"?
     </p>
   </form>
 

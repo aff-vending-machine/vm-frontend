@@ -1,13 +1,14 @@
 <script lang="ts">
   import { SelectOptionsType } from '~/utils/types/options';
+  import { _ } from 'svelte-i18n';
 
   export let id: string;
   export let label: string;
   export let value: any;
   export let error: string = null;
   export let options: SelectOptionsType[];
-  export let placeholder = 'Select an option';
-  export let unselected = true;
+  export let placeholder = $_('general.unseleted-options');
+  export let unselected = false;
   export let disabled = false;
   export let hidden = false;
 </script>

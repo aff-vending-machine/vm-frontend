@@ -128,15 +128,15 @@
     return false;
   };
 
-  const notifyStatus = (status: OperationStatus, successMessage: string, errorMessage: string) => {
+  const notifyStatus = (status: OperationStatus, name: string, actionSucess: string, actionError: string) => {
     switch (status) {
       case 'success':
         loadMachineData();
-        notification.add('success', successMessage);
+        notification.add('success', $_('notify.success', { values: { name, action: actionSucess } }));
         break;
 
       case 'failure':
-        notification.add('danger', errorMessage);
+        notification.add('danger', $_('notify.error', { values: { name, action: actionError } }));
         break;
     }
   };
@@ -224,13 +224,17 @@
       }));
 
     const status = await actionBloc.bulkUpdate($machineId, slots);
-    notifyStatus(status, 'Update successfully', 'Update failed');
+    notifyStatus(status, $_('general.slots'), $_('notify.update-success'), $_('notify.update-error'));
     const syncStatus = await syncBloc.pushSlots($machineId);
-    notifyStatus(syncStatus, 'Sync successfully', 'Sync failed');
+    notifyStatus(syncStatus, $_('general.slots'), $_('notify.sync-success'), $_('notify.sync-error'));
   }
 
   function handleCancel(e: CustomEvent) {
     local = $state.list.map(s => ({ ...s }));
+  }
+
+  function getMaxGrid(col: number) {
+    return `grid-cols-${col}-auto`;
   }
 
   onMount(async () => {
@@ -300,10 +304,6 @@
 
     return filled;
   };
-
-  function getMaxGrid(col: number) {
-    return `grid-cols-${col}-auto`;
-  }
 </script>
 
 <!-- HTML -->
@@ -311,9 +311,9 @@
   <div class="shadow-primary-100 w-full space-y-4 rounded-xl bg-white py-4 shadow-xl">
     <div class="px-8 pt-4">
       <h4 class="text-xl font-semibold text-gray-700">
-        {$_('slot.machine')}: <span class="text-secondary-500">{$machineState.data?.name || "-"}</span>
+        {$_('general.machine')}: <span class="text-secondary-500">{$machineState.data?.name || '-'}</span>
         <br />
-        {$_('slot.branch')}: <span class="text-secondary-500">{$machineState.data?.location || "-"}</span>
+        {$_('general.branch')}: <span class="text-secondary-500">{$machineState.data?.location || '-'}</span>
       </h4>
     </div>
     <div class="p-4">
@@ -350,10 +350,10 @@
       use:dragscroll={{ axis: 'both', event: 'pointer' }}
     >
       {#await $statePromise}
-        <div class="py-4 text-center">{$_('slot.syncing')}</div>
+        <div class="py-4 text-center">{$_('general.syncing')}</div>
       {:then $state}
         {#if $state.status === 'loading'}
-          <div class="py-4 text-center">{$_('slot.loading')}</div>
+          <div class="py-4 text-center">{$_('general.loading')}</div>
         {:else}
           <div class="grid max-w-full {getMaxGrid($maxCols)} gap-2">
             {#each fillSlots(local, filter, $maxRows, $maxCols) as slot}
@@ -379,7 +379,7 @@
         {/if}
       {:catch error}
         <div class="py-4 text-center text-red-500">
-          {error.message || $_('slot.error')}
+          {error.message || $_('general.error')}
         </div>
       {/await}
     </div>

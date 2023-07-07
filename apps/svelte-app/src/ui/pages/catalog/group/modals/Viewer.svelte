@@ -25,15 +25,15 @@
 
 <div class="h-full overflow-y-auto mr-2" style="z-index: 999;">
   <div class="flex flex-wrap">
-    <div class="w-full  md:pl-4 space-y-1">
+    <div class="w-full md:pl-4 space-y-1">
       <h1 class="text-xl font-bold pb-2">{group.name}</h1>
-      <p class="text-gray-700">{group.description}</p>
+      <p class="text-gray-700 italic">"{group.description}"</p>
       <p class="text-gray-700">
-        Status:
+        {$_('group.columns.status')}:
         {#if group.is_enable}
-          <span class="text-green-500">{$_('status.active')}</span>
+          <span class="text-green-500">{$_('group.status-on')}</span>
         {:else}
-          <span class="text-red-500">{$_('status.disabled')}</span>
+          <span class="text-red-500">{$_('group.status-off')}</span>
         {/if}
       </p>
     </div>

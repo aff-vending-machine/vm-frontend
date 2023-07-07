@@ -1,6 +1,53 @@
 {
-    "home": {
-        "loading": "กำลังดำเนินการ"
+    "general": {
+        "slots": "ช่องสินค้า",
+        "machine": "เครื่อง",
+        "branch": "สาขา",
+        "group": "กลุ่มสินค้า",
+        "untitled": "ยังไม่มีชื่อ",
+        "loading": "กำลังดำเนินการ ...",
+        "syncing": "กำลังซิงค์ข้อมูล ...",
+        "unseleted-options": "เลือก ...",
+        "delete-message": "กรุณายืนยัน! ต้องการลบ",
+        "error": "มีข้อผิดพลาดในขณะที่ดึงข้อมูล"
+    },
+    "field": {
+        "start-date": "เริ่มวันที่",
+        "end-date": "สิ้นสุดวันที่",
+        "payment-channel": "ช่องทางชำระเงิน",
+        "group-product": "รวมกลุ่มสินค้าชุดเดียวกัน",
+        "group-product-on": "รวมกลุ่มสินค้า",
+        "group-product-off": "แยกตามช่องสินค้า",
+        "limit": "จำกัดข้อมูล",
+        "search": "ค้นหา",
+        "report_from": "รายงานจาก",
+        "report_to": "ถึง",
+        "instructions": "ชุดคำสั่ง",
+        "last-time-sync": "ข้อมูลล่าสุด",
+        "never": "ไม่มี",
+        "stock": "สินค้า",
+        "status": "สถานะ",
+        "changed": "การแก้ไข"
+    },
+    "group": {
+        "title": "กลุ่มสินค้า",
+        "create-title": "สร้างกลุ่มสินค้า",
+        "edit-title": "แก้ไขกลุ่มสินค้า",
+        "delete-title": "ลบกลุ่มสินค้า",
+        "status-on": "เปิดการใช้งาน",
+        "status-off": "ปิด",
+        "columns": {
+            "id": "รหัส",
+            "name": "ชื่อ",
+            "description": "รายละเอียด",
+            "status": "สถานะ",
+            "actions": "คำสั่ง"
+        },
+        "field": {
+            "name": "ชื่อ",
+            "description": "รายละเอียด",
+            "status": "สถานะ"
+        }
     },
     "product": {
         "name": "ชื่อ",
@@ -11,13 +58,8 @@
     },    
     "machine": {
         "title": "เครื่อง",
-        "subtitle": "ข้อมูลเครื่อง",
         "edit-title": "แก้ไขข้อมูลเครื่อง",
         "delete-title": "ลบเครื่อง",
-        "delete-message": "ยืนยัน! ต้องการลบ",
-        "untitled": "ไม่มีชื่อ",
-        "loading": "กำลังดำเนินการ ...",
-        "error": "มีข้อผิดพลาดในขณะที่ดึงข้อมูล",
         "columns": {
             "id": "รหัส",
             "name": "ชื่อ",
@@ -38,25 +80,12 @@
         }
     },
     "slot": {
-        "machine": "เครื่อง",
-        "branch": "สาขา",
         "add-title": "เพิ่มช่องใส่สินค้า",
         "update-title": "แก้ไขช่องใส่สินค้า",
         "delete-title": "ลบช่องใส่สินค้า",
-        "delete-message": "ยืนยัน! ต้องการลบ",
-        "loading": "กำลังดำเนินการ ...",
-        "syncing": "กำลังซิงค์ข้อมูล ...",
         "price": "ราคา",
-        "instructions": "ชุดคำสั่ง",
-        "last-time-sync": "ข้อมูลล่าสุด",
-        "never": "ไม่มี",
-        "search": "ค้นหา",
-        "stock": "สินค้า",
-        "status": "สถานะ",
-        "changed": "การแก้ไข",
-        "error": "มีข้อผิดพลาดในขณะที่ดึงข้อมูล",
         "tag": {
-            "disable": "เสีย",
+            "disable": "ปิด",
             "empty": "ว่าง",
             "less-than-20": "≤ 20%",
             "available": "ยังมีอยู่",
@@ -75,12 +104,7 @@
         "title": "รายงาน",
         "stock-title": "รายงานสรุปสินค้า",
         "transaction-title": "รายงานธุรกรรม",
-        "loading": "กำลังดำเนินการ ...",
-        "syncing": "กำลังซิงค์ข้อมูล ...",
         "total": "รวม",
-        "report_from": "รายงานจาก",
-        "report_to": "ถึง",
-        "error": "มีข้อผิดพลาดในขณะที่ดึงข้อมูล",
         "columns": {
             "no": "ลำดับที่",
             "machine-id": "รหัสเครื่อง",
@@ -103,10 +127,6 @@
             "reports": "รายงานสรุป"
         }
     },
-    "status": {
-        "active": "ปกติ",
-        "disabled": "ปิด"
-    },
     "unit": {
         "baht": "บาท"
     },
@@ -123,17 +143,10 @@
         "delete": "ลบ",
         "stock": "รายงานสรุปสินค้า",
         "payment": "รายงานธุรกรรม",
+        "date": "วัน",
+        "time": "เวลา",
+        "done": "ยืนยัน",
         "export": "ส่งออก"
-    },
-    "field": {
-        "start-date": "เริ่มวันที่",
-        "end-date": "สิ้นสุดวันที่",
-        "payment-channel": "ช่องทางชำระเงิน",
-        "group-product": "รวมกลุ่มสินค้าชุดเดียวกัน",
-        "group-product-on": "รวมกลุ่มสินค้า",
-        "group-product-off": "แยกตามช่องสินค้า",
-        "limit": "จำกัดข้อมูล",
-        "search": "ค้นหา"
     },
     "table": {
         "no-data": " ~ ไม่มีข้อมูล ~ "
@@ -145,7 +158,9 @@
         "update-error": "แก้ไข",
         "delete-success": "ลบ",
         "delete-error": "ลบ",
-        "success": "สำเร็จ: การ{action}{name}เรียบร้อบ",
+        "sync-success": "ซิงค์",
+        "sync-error": "ซิงค์",
+        "success": "สำเร็จ: การ{action}{name}สำเร็จ",
         "error": "ผิดพลาด: การ{action}{name}ล้มเหลว"
     },
     "pagination": {
@@ -156,10 +171,20 @@
     "options": {
         "stock": {
             "all": "ทั้งหมด",
-            "avaialble": "ที่ยังมีอยู่",
-            "out-of-stocks": "ที่หมดแล้ว",
-            "less-than-20": "ที่น้อยกว่า 20%",
-            "full": "เต็ม"
+            "avaialble": "ยังมีอยู่",
+            "out-of-stocks": "หมดแล้ว",
+            "less-than-20": "น้อยกว่า 20%",
+            "full-stocks": "เต็ม"
+        },
+        "status": {
+            "all": "ทั้งหมด",
+            "enable": "เปิดใช้งาน",
+            "disable": "ปิด"
+        },
+        "changed": {
+            "all": "ทั้งหมด",
+            "changed": "มีการแก้ไข",
+            "not-changed": "ไม่มีการแก้ไข"
         }
     }
 }

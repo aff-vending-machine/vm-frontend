@@ -14,7 +14,6 @@
   const dispatch = createEventDispatcher();
 
   const formID = 'machine-editor-form';
-
   const id = field('id', machine.id, []);
   const name = field('name', machine.name, [required()]);
   const branchId = field('branch_id', machine.branch?.id, []);
@@ -22,13 +21,12 @@
   const type = field('type', machine.type, []);
   const vendor = field('vendor', machine.vendor, []);
   const status = field('status', machine.status, []);
-
-  const productForm = form(id, name, branchId, location, type, vendor, status);
+  const machineForm = form(id, name, branchId, location, type, vendor, status);
 
   async function handleSubmit() {
-    await productForm.validate();
-    if ($productForm.valid) {
-      dispatch('save', productForm.summary());
+    await machineForm.validate();
+    if ($machineForm.valid) {
+      dispatch('update', machineForm.summary());
     }
   }
 
@@ -38,7 +36,7 @@
 </script>
 
 <div class="h-full overflow-y-auto mr-2" style="z-index: 999;">
-  <h2 class="text-xl font-bold mb-4">{$_('machine.edit-title')}: {machine.name || $_('machine.untitled')}</h2>
+  <h2 class="text-xl font-bold mb-4">{$_('machine.edit-title')}: {machine.name || $_('general.untitled')}</h2>
   <form
     id={formID}
     on:submit|preventDefault={handleSubmit}

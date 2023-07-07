@@ -39,7 +39,7 @@
     class="space-y-4 p-2 border border-gray-200 rounded-md text-sm"
   >
     <p class="text-center my-4 text-lg">
-      {$_('slot.delete-message')} "<span class="text-red-500">{slot.code}</span>"?
+      {$_('general.delete-message')} "<span class="text-red-500">{slot.code}</span>"?
     </p>
   </form>
 

@@ -1,10 +1,10 @@
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte';
   import dayjs from 'dayjs';
   import utc from 'dayjs/plugin/utc';
   import timezone from 'dayjs/plugin/timezone';
   import relativeTime from 'dayjs/plugin/relativeTime';
   import LocalizedFormat from 'dayjs/plugin/LocalizedFormat';
+  import { createEventDispatcher } from 'svelte';
   import { _, locale } from 'svelte-i18n'; 
   import 'dayjs/locale/th'
 
@@ -67,9 +67,9 @@
   />
 </Filterbar>
 <span class="text-xs float-right">
-  *{$_('report.report_from')}
+  *{$_('field.report_from')}
   <span class="text-secondary-700">{dayjs(startDateTime).locale(localeTime).format('LLLL')}</span>
-  {$_('report.report_to')}
+  {$_('field.report_to')}
   <span class="text-secondary-700">{dayjs(endDateTime).locale(localeTime).format('LLLL')}</span>
   ({dayjs(startDateTime).locale(localeTime).from(dayjs(endDateTime), true)})
 </span>
