@@ -27,10 +27,11 @@
 <Filterbar>
   <SelectField
     id="group"
-    label="Group"
+    label={$_('field.product-group')}
     bind:value={group}
     options={groupOptions}
-    placeholder="no filter"
+    placeholder={$_('field.no-filter')}
+    unselected={true}
     on:change={handleFilter}
   />
   <TextInputField class="hidden" id="search" label="Search" bind:value={search} on:change={handleFilter} />

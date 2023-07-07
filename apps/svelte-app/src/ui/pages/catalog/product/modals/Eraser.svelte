@@ -29,14 +29,14 @@
 </script>
 
 <div class="h-full overflow-y-auto mr-2" style="z-index: 999;">
-  <h2 class="text-xl font-bold mb-4">Delete Product: {product.name || 'Untitled'}</h2>
+  <h2 class="text-xl font-bold mb-4">{$_('product.delete-title')}: {product.name || $_('general.untitled')}</h2>
   <form
     id={formID}
     on:submit|preventDefault={handleSubmit}
     class="space-y-4 p-2 border border-gray-200 rounded-md text-sm"
   >
     <p class="text-center my-4 text-lg">
-      Are You Sure! Want to Delete"<span class="text-red-500">{product.name}</span>"?
+      {$_('general.delete-message')} "<span class="text-red-500">{product.name}</span>"?
     </p>
   </form>
 

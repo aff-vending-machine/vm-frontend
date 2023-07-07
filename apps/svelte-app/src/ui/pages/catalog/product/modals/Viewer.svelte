@@ -30,14 +30,14 @@
     </div>
     <div class="w-full md:w-2/3 md:pl-4 space-y-1">
       <h1 class="text-xl font-bold pb-2">{product.name}</h1>
-      <p class="text-gray-700">{$_('product.sku')}: {product.sku}</p>
-      <p class="text-gray-700">{$_('product.group')}: {product.group?.name || '-'}</p>
+      <p class="text-gray-700">{$_('product.columns.sku')}: {product.sku}</p>
+      <p class="text-gray-700">{$_('product.columns.group')}: {product.group?.name || '-'}</p>
       <p class="text-gray-700">
-        {$_('product.status')}:
+        {$_('product.columns.status')}:
         {#if product.is_enable}
-          <span class="text-green-500">{$_('status.active')}</span>
+          <span class="text-success-500">{$_('product.status-on')}</span>
         {:else}
-          <span class="text-red-500">{$_('status.disabled')}</span>
+          <span class="text-danger-500">{$_('product.status-off')}</span>
         {/if}
       </p>
       <p class="text-xl font-semibold pt-4">{product.sale_price?.toFixed(2)} {$_('unit.baht')}</p>

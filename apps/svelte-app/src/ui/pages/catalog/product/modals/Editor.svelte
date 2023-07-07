@@ -42,7 +42,7 @@
 </script>
 
 <div class="h-full overflow-y-auto mr-2" style="z-index: 999;">
-  <h2 class="text-xl font-bold mb-4">Update Product: {product.name || 'Untitled'}</h2>
+  <h2 class="text-xl font-bold mb-4">{$_('product.edit-title')}: {product.name || $_('general.untitled')}</h2>
   <div class="m-4 flex justify-center">
     <Image class="border h-32 w-32 mx-auto object-contain" src={$image_url.value} alt={$name.value} />
   </div>
@@ -51,19 +51,35 @@
     on:submit|preventDefault={handleSubmit}
     class="space-y-4 p-2 border border-gray-200 rounded-md text-sm"
   >
-    <TextInputField id="sku" label="SKU" bind:value={$sku.value} disabled />
+    <TextInputField id="sku" label={$_('product.field.sku')} bind:value={$sku.value} disabled />
     <SelectField
       id="group_id"
-      label="Group"
+      label={$_('product.field.group')}
       bind:value={$group_id.value}
       error={$group_id.errors?.at(0)}
       options={groupOptions}
       unselected={false}
     />
-    <TextInputField id="name" label="Name" bind:value={$name.value} error={$name.errors?.at(0)} />
-    <TextInputField id="image_url" label="Image URL" bind:value={$image_url.value} error={$image_url.errors?.at(0)} />
-    <NumberInputField id="price" label="Price" bind:value={$price.value} error={$price.errors?.at(0)} />
-    <ToggleField id="is_enable" label="Active" bind:value={$is_enable.value} />
+    <TextInputField id="name" label={$_('product.field.name')} bind:value={$name.value} error={$name.errors?.at(0)} />
+    <TextInputField
+      id="image_url"
+      label={$_('product.field.image')}
+      bind:value={$image_url.value}
+      error={$image_url.errors?.at(0)}
+    />
+    <NumberInputField
+      id="price"
+      label={$_('product.field.price')}
+      bind:value={$price.value}
+      error={$price.errors?.at(0)}
+    />
+    <ToggleField
+      id="is_enable"
+      label={$_('product.field.status')}
+      bind:value={$is_enable.value}
+      labelOn={$_('product.status-on')}
+      labelOff={$_('product.status-off')}
+    />
   </form>
 
   <div class="flex justify-end space-x-4 mt-4">

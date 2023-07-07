@@ -1,4 +1,4 @@
-<!-- Editor -->
+<!-- GroupEditor -->
 <script lang="ts">
   import { CatalogGroup } from '@apps/core';
   import { createEventDispatcher } from 'svelte';

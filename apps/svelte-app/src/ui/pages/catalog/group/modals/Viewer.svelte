@@ -1,4 +1,4 @@
-<!-- Viewer -->
+<!-- GroupViewer -->
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
   import { _ } from 'svelte-i18n';
@@ -31,9 +31,9 @@
       <p class="text-gray-700">
         {$_('group.columns.status')}:
         {#if group.is_enable}
-          <span class="text-green-500">{$_('group.status-on')}</span>
+          <span class="text-success-500">{$_('group.status-on')}</span>
         {:else}
-          <span class="text-red-500">{$_('group.status-off')}</span>
+          <span class="text-danger-500">{$_('group.status-off')}</span>
         {/if}
       </p>
     </div>

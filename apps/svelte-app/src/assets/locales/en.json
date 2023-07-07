@@ -18,6 +18,7 @@
         "group-product": "Group Product",
         "group-product-on": "Group",
         "group-product-off": "Ungroup",
+        "product-group": "Product Group",
         "limit": "Limit",
         "search": "Search",
         "report_from": "Report form",
@@ -25,6 +26,7 @@
         "instructions": "Instructions",
         "last-time-sync": "last time sync",
         "never": "never",
+        "no-filter": "no filter",
         "stock": "Stock",
         "status": "Status",
         "changed": "Is edited"
@@ -50,11 +52,30 @@
         }
     },
     "product": {
-        "name": "Name",
-        "sku": "SKU",
-        "group": "Group",
-        "status": "Status",
-        "price": "Price"
+        "title": "Product",
+        "create-title": "Create Product",
+        "edit-title": "Edit Product",
+        "delete-title": "Delete Product",
+        "status-on": "Enable",
+        "status-off": "Disable",
+        "columns": {
+            "id": "ID",
+            "group": "Product group",
+            "name": "Name",
+            "sku": "SKU",
+            "image": "Image",
+            "price": "Price",
+            "actions": "Actions",
+            "status": "Status"
+        },
+        "field": {
+            "group": "Product group",
+            "name": "Name",
+            "sku": "SKU",
+            "image": "Image URL",
+            "price": "Price",
+            "status": "Status"
+        }
     },
     "machine": {
         "title": "Machines",

@@ -1,8 +1,8 @@
 <script lang="ts">
+  import Papa from 'papaparse';
   import { onMount } from 'svelte';
   import { Readable, derived, writable } from 'svelte/store';
   import { dragscroll } from '@svelte-put/dragscroll';
-  import Papa from 'papaparse';
   import { _ } from 'svelte-i18n';
 
   import { MachineState, StockReport, StockReportState, provideMachineBloc, provideStockReportBloc } from '@apps/core';
@@ -79,10 +79,28 @@
     { key: 'index', title: $_('report.columns.no'), render: index => index + 1 },
     { key: 'code', index: 'code', title: $_('report.columns.machine-slot'), sortable: true },
     { key: 'name', index: 'name', title: $_('report.columns.product-name'), sortable: true },
-    { key: 'sale_price', index: 'sale_price', title: $_('report.columns.sale-price'), sortable: true, type: 'currency' },
+    {
+      key: 'sale_price',
+      index: 'sale_price',
+      title: $_('report.columns.sale-price'),
+      sortable: true,
+      type: 'currency',
+    },
     { key: 'sold', index: 'sold', title: $_('report.columns.sold'), sortable: true },
-    { key: 'creditcard', index: 'total_payments.creditcard', title: $_('report.columns.credit-card'), sortable: true, type: 'currency' },
-    { key: 'promptpay', index: 'total_payments.promptpay', title: $_('report.columns.promptpay'), sortable: true, type: 'currency' },
+    {
+      key: 'creditcard',
+      index: 'total_payments.creditcard',
+      title: $_('report.columns.credit-card'),
+      sortable: true,
+      type: 'currency',
+    },
+    {
+      key: 'promptpay',
+      index: 'total_payments.promptpay',
+      title: $_('report.columns.promptpay'),
+      sortable: true,
+      type: 'currency',
+    },
     { key: 'total', index: 'total_price', title: $_('report.columns.total'), sortable: true, type: 'currency' },
   ];
   $: source = groupFilter($state.list, $filters.group);
@@ -148,7 +166,7 @@
     <div class="w-full table-container">
       <div class="border border-gray-200" use:dragscroll={{ event: 'pointer' }}>
         {#await $statePromise}
-          <div class="text-center py-4">{$_('report.loading')}</div>
+          <div class="text-center py-4">{$_('general.loading')}</div>
         {:then $state}
           <Table {columns} {source} on:sort={reload}>
             <tfoot class="sticky bottom-0 z-1 font-bold border-y border-gray-300">
@@ -163,14 +181,12 @@
           </Table>
         {:catch error}
           <div class="text-center text-red-500 py-4">
-            {error.message || $_('report.error')}
+            {error.message || $_('general.error')}
           </div>
         {/await}
       </div>
     </div>
   </div>
-
-  
 </section>
 
 <!-- Display modals -->

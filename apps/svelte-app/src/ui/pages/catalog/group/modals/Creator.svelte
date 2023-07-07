@@ -1,4 +1,4 @@
-<!-- Creator -->
+<!-- GroupCreator -->
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
   import { field, form } from 'svelte-forms';

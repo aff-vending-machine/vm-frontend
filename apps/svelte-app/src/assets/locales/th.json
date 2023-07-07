@@ -18,6 +18,7 @@
         "group-product": "รวมกลุ่มสินค้าชุดเดียวกัน",
         "group-product-on": "รวมกลุ่มสินค้า",
         "group-product-off": "แยกตามช่องสินค้า",
+        "product-group": "กลุ่มสินค้า",
         "limit": "จำกัดข้อมูล",
         "search": "ค้นหา",
         "report_from": "รายงานจาก",
@@ -25,6 +26,7 @@
         "instructions": "ชุดคำสั่ง",
         "last-time-sync": "ข้อมูลล่าสุด",
         "never": "ไม่มี",
+        "no-filter": "ไม่กรอง",
         "stock": "สินค้า",
         "status": "สถานะ",
         "changed": "การแก้ไข"
@@ -50,11 +52,30 @@
         }
     },
     "product": {
-        "name": "ชื่อ",
-        "sku": "SKU",
-        "group": "กลุ่มสินค้า",
-        "status": "สถานะ",
-        "price": "ราคา"
+        "title": "สินค้า",
+        "create-title": "สร้างสินค้า",
+        "edit-title": "แก้ไขสินค้า",
+        "delete-title": "ลบสินค้า",
+        "status-on": "เปิดการใช้งาน",
+        "status-off": "ปิด",
+        "columns": {
+            "id": "รหัส",
+            "group": "กลุ่มสินค้า",
+            "name": "ชื่อ",
+            "sku": "SKU",
+            "image": "รูปภาพ",
+            "price": "ราคา",
+            "actions": "คำสั่ง",
+            "status": "สถานะ"
+        },
+        "field": {
+            "group": "กลุ่มสินค้า",
+            "name": "ชื่อ",
+            "sku": "SKU",
+            "image": "ตำแหน่งรูปภาพ",
+            "price": "ราคา",
+            "status": "สถานะ"
+        }
     },    
     "machine": {
         "title": "เครื่อง",

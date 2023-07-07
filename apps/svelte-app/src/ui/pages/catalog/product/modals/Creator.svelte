@@ -23,7 +23,7 @@
   const name = field('name', '', [required()]);
   const sku = field('sku', genSKU(total), [required()]);
   const image_url = field('image_url', '', []);
-  const price = field('price', 0, [required(), min(0)]);
+  const price = field('price', 1, [required(), min(1)]);
   const productForm = form(name, group_id, sku, image_url, price);
 
   async function handleSubmit() {
@@ -39,7 +39,7 @@
 </script>
 
 <div class="h-full overflow-y-auto mr-2" style="z-index: 999;">
-  <h2 class="text-xl font-bold mb-4">Add Product: {$name.value || 'Untitled'}</h2>
+  <h2 class="text-xl font-bold mb-4">{$_('product.create-title')}: {$name.value || $_('general.untitled')}</h2>
   <div class="m-4 flex justify-center">
     <Image class="border h-32 w-32 mx-auto object-contain" src={$image_url.value} alt={$name.value} />
   </div>
@@ -50,16 +50,27 @@
   >
     <SelectField
       id="group_id"
-      label="Group"
+      label={$_('product.field.group')}
       bind:value={$group_id.value}
       error={$group_id.errors?.at(0)}
       options={groupOptions}
       unselected={false}
     />
-    <TextInputField id="name" label="Name" bind:value={$name.value} error={$name.errors?.at(0)} />
-    <TextInputField id="sku" label="SKU" bind:value={$sku.value} error={$name.errors?.at(0)} />
-    <TextInputField id="image_url" label="Image URL" bind:value={$image_url.value} error={$image_url.errors?.at(0)} />
-    <NumberInputField id="price" label="Price" bind:value={$price.value} error={$price.errors?.at(0)} />
+    <TextInputField id="name" label={$_('product.field.name')} bind:value={$name.value} error={$name.errors?.at(0)} />
+    <TextInputField id="sku" label={$_('product.field.sku')} bind:value={$sku.value} error={$name.errors?.at(0)} />
+    <TextInputField
+      id="image_url"
+      label={$_('product.field.image')}
+      bind:value={$image_url.value}
+      error={$image_url.errors?.at(0)}
+    />
+    <NumberInputField
+      id="price"
+      label={$_('product.field.price')}
+      bind:value={$price.value}
+      error={$price.errors?.at(0)}
+      min={1}
+    />
   </form>
 
   <div class="flex justify-end space-x-4 mt-4">

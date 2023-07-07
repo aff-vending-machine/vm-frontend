@@ -5,7 +5,14 @@
   import { dragscroll } from '@svelte-put/dragscroll';
   import { _ } from 'svelte-i18n';
 
-  import { provideCatalogGroupBloc, GroupState, CatalogGroup, OperationStatus, CreateCatalogGroup, UpdateCatalogGroup } from '@apps/core';
+  import {
+    provideCatalogGroupBloc,
+    GroupState,
+    CatalogGroup,
+    OperationStatus,
+    CreateCatalogGroup,
+    UpdateCatalogGroup,
+  } from '@apps/core';
   import { useBlocState } from '~/utils/hooks/useBlocState';
   import { stateDerived } from '~/utils/helpers/state';
 
@@ -31,7 +38,7 @@
     page: 1,
     offset: 0,
     limit: 10,
-    sort_by: 'id:asc', 
+    sort_by: 'id:asc',
   });
   const action = writable<string | null>();
   const group = writable<CatalogGroup | null>();
@@ -124,15 +131,12 @@
       <h4 class="text-xl font-medium">{$_('group.title')}</h4>
     </div>
     <div class="mb-4">
-      <FilterBar
-        on:create={handleAction}
-        on:filter={handlePageChange}
-      />
+      <FilterBar on:create={handleAction} on:filter={handlePageChange} />
     </div>
     <div class="w-full table-container">
       <div class="border border-gray-200 overflow-x-auto" use:dragscroll={{ event: 'pointer' }}>
         {#await $statePromise}
-          <div class="text-center py-4">{$_('group.loading')}</div>
+          <div class="text-center py-4">{$_('general.loading')}</div>
         {:then $state}
           <Table {columns} source={$state.list} on:sort={reload} on:select={handleSelect} on:action={handleAction}>
             <tfoot class="sticky bottom-0 z-1 font-bold border-y border-gray-300">
@@ -150,7 +154,7 @@
           </Table>
         {:catch error}
           <div class="text-center text-red-500 py-4">
-            {error.message || $_('group.error')}
+            {error.message || $_('general.error')}
           </div>
         {/await}
       </div>
@@ -162,10 +166,7 @@
 {#if $action}
   <Modal on:close={handleClose}>
     {#if $action === 'create'}
-      <Creator
-        on:create={handleCreate}
-        on:cancel={handleClose}
-      />
+      <Creator on:create={handleCreate} on:cancel={handleClose} />
     {:else if $action === 'view'}
       <Viewer group={$group} on:edit={handleAction} on:delete={handleAction} on:cancel={handleClose} />
     {:else if $action === 'edit'}

@@ -135,7 +135,7 @@
     <div class="w-full">
       <div class="border border-gray-200" use:dragscroll={{ event: 'pointer' }}>
         {#await $statePromise}
-          <div class="text-center py-4">{$_('report.loading')}</div>
+          <div class="text-center py-4">{$_('general.loading')}</div>
         {:then $state}
           <Table {columns} source={$state.list} on:sort={reload}>
             <tfoot class="sticky bottom-0 z-1 font-bold border-y border-gray-300">
@@ -148,7 +148,7 @@
           </Table>
         {:catch error}
           <div class="text-center text-red-500 py-4">
-            {error.message || $_('report.error')}
+            {error.message || $_('general.error')}
           </div>
         {/await}
       </div>

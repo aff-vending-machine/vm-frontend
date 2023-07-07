@@ -1,4 +1,4 @@
-<!-- Eraser -->
+<!-- GroupEraser -->
 <script lang="ts">
   import { CatalogGroup } from '@apps/core';
   import { createEventDispatcher } from 'svelte';
