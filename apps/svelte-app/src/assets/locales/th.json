@@ -5,6 +5,7 @@
         "branch": "สาขา",
         "group": "กลุ่มสินค้า",
         "transaction": "ธุรกรรม",
+        "role": "ตำแหน่ง",
         "untitled": "ยังไม่มีชื่อ",
         "loading": "กำลังดำเนินการ ...",
         "syncing": "กำลังซิงค์ข้อมูล ...",
@@ -31,8 +32,28 @@
         "branch": "สาขา",
         "machine": "หมายเลขเครื่อง",
         "stock": "สินค้า",
+        "role": "ตำแหน่ง",
         "status": "สถานะ",
         "changed": "การแก้ไข"
+    },
+    "user": {
+        "title": "พนักงาน",
+        "create-title": "สร้างพนักงาน",
+        "delete-title": "ลบพนักงาน",
+        "columns": {
+            "id": "รหัส",
+            "name": "ชื่อ",
+            "role": "ตำแหน่ง",
+            "branch": "สาขา",
+            "created-by": "สร้างโดย",
+            "actions": "คำสั่ง"
+        },
+        "field": {
+            "username": "ชื่อผู้ใช้",
+            "password": "รหัสผ่าน",
+            "confirm-password": "ยืนยันรหัสผ่าน",
+            "role": "ตำแหน่ง"
+        }
     },
     "group": {
         "title": "กลุ่มสินค้า",

@@ -1,10 +1,10 @@
-<!-- Creator -->
+<!-- UserCreator -->
 <script lang="ts">
   import { createEventDispatcher, onMount, onDestroy } from 'svelte';
   import { field, form } from 'svelte-forms';
   import { matchField, required } from 'svelte-forms/validators';
-  import { _ } from 'svelte-i18n';
   import { Unsubscriber } from 'svelte/store';
+  import { _ } from 'svelte-i18n';
 
   import Button from '~/ui/components/elements/buttons/Button.svelte';
   import PasswordInputField from '~/ui/components/forms/input/PasswordInputField.svelte';
@@ -45,7 +45,7 @@
 
   function getBranchOptions(rid: UniqueID, options: SelectOptionsType[]) {
     if (isAdminRole(rid)) {
-      return [{ value: 0, label: 'All Branches' }, ...options];
+      return [{ value: 0, label: $_('user.all-branches') }, ...options];
     }
 
     return options;
@@ -79,23 +79,33 @@
 </script>
 
 <div class="h-full overflow-y-auto mr-2" style="z-index: 999;">
-  <h2 class="text-xl font-bold mb-4">Add User: {$username.value || 'Untitled'}</h2>
+  <h2 class="text-xl font-bold mb-4">{$_('user.create-title')}: {$username.value || $_('general.untitled')}</h2>
   <form
     id={formID}
     on:submit|preventDefault={handleSubmit}
     class="space-y-4 p-2 border border-gray-200 rounded-md text-sm"
   >
-    <TextInputField id="username" label="Name" bind:value={$username.value} error={$username.errors?.at(0)} />
-    <PasswordInputField id="password" label="Password" bind:value={$password.value} error={$password.errors?.at(0)} />
+    <TextInputField
+      id="username"
+      label={$_('user.field.username')}
+      bind:value={$username.value}
+      error={$username.errors?.at(0)}
+    />
+    <PasswordInputField
+      id="password"
+      label={$_('user.field.password')}
+      bind:value={$password.value}
+      error={$password.errors?.at(0)}
+    />
     <PasswordInputField
       id="confirmed"
-      label="Confirmed Password"
+      label={$_('user.field.confirm-password')}
       bind:value={$confirmed.value}
       error={$confirmed.errors?.at(0)}
     />
     <SelectField
       id="role_id"
-      label="Role"
+      label={$_('user.field.role')}
       bind:value={$roleID.value}
       error={$roleID.errors?.at(0)}
       options={roleOptions}
@@ -103,7 +113,7 @@
     />
     <SelectField
       id="branch_id"
-      label="Branch"
+      label={$_('user.field.branch')}
       bind:value={$branchID.value}
       error={$branchID.errors?.at(0)}
       options={getBranchOptions($roleID.value, branchOptions)}

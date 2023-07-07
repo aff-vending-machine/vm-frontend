@@ -74,7 +74,8 @@
     label={$_('field.payment-channel')}
     bind:value={channel}
     options={channelOptions}
-    placeholder="no filter"
+    placeholder={$_('field.no-filter')}
+    unselected={true}
     on:change={handleFilter}
   />
 

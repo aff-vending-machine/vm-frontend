@@ -23,8 +23,6 @@
   import { SelectOptionsType } from '~/utils/types/options';
   import { stateDerived } from '~/utils/helpers/state';
   import { useBlocState } from '~/utils/hooks/useBlocState';
-  import { MAIN_ACCOUNT_USER_ID } from '~/utils/constants/links';
-  import { ColumnType } from '~/utils/types/table';
   import notification from '~/stores/notification';
 
   import Table from '~/ui/components/elements/tables/Table.svelte';
@@ -32,7 +30,6 @@
   import Modal from '~/ui/components/overlays/modals/Modal.svelte';
   import FilterBar from './FilterBar.svelte';
 
-  import Editor from './modals/Editor.svelte';
   import Viewer from './modals/Viewer.svelte';
   import Eraser from './modals/Eraser.svelte';
   import Action from './tables/Action.svelte';
@@ -64,15 +61,6 @@
   const action = writable<string | null>();
   const user = writable<User | null>();
 
-  const columns: ColumnType[] = [
-    { key: 'id', index: 'id', title: 'ID', sortable: true },
-    { key: 'name', index: 'username', title: 'Name', sortable: true },
-    { key: 'role', index: 'role.name', title: 'Role', sortable: true },
-    { key: 'branch', index: 'branch.name', title: 'Branch', sortable: true },
-    { key: 'created_by', index: 'created_by', title: 'Created By', sortable: true },
-    { key: 'action', title: 'Action', render: () => Action },
-  ];
-
   const reload = async () => {
     await bloc.list($filters);
   };
@@ -95,15 +83,15 @@
     }
   };
 
-  const notifyStatus = (status: OperationStatus, successMessage: string, errorMessage: string) => {
+  const notifyStatus = (status: OperationStatus, name: string, actionSucess: string, actionError: string) => {
     switch (status) {
       case 'success':
         reload();
-        notification.add('success', successMessage);
+        notification.add('success', $_('notify.success', { values: { name, action: actionSucess } }));
         break;
 
       case 'failure':
-        notification.add('danger', errorMessage);
+        notification.add('danger', $_('notify.error', { values: { name, action: actionError } }));
         break;
     }
   };
@@ -115,7 +103,8 @@
 
   function handleSelect(e: CustomEvent) {
     const { data } = e.detail;
-    navigate(MAIN_ACCOUNT_USER_ID(data.id), { replace: false });
+    action.set('view');
+    user.set(data);
   }
 
   function handleClose(e: CustomEvent) {
@@ -139,17 +128,13 @@
       password: e.detail.password,
     };
     const status = await actionBloc.create(payload);
-    notifyStatus(status, 'User created successfully', 'User creation failed');
-  }
-
-  async function handleUpdate(e: CustomEvent) {
-    handleClose(e);
+    notifyStatus(status, $_('general.user'), $_('notify.create-success'), $_('notify.create-error'));
   }
 
   async function handleDelete(e: CustomEvent) {
     handleClose(e);
     const status = await actionBloc.delete(e.detail.id);
-    notifyStatus(status, 'User deleted successfully', 'User deletion failed');
+    notifyStatus(status, $_('general.user'), $_('notify.delete-success'), $_('notify.delete-error'));
   }
 
   onMount(async () => {
@@ -158,18 +143,27 @@
     await loadBranchOptions();
   });
 
-  $: getRoleOptions = () =>{
-    return $roleOptions.filter(r => requestRole($access?.role, r.label))
-  }
-  $: getUsers = (list: User[]) =>{
-    return list.filter(u => requestRole($access?.role, u.role.name))
-  }
+  $: getRoleOptions = () => {
+    return $roleOptions.filter(r => requestRole($access?.role, r.label));
+  };
+  $: getUsers = (list: User[]) => {
+    return list.filter(u => requestRole($access?.role, u.role.name));
+  };
+
+  $: columns = [
+    { key: 'id', index: 'id', title: $_('user.columns.id'), sortable: true },
+    { key: 'name', index: 'username', title: $_('user.columns.name'), sortable: true },
+    { key: 'role', index: 'role.name', title: $_('user.columns.role'), sortable: true },
+    { key: 'branch', index: 'branch.name', title: $_('user.columns.branch'), sortable: true },
+    { key: 'created_by', index: 'created_by', title: $_('user.columns.created-by'), sortable: true },
+    { key: 'action', title: $_('user.columns.actions'), render: () => Action },
+  ];
 </script>
 
 <section class="card">
   <div class="user-page">
     <div class="mb-4 p-4">
-      <h4 class="text-xl font-medium">Users</h4>
+      <h4 class="text-xl font-medium">{$_('user.title')}</h4>
     </div>
     <div class="mb-4">
       <FilterBar
@@ -185,9 +179,15 @@
     <div class="w-full table-container">
       <div class="border border-gray-200 overflow-x-auto" use:dragscroll={{ event: 'pointer' }}>
         {#await $statePromise}
-          <div class="text-center py-4">Loading...</div>
+          <div class="text-center py-4">{$_('general.loading')}</div>
         {:then $state}
-          <Table {columns} source={getUsers($state.list)} on:sort={reload} on:select={handleSelect} on:action={handleAction}>
+          <Table
+            {columns}
+            source={getUsers($state.list)}
+            on:sort={reload}
+            on:select={handleSelect}
+            on:action={handleAction}
+          >
             <tfoot class="sticky bottom-0 z-1 font-bold border-y border-gray-300">
               <tr class="bg-gray-50">
                 <td class="px-6 py-4" colspan={columns.length}>
@@ -203,7 +203,7 @@
           </Table>
         {:catch error}
           <div class="text-center text-red-500 py-4">
-            {error.message || 'An error occurred while loading the data.'}
+            {error.message || $_('general.error')}
           </div>
         {/await}
       </div>
@@ -224,8 +224,6 @@
       />
     {:else if $action === 'view'}
       <Viewer user={$user} on:edit={handleAction} on:delete={handleAction} on:cancel={handleClose} />
-    {:else if $action === 'edit'}
-      <Editor user={$user} on:update={handleUpdate} on:cancel={handleClose} />
     {:else if $action === 'delete'}
       <Eraser user={$user} on:delete={handleDelete} on:cancel={handleClose} />
     {/if}
