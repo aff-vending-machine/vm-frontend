@@ -6,10 +6,11 @@
   function switchLanguage() {
     if ($locale === 'en-US') {
       locale.set('th-TH');
+      localStorage.setItem('app-locale', 'th-TH')
     } else {
       locale.set('en-US');
+      localStorage.setItem('app-locale', 'en-US')
     }
-    localStorage.setItem('app-locale', $locale)
   }
 </script>
 
