@@ -5,7 +5,7 @@
   import { Readable, derived, writable } from 'svelte/store';
   import { dragscroll } from '@svelte-put/dragscroll';
 
-  import { providePaymentChannelBloc, PaymentChannelState, PaymentChannel, OperationStatus } from '@apps/core';
+  import { providePaymentChannelBloc, PaymentChannelState, PaymentChannel, OperationStatus, UpdatePaymentChannel } from '@apps/core';
 
   import Table from '~/ui/components/elements/tables/Table.svelte';
   import Pagination from '~/ui/components/navigations/paginations/Pagination.svelte';
@@ -14,10 +14,8 @@
   import Viewer from './modals/Viewer.svelte';
   import Action from './tables/Action.svelte';
 
-  import notification from '~/stores/notification';
   import { stateDerived } from '~/utils/helpers/state';
   import { useBlocState } from '~/utils/hooks/useBlocState';
-  import { ColumnType } from '~/utils/types/table';
 
   const bloc = providePaymentChannelBloc();
   const actionBloc = providePaymentChannelBloc();
@@ -36,30 +34,9 @@
   const action = writable<string | null>();
   const channel = writable<PaymentChannel | null>();
 
-  const columns: ColumnType[] = [
-    { key: 'id', index: 'id', title: 'ID', sortable: true },
-    { key: 'name', index: 'name', title: 'Name', sortable: true },
-    { key: 'channel', index: 'channel', title: 'Channel', sortable: true },
-    { key: 'vendor', index: 'vendor', title: 'Vendor', sortable: true },
-    { key: 'is_enable', index: 'is_enable', title: 'Enable', sortable: true },
-    { key: 'actions', title: 'Action', render: () => Action },
-  ];
 
   const reload = async () => {
     await bloc.list($filters);
-  };
-
-  const notifyStatus = (status: OperationStatus, successMessage: string, errorMessage: string) => {
-    switch (status) {
-      case 'success':
-        reload();
-        notification.add('success', successMessage);
-        break;
-
-      case 'failure':
-        notification.add('danger', errorMessage);
-        break;
-    }
   };
 
   function handleAction(e: CustomEvent) {
@@ -88,12 +65,21 @@
   onMount(async () => {
     await reload();
   });
+
+  $: columns = [
+    { key: 'id', index: 'id', title: $_('channel.columns.id'), sortable: true },
+    { key: 'name', index: 'name', title: $_('channel.columns.name'), sortable: true },
+    { key: 'channel', index: 'channel', title: $_('channel.columns.channel'), sortable: true },
+    { key: 'vendor', index: 'vendor', title: $_('channel.columns.vendor'), sortable: true },
+    { key: 'is_enable', index: 'is_enable', title: $_('channel.columns.status'), sortable: true },
+    { key: 'actions', title: $_('channel.columns.actions'), render: () => Action },
+  ];
 </script>
 
 <section class="card">
   <div class="channel-page">
     <div class="mb-4 p-4">
-      <h4 class="text-xl font-medium">Payment Channels</h4>
+      <h4 class="text-xl font-medium">{$_('channel.title')}</h4>
     </div>
     <div class="mb-4">
       <FilterBar bind:limit={$filters.limit} bind:search={$filters.search} on:filter={reload} />
@@ -101,7 +87,7 @@
     <div class="w-full table-container">
       <div class="border border-gray-200 overflow-x-auto" use:dragscroll={{ event: 'pointer' }}>
         {#await $statePromise}
-          <div class="text-center py-4">Loading...</div>
+          <div class="text-center py-4">{$_('general.loading')}</div>
         {:then $state}
           <Table {columns} source={$state.list} on:select={handleSelect} on:action={handleAction}>
             <tfoot class="sticky bottom-0 z-1 font-bold border-y border-gray-300 ">
@@ -119,7 +105,7 @@
           </Table>
         {:catch error}
           <div class="text-center text-red-500 py-4">
-            {error.message || 'An error occurred while loading the data.'}
+            {error.message || $_('general.error')}
           </div>
         {/await}
       </div>

@@ -141,7 +141,7 @@
           <Table {columns} source={$state.list} on:sort={reload} on:select={handleSelect} on:action={handleAction}>
             <tfoot class="sticky bottom-0 z-1 font-bold border-y border-gray-300">
               <tr class="bg-gray-50">
-                <td class="sticky px-6 py-4" colspan={columns.length}>
+                <td class="px-6 py-4" colspan={columns.length}>
                   <Pagination
                     page={$filters.page}
                     itemsPerPage={$filters.limit}

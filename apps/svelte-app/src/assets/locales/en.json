@@ -121,6 +121,19 @@
             "active": "Active"
         }
     },
+    "channel": {
+        "title": "Payment Channel",
+        "status-on": "Enable",
+        "status-off": "Disable",
+        "columns": {
+            "id": "ID",
+            "name": "Name",
+            "channel": "Channel",
+            "vendor": "Vendor",
+            "status": "Status",
+            "actions": "Actions"
+        }
+    },
     "report": {
         "title": "Reports",
         "stock-title": "Stock Report",
