@@ -1,4 +1,4 @@
-<!-- Eraser -->
+<!-- UserEraser -->
 <script lang="ts">
   import { User } from '@apps/core';
   import { createEventDispatcher } from 'svelte';
@@ -29,14 +29,14 @@
 </script>
 
 <div class="h-full overflow-y-auto mr-2" style="z-index: 999;">
-  <h2 class="text-xl font-bold mb-4">Delete User: {user.username || 'Untitled'}</h2>
+  <h2 class="text-xl font-bold mb-4">{$_('user.delete-title')}: {user.username || $_('general.untitled')}</h2>
   <form
     id={formID}
     on:submit|preventDefault={handleSubmit}
     class="space-y-4 p-2 border border-gray-200 rounded-md text-sm"
   >
     <p class="text-center my-4 text-lg">
-      Are You Sure! Want to Delete"<span class="text-red-500">{user.username}</span>"?
+      {$_('general.delete-message')} "<span class="text-red-500">{user.username}</span>"?
     </p>
   </form>
 

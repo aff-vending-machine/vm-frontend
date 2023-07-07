@@ -1,6 +1,7 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
   import { _ } from 'svelte-i18n';
+
   import { access } from '~/stores/access';
 
   import Button from '~/ui/components/elements/buttons/Button.svelte';
@@ -32,21 +33,23 @@
   {#if requestRole($access?.role, 'admin')}
     <SelectField
       id="role"
-      label="Role"
+      label={$_('field.role')}
       bind:value={role}
       options={roleOptions}
-      placeholder="no filter"
+      placeholder={$_('field.no-filter')}
+      unselected={true}
       on:change={handleFilter}
     />
     <SelectField
       id="branch"
-      label="Branch"
+      label={$_('field.branch')}
       bind:value={branch}
       options={branchOptions}
-      placeholder="no filter"
+      placeholder={$_('field.no-filter')}
+      unselected={true}
       on:change={handleFilter}
     />
-    <TextInputField class="hidden" id="search" label="Search" bind:value={search} on:change={handleFilter} />
+    <TextInputField class="hidden" id="search" label={$_('field.search')} bind:value={search} on:change={handleFilter} />
   {/if}
   <svelte:fragment slot="right">
     {#if requestRole($access?.role, 'manager')}

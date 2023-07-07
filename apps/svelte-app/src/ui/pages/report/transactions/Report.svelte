@@ -133,7 +133,7 @@
       />
     </div>
     <div class="w-full">
-      <div class="border border-gray-200" use:dragscroll={{ event: 'pointer' }}>
+      <div class="border border-gray-200 overflow-x-auto" use:dragscroll={{ event: 'pointer' }}>
         {#await $statePromise}
           <div class="text-center py-4">{$_('general.loading')}</div>
         {:then $state}

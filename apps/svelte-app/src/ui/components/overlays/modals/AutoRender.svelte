@@ -44,7 +44,7 @@
 {#if value instanceof Date}
   <time>{dayjs(value).format('LLLL')}</time>
 {:else if isObject(value)}
-  <div class="grid grid-cols-3 space-y-1">
+  <div class="grid grid-cols-3">
     {#each Object.entries(value) as [k, v]}
       {#if !!v}
         <div class="font-semibold">{k}</div>
