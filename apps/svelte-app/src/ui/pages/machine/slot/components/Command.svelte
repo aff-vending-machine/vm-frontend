@@ -4,7 +4,7 @@
   import utc from 'dayjs/plugin/utc';
   import timezone from 'dayjs/plugin/timezone';
   import relativeTime from 'dayjs/plugin/relativeTime';
-  import LocalizedFormat from 'dayjs/plugin/LocalizedFormat';
+  import localizedFormat from 'dayjs/plugin/localizedFormat';
   import { createEventDispatcher } from 'svelte';
   import { _, locale } from 'svelte-i18n';
   import 'dayjs/locale/th'
@@ -21,7 +21,7 @@
   dayjs.extend(utc);
   dayjs.extend(timezone);
   dayjs.extend(relativeTime);
-  dayjs.extend(LocalizedFormat)
+  dayjs.extend(localizedFormat)
   dayjs.tz.setDefault('Asia/Bangkok');
 
   // events
