@@ -5,7 +5,7 @@ import '~/assets/css/global.css';
 import App from './App.svelte';
 
 // Get the saved version from local storage
-const savedVersion = localStorage.getItem('appVersion');
+const savedVersion = localStorage.getItem('app-version');
 
 // Define the current version of your app
 const currentVersion = '1.3.21';
@@ -22,7 +22,7 @@ if (savedVersion !== currentVersion) {
   }
 
   // Save the current version in local storage
-  localStorage.setItem('appVersion', currentVersion);
+  localStorage.setItem('app-version', currentVersion);
 }
 
 const app = new App({
