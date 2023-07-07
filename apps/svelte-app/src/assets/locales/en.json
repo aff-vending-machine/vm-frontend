@@ -4,6 +4,7 @@
         "machine": "Machine",
         "branch": "Branch",
         "group": "Product group",
+        "transaction": "Transaction",
         "untitled": "Untitled",
         "loading": "Loading ...",
         "syncing": "Syncing ...",
@@ -27,6 +28,8 @@
         "last-time-sync": "last time sync",
         "never": "never",
         "no-filter": "no filter",
+        "branch": "Branch",
+        "machine": "Machine",
         "stock": "Stock",
         "status": "Status",
         "changed": "Is edited"
@@ -122,7 +125,7 @@
         }
     },
     "channel": {
-        "title": "Payment Channel",
+        "title": "Payment Channels",
         "status-on": "Enable",
         "status-off": "Disable",
         "columns": {
@@ -130,6 +133,23 @@
             "name": "Name",
             "channel": "Channel",
             "vendor": "Vendor",
+            "status": "Status",
+            "actions": "Actions"
+        }
+    },
+    "transaction": {
+        "title": "Payment Transactions",
+        "columns": {
+            "id": "ID",
+            "order-id": "Order ID",
+            "branch": "Branch",
+            "machine": "Machine",
+            "payment-channel": "Payment Channel",
+            "timestamp": "Timestamp",
+            "reference": "Reference",
+            "ordered-price": "Ordered Price",
+            "paid-price": "Paid Price",
+            "cart": "Cart",
             "status": "Status",
             "actions": "Actions"
         }
@@ -194,6 +214,10 @@
         "delete-error": "deletion",
         "sync-success": "synced",
         "sync-error": "sync",
+        "done-success": "done",
+        "done-error": "done",
+        "cancel-success": "cancel",
+        "cancel-error": "cancel",
         "success": "Success: {name} {action} successfully",
         "error": "Error: {name} {action} failed"
     },

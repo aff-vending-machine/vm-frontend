@@ -4,6 +4,7 @@
         "machine": "เครื่อง",
         "branch": "สาขา",
         "group": "กลุ่มสินค้า",
+        "transaction": "ธุรกรรม",
         "untitled": "ยังไม่มีชื่อ",
         "loading": "กำลังดำเนินการ ...",
         "syncing": "กำลังซิงค์ข้อมูล ...",
@@ -27,6 +28,8 @@
         "last-time-sync": "ข้อมูลล่าสุด",
         "never": "ไม่มี",
         "no-filter": "ไม่กรอง",
+        "branch": "สาขา",
+        "machine": "หมายเลขเครื่อง",
         "stock": "สินค้า",
         "status": "สถานะ",
         "changed": "การแก้ไข"
@@ -134,6 +137,23 @@
             "actions": "คำสั่ง"
         }
     },
+    "transaction": {
+        "title": "ธุรกรรมการเงิน",
+        "columns": {
+            "id": "รหัส",
+            "order-id": "หมายเลขคำสั่งซื้อ",
+            "branch": "สาขา",
+            "machine": "เครื่อง",
+            "payment-channel": "ช่องทางชำระเงิน",
+            "timestamp": "เวลาประทับ",
+            "reference": "ข้อมูลอ้างอิง",
+            "ordered-price": "ราคาขาย",
+            "paid-price": "เงินที่ได้รับ",
+            "cart": "ตะกร้าสินค้า",
+            "status": "สถานะ",
+            "actions": "คำสั่ง"
+        }
+    },
     "report": {
         "title": "รายงาน",
         "stock-title": "รายงานสรุปสินค้า",
@@ -147,7 +167,7 @@
             "product-name": "ชื่อสินค้า",
             "order-id": "หมายเลขคำสั่งซื้อ",
             "payment-channel": "ช่องทางชำระเงิน",
-            "timestamp": "เวลา",
+            "timestamp": "เวลาประทับ",
             "reference": "ข้อมูลอ้างอิง",
             "cart": "ตะกร้าสินค้า",
             "quantity": "จำนวนสินค้า",
@@ -194,6 +214,10 @@
         "delete-error": "ลบ",
         "sync-success": "ซิงค์",
         "sync-error": "ซิงค์",
+        "done-success": "ยืนยัน",
+        "done-error": "ยืนยัน",
+        "cancel-success": "ยกเลิก",
+        "cancel-error": "ยกเลิก",
         "success": "สำเร็จ: การ{action}{name}สำเร็จ",
         "error": "ผิดพลาด: การ{action}{name}ล้มเหลว"
     },

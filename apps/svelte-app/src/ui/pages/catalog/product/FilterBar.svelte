@@ -34,7 +34,7 @@
     unselected={true}
     on:change={handleFilter}
   />
-  <TextInputField class="hidden" id="search" label="Search" bind:value={search} on:change={handleFilter} />
+  <TextInputField class="hidden" id="search" label={$_('field.search')} bind:value={search} on:change={handleFilter} />
 
   <svelte:fragment slot="right">
     <Button outline class="group" on:click={handleCreate}>

@@ -19,7 +19,6 @@
   import { SelectOptionsType } from '~/utils/types/options';
   import { stateDerived } from '~/utils/helpers/state';
   import { useBlocState } from '~/utils/hooks/useBlocState';
-  import { ColumnType } from '~/utils/types/table';
   import notification from '~/stores/notification';
 
   import Table from '~/ui/components/elements/tables/Table.svelte';
