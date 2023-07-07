@@ -13,6 +13,6 @@ init({
 })
 // starts loading 'en-US'
 
-if (sessionStorage.getItem("app-locale")) {
-    locale.set(sessionStorage.getItem("app-locale"));
+if (localStorage.getItem("app-locale")) {
+    locale.set(localStorage.getItem("app-locale"));
 }

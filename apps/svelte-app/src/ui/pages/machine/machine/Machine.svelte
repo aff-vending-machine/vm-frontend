@@ -1,17 +1,16 @@
 <!-- Machine -->
 <script lang="ts">
-  import { navigate } from 'svelte-navigator';
-  import { _ } from 'svelte-i18n';
   import { onMount } from 'svelte';
   import { Readable, derived, writable } from 'svelte/store';
+  import { navigate } from 'svelte-navigator';
   import { dragscroll } from '@svelte-put/dragscroll';
+  import { _ } from 'svelte-i18n';
 
   import { provideMachineBloc, MachineState, Machine, UpdateMachine, OperationStatus } from '@apps/core';
   import notification from '~/stores/notification';
   import { stateDerived } from '~/utils/helpers/state';
   import { useBlocState } from '~/utils/hooks/useBlocState';
   import { MAIN_MACHINE_SLOTS } from '~/utils/constants/links';
-  import { ColumnType } from '~/utils/types/table';
 
   import Table from '~/ui/components/elements/tables/Table.svelte';
   import Pagination from '~/ui/components/navigations/paginations/Pagination.svelte';
@@ -39,30 +38,19 @@
   const action = writable<string | null>();
   const machine = writable<Machine | null>();
 
-  const columns: ColumnType[] = [
-    { key: 'id', index: 'id', title: 'ID', sortable: true },
-    { key: 'name', index: 'name', title: 'Name', sortable: true },
-    { key: 'serial_number', index: 'serial_number', title: 'Serial Number', sortable: true },
-    { key: 'location', index: 'location', title: 'Location', sortable: true },
-    { key: 'type', index: 'type', title: 'Type', sortable: true },
-    { key: 'vendor', index: 'vendor', title: 'Vendor', sortable: true },
-    { key: 'status', index: 'status', title: 'Status', sortable: true },
-    { key: 'action', title: 'Action', render: () => Action },
-  ];
-
   const reload = async () => {
     await bloc.list($filters);
   };
 
-  const notifyStatus = (status: OperationStatus, successMessage: string, errorMessage: string) => {
+  const notifyStatus = (status: OperationStatus, name: string, actionSucess: string, actionError: string) => {
     switch (status) {
       case 'success':
         reload();
-        notification.add('success', successMessage);
+        notification.add('success', $_('notify.success', { values: { name, action: actionSucess } }));
         break;
 
       case 'failure':
-        notification.add('danger', errorMessage);
+        notification.add('danger', $_('notify.error', { values: { name, action: actionError } }));
         break;
     }
   };
@@ -95,24 +83,35 @@
       name: e.detail.name,
     };
     const status = await actionBloc.update(e.detail.id, payload);
-    notifyStatus(status, 'Machine updated successfully', 'Machine update failed');
+    notifyStatus(status, $_('machine.subtitle'), $_('notify.update-success'), $_('notify.update-error'));
   }
 
   async function handleDelete(e: CustomEvent) {
     handleClose(e);
     const status = await actionBloc.delete(e.detail.id);
-    notifyStatus(status, 'Machine deleted successfully', 'Machine deletion failed');
+    notifyStatus(status, $_('machine.subtitle'), $_('notify.delete-success'), $_('notify.delete-error'));
   }
 
   onMount(async () => {
     await reload();
   });
+
+  $: columns = [
+    { key: 'id', index: 'id', title: $_('machine.columns.id'), sortable: true },
+    { key: 'name', index: 'name', title: $_('machine.columns.name'), sortable: true },
+    { key: 'serial_number', index: 'serial_number', title: $_('machine.columns.serial-number'), sortable: true },
+    { key: 'location', index: 'location', title: $_('machine.columns.location'), sortable: true },
+    { key: 'type', index: 'type', title: $_('machine.columns.type'), sortable: true },
+    { key: 'vendor', index: 'vendor', title: $_('machine.columns.vendor'), sortable: true },
+    { key: 'status', index: 'status', title: $_('machine.columns.status'), sortable: true },
+    { key: 'action', title: $_('machine.columns.actions'), render: () => Action },
+  ];
 </script>
 
 <section class="card">
   <div class="machine-page">
     <div class="mb-4 p-4">
-      <h4 class="text-xl font-medium">Machines</h4>
+      <h4 class="text-xl font-medium">{$_('machine.title')}</h4>
     </div>
     <div class="mb-4">
       <FilterBar bind:limit={$filters.limit} bind:search={$filters.search} on:filter={reload} />
@@ -120,10 +119,10 @@
     <div class="w-full table-container">
       <div class="border border-gray-200 overflow-x-auto" use:dragscroll={{ event: 'pointer' }}>
         {#await $statePromise}
-          <div class="text-center py-4">Loading...</div>
+          <div class="text-center py-4">{$_('machine.loading')}</div>
         {:then $state}
           <Table {columns} source={$state.list} on:sort={reload} on:select={handleSelect} on:action={handleAction}>
-            <tfoot class="sticky bottom-0 z-1 font-bold border-y border-gray-300 ">
+            <tfoot class="sticky bottom-0 z-1 font-bold border-y border-gray-300">
               <tr class="bg-gray-50">
                 <td class="px-6 py-4" colspan={columns.length}>
                   <Pagination
@@ -138,7 +137,7 @@
           </Table>
         {:catch error}
           <div class="text-center text-red-500 py-4">
-            {error.message || 'An error occurred while loading the data.'}
+            {error.message || $_('machine.error')}
           </div>
         {/await}
       </div>

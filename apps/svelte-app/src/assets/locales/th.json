@@ -8,6 +8,34 @@
         "group": "กลุ่มสินค้า",
         "status": "สถานะ",
         "price": "ราคา"
+    },    
+    "machine": {
+        "title": "เครื่อง",
+        "subtitle": "ข้อมูลเครื่อง",
+        "edit-title": "แก้ไขข้อมูลเครื่อง",
+        "delete-title": "ลบเครื่อง",
+        "delete-message": "ยืนยัน! ต้องการลบ",
+        "untitled": "ไม่มีชื่อ",
+        "loading": "กำลังดำเนินการ ...",
+        "error": "มีข้อผิดพลาดในขณะที่ดึงข้อมูล",
+        "columns": {
+            "id": "รหัส",
+            "name": "ชื่อ",
+            "serial-number": "หมายเลขประจำเครื่อง",
+            "location": "สถานที่ตั้ง",
+            "type": "ชนิด",
+            "vendor": "ผู้ใช้งาน",
+            "status": "สถานะ",
+            "actions": "คำสั่ง"
+        },
+        "field": {
+            "name": "ชื่อ",
+            "serial-number": "หมายเลขประจำเครื่อง",
+            "branch": "สาขา",
+            "location": "สถานที่ตั้ง",
+            "type": "ชนิด",
+            "vendor": "ผู้ใช้งาน"
+        }
     },
     "report": {
         "title": "รายงาน",
@@ -20,11 +48,11 @@
         "error": "มีข้อผิดพลาดในขณะที่ดึงข้อมูล",
         "columns": {
             "no": "ลำดับที่",
-            "machine-id": "หมายเลขเครื่อง",
+            "machine-id": "รหัสเครื่อง",
             "machine-name": "ชื่อเครื่อง",
             "machine-slot": "ช่อง",
             "product-name": "ชื่อสินค้า",
-            "serial-number": "รหัสเครื่อง",
+            "serial-number": "หมายเลขประจำเครื่อง",
             "sale-price": "ราคาขาย",
             "sold": "ขายไปทั้งหมด",
             "credit-card": "ยอดขายบัตรเครดิต",
@@ -57,14 +85,22 @@
         "end-date": "สิ้นสุดวันที่",
         "group-product": "รวมกลุ่มสินค้าชุดเดียวกัน",
         "group-product-on": "รวมกลุ่มสินค้า",
-        "group-product-off": "แยกตามช่องสินค้า"
+        "group-product-off": "แยกตามช่องสินค้า",
+        "limit": "จำกัดข้อมูล",
+        "search": "ค้นหา"
     },
     "table": {
         "no-data": " ~ ไม่มีข้อมูล ~ "
     },
-    "notification": {
-        "product-create-success": "สร้างผลิตภัณฑ์",
-        "product-create-error": "Add Product"
+    "notify": {
+        "create-success": "สร้าง",
+        "create-error": "สร้าง",
+        "update-success": "แก้ไข",
+        "update-error": "แก้ไข",
+        "delete-success": "ลบ",
+        "delete-error": "ลบ",
+        "success": "สำเร็จ: การ{action}{name}เรียบร้อบ",
+        "error": "ผิดพลาด: การ{action}{name}ล้มเหลว"
     },
     "pagination": {
         "message": "แสดงผลข้อมูลจากชุดที่ {begin} ถึง {end} จากทั้งหมด {total} ชุด",

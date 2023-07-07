@@ -9,7 +9,7 @@
     } else {
       locale.set('en-US');
     }
-    sessionStorage.setItem('app-locale', $locale)
+    localStorage.setItem('app-locale', $locale)
   }
 </script>
 
