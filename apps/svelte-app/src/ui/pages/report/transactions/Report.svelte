@@ -1,8 +1,9 @@
 <script lang="ts">
-  import Papa from 'papaparse';
   import { onMount } from 'svelte';
   import { Readable, derived, writable } from 'svelte/store';
   import { dragscroll } from '@svelte-put/dragscroll';
+  import Papa from 'papaparse';
+  import { _ } from 'svelte-i18n';
 
   import {
     MachineState,
@@ -17,7 +18,6 @@
   import Table from '~/ui/components/elements/tables/Table.svelte';
   import { useBlocState } from '~/utils/hooks/useBlocState';
   import { stateDerived } from '~/utils/helpers/state';
-  import { ColumnType } from '~/utils/types/table';
 
   import FilterBar from './FilterBar.svelte';
   import Cart from './tables/Cart.svelte';
@@ -50,18 +50,6 @@
   });
   const machineId = writable<number | null>();
   const action = writable<string | null>();
-
-  const columns: ColumnType[] = [
-    { key: 'index', title: 'No.', render: index => index + 1 },
-    { key: 'merchant_order_id', index: 'merchant_order_id', title: 'Order ID', sortable: true },
-    // { key: 'machine_name', index: 'machine_name', title: 'Machine', sortable: true },
-    { key: 'payment_channel', index: 'payment_channel', title: 'Payment Channel', sortable: true },
-    { key: 'confirmed_paid_at', index: 'confirmed_paid_at', title: 'Timestamp', sortable: true, type: 'date' },
-    { key: 'reference', index: 'reference', title: 'Reference', render: () => Reference },
-    { key: 'cart', index: 'cart', title: 'Cart', render: () => Cart },
-    { key: 'received_quantity', index: 'received_quantity', title: 'Quantity', sortable: true, type: 'number' },
-    { key: 'paid_price', index: 'paid_price', title: 'Paid Price', sortable: true, type: 'currency' },
-  ];
 
   const reload = async () => {
     await bloc.report($machineId, $filters);
@@ -112,6 +100,17 @@
     await reload();
   });
 
+  $: columns = [
+    { key: 'index', title: $_('report.columns.no'), render: index => index + 1 },
+    { key: 'merchant_order_id', index: 'merchant_order_id', title: $_('report.columns.order-id'), sortable: true },
+    // { key: 'machine_name', index: 'machine_name', title: '$_('report.columns.machine-name'), sortable: true },
+    { key: 'payment_channel', index: 'payment_channel', title: $_('report.columns.payment-channel'), sortable: true },
+    { key: 'confirmed_paid_at', index: 'confirmed_paid_at', title: $_('report.columns.timestamp'), sortable: true, type: 'date' },
+    { key: 'reference', index: 'reference', title: $_('report.columns.reference'), render: () => Reference },
+    { key: 'cart', index: 'cart', title: $_('report.columns.cart'), render: () => Cart },
+    { key: 'received_quantity', index: 'received_quantity', title: $_('report.columns.quantity'), sortable: true, type: 'number' },
+    { key: 'paid_price', index: 'paid_price', title: $_('report.columns.paid-price'), sortable: true, type: 'currency' },
+  ];
   $: totalQuantity = $state.list?.reduce((total, row) => total + row.received_quantity, 0);
   $: totalPayment = $state.list?.reduce((total, row) => total + row.paid_price, 0);
 </script>
@@ -120,7 +119,7 @@
   <div class="report-page">
     <div class="mb-4 p-4">
       <h4 class="text-xl font-medium">
-        Transaction Report: <span class="text-secondary-500">{$machineState.data?.name}</span>
+        {$_('report.transaction-title')}: <span class="text-secondary-500">{$machineState.data?.name}</span>
       </h4>
     </div>
     <div class="mb-4">
@@ -136,12 +135,12 @@
     <div class="w-full">
       <div class="border border-gray-200" use:dragscroll={{ event: 'pointer' }}>
         {#await $statePromise}
-          <div class="text-center py-4">Loading...</div>
+          <div class="text-center py-4">{$_('general.loading')}</div>
         {:then $state}
           <Table {columns} source={$state.list} on:sort={reload}>
             <tfoot class="sticky bottom-0 z-1 font-bold border-y border-gray-300">
               <tr class="bg-gray-50">
-                <td class="px-6 py-4" colspan={columns.length - 2}>Total</td>
+                <td class="px-6 py-4" colspan={columns.length - 2}>{$_('report.total')}</td>
                 <td class="px-6 py-4"><Number amount={totalQuantity} /></td>
                 <td class="px-6 py-4"><Currency amount={totalPayment} /></td>
               </tr>
@@ -149,7 +148,7 @@
           </Table>
         {:catch error}
           <div class="text-center text-red-500 py-4">
-            {error.message || 'An error occurred while loading the data.'}
+            {error.message || $_('general.error')}
           </div>
         {/await}
       </div>

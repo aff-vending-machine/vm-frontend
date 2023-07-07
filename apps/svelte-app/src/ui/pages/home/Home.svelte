@@ -2,6 +2,8 @@
 <script lang="ts">
   import { onDestroy, onMount } from 'svelte';
   import { navigate } from 'svelte-navigator';
+  import { _ } from 'svelte-i18n';
+
   import Icon from '~/ui/components/elements/icons/Icon.svelte';
 
   let timeoutId: number;
@@ -20,7 +22,7 @@
 <!-- HTML -->
 <section class="m-16 flex h-screen flex-col pt-8">
   <Icon i="spinner" class="animate-spin h-5 w-5 mr-3 fill-white" />
-  <p>Loading</p>
+  <p>{$_('general.loading')}</p>
 </section>
 
 <!-- style -->

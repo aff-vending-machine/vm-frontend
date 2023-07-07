@@ -1,5 +1,7 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
+  import { _ } from 'svelte-i18n';
+
   import SelectField from '~/ui/components/forms/input/SelectField.svelte';
   import TextInputField from '~/ui/components/forms/input/TextInputField.svelte';
   import Filterbar from '~/ui/components/sections/headers/Filterbar.svelte';
@@ -14,8 +16,14 @@
 </script>
 
 <Filterbar>
-  <SelectField id="limit" label="Limit" bind:value={limit} options={limitOptions} on:change={handleFilter} />
-  <TextInputField class="hidden" id="search" label="Search" bind:value={search} on:change={handleFilter} />
+  <SelectField
+    id="limit"
+    label={$_('field.limit')}
+    bind:value={limit}
+    options={limitOptions}
+    on:change={handleFilter}
+  />
+  <TextInputField class="hidden" id="search" label={$_('field.search')} bind:value={search} on:change={handleFilter} />
 </Filterbar>
 
 <style>

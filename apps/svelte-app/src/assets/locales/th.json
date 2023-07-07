@@ -1,34 +1,248 @@
 {
-    "product": {
-        "name": "ชื่อ",
-        "sku": "SKU",
+    "general": {
+        "slots": "ช่องสินค้า",
+        "machine": "เครื่อง",
+        "branch": "สาขา",
         "group": "กลุ่มสินค้า",
-        "status": "สถานะ",
-        "price": "ราคา"
+        "transaction": "ธุรกรรม",
+        "untitled": "ยังไม่มีชื่อ",
+        "loading": "กำลังดำเนินการ ...",
+        "syncing": "กำลังซิงค์ข้อมูล ...",
+        "unseleted-options": "เลือก ...",
+        "delete-message": "กรุณายืนยัน! ต้องการลบ",
+        "error": "มีข้อผิดพลาดในขณะที่ดึงข้อมูล"
     },
-    "status": {
-        "active": "ปกติ",
-        "disabled": "ปิด"
+    "field": {
+        "start-date": "เริ่มวันที่",
+        "end-date": "สิ้นสุดวันที่",
+        "payment-channel": "ช่องทางชำระเงิน",
+        "group-product": "รวมกลุ่มสินค้าชุดเดียวกัน",
+        "group-product-on": "รวมกลุ่มสินค้า",
+        "group-product-off": "แยกตามช่องสินค้า",
+        "product-group": "กลุ่มสินค้า",
+        "limit": "จำกัดข้อมูล",
+        "search": "ค้นหา",
+        "report_from": "รายงานจาก",
+        "report_to": "ถึง",
+        "instructions": "ชุดคำสั่ง",
+        "last-time-sync": "ข้อมูลล่าสุด",
+        "never": "ไม่มี",
+        "no-filter": "ไม่กรอง",
+        "branch": "สาขา",
+        "machine": "หมายเลขเครื่อง",
+        "stock": "สินค้า",
+        "status": "สถานะ",
+        "changed": "การแก้ไข"
+    },
+    "group": {
+        "title": "กลุ่มสินค้า",
+        "create-title": "สร้างกลุ่มสินค้า",
+        "edit-title": "แก้ไขกลุ่มสินค้า",
+        "delete-title": "ลบกลุ่มสินค้า",
+        "status-on": "เปิดการใช้งาน",
+        "status-off": "ปิด",
+        "columns": {
+            "id": "รหัส",
+            "name": "ชื่อ",
+            "description": "รายละเอียด",
+            "status": "สถานะ",
+            "actions": "คำสั่ง"
+        },
+        "field": {
+            "name": "ชื่อ",
+            "description": "รายละเอียด",
+            "status": "สถานะ"
+        }
+    },
+    "product": {
+        "title": "สินค้า",
+        "create-title": "สร้างสินค้า",
+        "edit-title": "แก้ไขสินค้า",
+        "delete-title": "ลบสินค้า",
+        "status-on": "เปิดการใช้งาน",
+        "status-off": "ปิด",
+        "columns": {
+            "id": "รหัส",
+            "group": "กลุ่มสินค้า",
+            "name": "ชื่อ",
+            "sku": "SKU",
+            "image": "รูปภาพ",
+            "price": "ราคา",
+            "actions": "คำสั่ง",
+            "status": "สถานะ"
+        },
+        "field": {
+            "group": "กลุ่มสินค้า",
+            "name": "ชื่อ",
+            "sku": "SKU",
+            "image": "ตำแหน่งรูปภาพ",
+            "price": "ราคา",
+            "status": "สถานะ"
+        }
+    },
+    "machine": {
+        "title": "เครื่อง",
+        "edit-title": "แก้ไขข้อมูลเครื่อง",
+        "delete-title": "ลบเครื่อง",
+        "columns": {
+            "id": "รหัส",
+            "name": "ชื่อ",
+            "serial-number": "หมายเลขประจำเครื่อง",
+            "location": "สถานที่ตั้ง",
+            "type": "ชนิด",
+            "vendor": "ผู้ให้บริการ",
+            "status": "สถานะ",
+            "actions": "คำสั่ง"
+        },
+        "field": {
+            "name": "ชื่อ",
+            "serial-number": "หมายเลขประจำเครื่อง",
+            "branch": "สาขา",
+            "location": "สถานที่ตั้ง",
+            "type": "ชนิด",
+            "vendor": "ผู้ให้บริการ"
+        }
+    },
+    "slot": {
+        "add-title": "เพิ่มช่องใส่สินค้า",
+        "update-title": "แก้ไขช่องใส่สินค้า",
+        "delete-title": "ลบช่องใส่สินค้า",
+        "price": "ราคา",
+        "tag": {
+            "disable": "ปิด",
+            "empty": "ว่าง",
+            "less-than-20": "≤ 20%",
+            "available": "ยังมีอยู่",
+            "full": "เต็ม"
+        },
+        "field": {
+            "code": "หมายเลขช่องใส่สินค้า",
+            "product-group": "กลุ่มสินค้า",
+            "product": "สินค้า",
+            "stock": "จำนวนสินค้า",
+            "capacity": "ความจุของช่อง",
+            "active": "เปิดใช้งาน"
+        }
+    },
+    "channel": {
+        "title": "ช่องทางชำระเงิน",
+        "status-on": "เปิดการใช้งาน",
+        "status-off": "ปิด",
+        "columns": {
+            "id": "รหัส",
+            "name": "ชื่อ",
+            "channel": "ช่องทาง",
+            "vendor": "ผู้ให้บริการ",
+            "status": "สถานะ",
+            "actions": "คำสั่ง"
+        }
+    },
+    "transaction": {
+        "title": "ธุรกรรมการเงิน",
+        "columns": {
+            "id": "รหัส",
+            "order-id": "หมายเลขคำสั่งซื้อ",
+            "branch": "สาขา",
+            "machine": "เครื่อง",
+            "payment-channel": "ช่องทางชำระเงิน",
+            "timestamp": "เวลาประทับ",
+            "reference": "ข้อมูลอ้างอิง",
+            "ordered-price": "ราคาขาย",
+            "paid-price": "เงินที่ได้รับ",
+            "cart": "ตะกร้าสินค้า",
+            "status": "สถานะ",
+            "actions": "คำสั่ง"
+        }
+    },
+    "report": {
+        "title": "รายงาน",
+        "stock-title": "รายงานสรุปสินค้า",
+        "transaction-title": "รายงานธุรกรรม",
+        "total": "รวม",
+        "columns": {
+            "no": "ลำดับที่",
+            "machine-id": "รหัสเครื่อง",
+            "machine-name": "ชื่อเครื่อง",
+            "machine-slot": "ช่อง",
+            "product-name": "ชื่อสินค้า",
+            "order-id": "หมายเลขคำสั่งซื้อ",
+            "payment-channel": "ช่องทางชำระเงิน",
+            "timestamp": "เวลาประทับ",
+            "reference": "ข้อมูลอ้างอิง",
+            "cart": "ตะกร้าสินค้า",
+            "quantity": "จำนวนสินค้า",
+            "paid-price": "ราคารวม",
+            "serial-number": "หมายเลขประจำเครื่อง",
+            "sale-price": "ราคาขาย",
+            "sold": "ขายไปทั้งหมด",
+            "credit-card": "ยอดขายบัตรเครดิต",
+            "promptpay": "ยอดขายพร้อมเพย์",
+            "total": "ยอดขายรวมทั้งหมด",
+            "reports": "รายงานสรุป"
+        }
     },
     "unit": {
         "baht": "บาท"
     },
     "button": {
         "add-product": "เพิ่มสินค้า",
+        "add-slot": "เพิ่มช่อง",
+        "add-group": "เพิ่มกลุ่มสินค้า",
         "add-user": "เพิ่มพนักงาน",
         "save": "บันทึก",
         "edit": "แก้ไข",
         "confirm": "ตกลง",
         "cancel": "ยกเลิก",
-        "delete": "ลบ"
+        "refresh": "รีเฟรช",
+        "delete": "ลบ",
+        "stock": "รายงานสรุปสินค้า",
+        "payment": "รายงานธุรกรรม",
+        "date": "วัน",
+        "time": "เวลา",
+        "done": "ยืนยัน",
+        "export": "ส่งออก"
     },
-    "notification": {
-        "product-create-success": "Add Product",
-        "product-create-error": "Add Product"
+    "table": {
+        "no-data": " ~ ไม่มีข้อมูล ~ "
+    },
+    "notify": {
+        "create-success": "สร้าง",
+        "create-error": "สร้าง",
+        "update-success": "แก้ไข",
+        "update-error": "แก้ไข",
+        "delete-success": "ลบ",
+        "delete-error": "ลบ",
+        "sync-success": "ซิงค์",
+        "sync-error": "ซิงค์",
+        "done-success": "ยืนยัน",
+        "done-error": "ยืนยัน",
+        "cancel-success": "ยกเลิก",
+        "cancel-error": "ยกเลิก",
+        "success": "สำเร็จ: การ{action}{name}สำเร็จ",
+        "error": "ผิดพลาด: การ{action}{name}ล้มเหลว"
     },
     "pagination": {
-        "message": "Showing {begin} to {end} of {total} entries",
-        "next": "Next",
-        "previous": "Previous"
+        "message": "แสดงผลข้อมูลจากชุดที่ {begin} ถึง {end} จากทั้งหมด {total} ชุด",
+        "next": "ถัดไป",
+        "previous": "ก่อนหน้า"
+    },
+    "options": {
+        "stock": {
+            "all": "ทั้งหมด",
+            "avaialble": "ยังมีอยู่",
+            "out-of-stocks": "หมดแล้ว",
+            "less-than-20": "น้อยกว่า 20%",
+            "full-stocks": "เต็ม"
+        },
+        "status": {
+            "all": "ทั้งหมด",
+            "enable": "เปิดใช้งาน",
+            "disable": "ปิด"
+        },
+        "changed": {
+            "all": "ทั้งหมด",
+            "changed": "มีการแก้ไข",
+            "not-changed": "ไม่มีการแก้ไข"
+        }
     }
 }

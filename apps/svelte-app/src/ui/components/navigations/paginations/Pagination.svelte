@@ -21,7 +21,7 @@
       page = p;
       dispatch('page-change', { page });
     }
-  }
+  };
 
   interface PaginationButton {
     type: 'page' | 'ellipsis';
@@ -44,11 +44,11 @@
   });
 
   function handlePrevious() {
-    setPage($currentPage - 1)
+    setPage($currentPage - 1);
   }
 
   function handleNext() {
-    setPage($currentPage + 1)
+    setPage($currentPage + 1);
   }
 </script>
 
@@ -63,7 +63,9 @@
     })}
   </p>
   <nav class="flex items-center">
-    <Button class="w-24" on:click={handlePrevious} disabled={$currentPage === 1}>Previous</Button>
+    <Button class="w-24" on:click={handlePrevious} disabled={$currentPage === 1}>
+      {$_('pagination.previous')}
+    </Button>
     <div class="mx-2 flex flex-wrap gap-1">
       {#each $paginationButtons as button}
         {#if button.type === 'page'}
@@ -80,6 +82,8 @@
         {/if}
       {/each}
     </div>
-    <Button class="w-24" on:click={handleNext} disabled={$currentPage === totalPages}>Next</Button>
+    <Button class="w-24" on:click={handleNext} disabled={$currentPage === totalPages}>
+      {$_('pagination.next')}
+    </Button>
   </nav>
 </div>

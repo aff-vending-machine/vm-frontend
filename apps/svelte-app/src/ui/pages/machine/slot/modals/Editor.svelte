@@ -53,26 +53,30 @@
   function handleCancel() {
     dispatch('cancel');
   }
-  
+
   onMount(() => {
     handleGroup();
   });
 </script>
 
 <div class="h-full overflow-y-auto mr-2" style="z-index: 999;">
-  <h2 class="text-xl font-bold mb-4">Update Slots: {slot.code} ({slot.product?.name || '-'})</h2>
+  <h2 class="text-xl font-bold mb-4">{$_('slot.update-title')}: {slot.code} ({slot.product?.name || '-'})</h2>
   <div class="m-4 flex justify-center">
-    <Image class="border h-32 w-32 mx-auto object-contain" src={productOptions.find(p => p.value === $productID.value).more?.image} alt='images' />
+    <Image
+      class="border h-32 w-32 mx-auto object-contain"
+      src={productOptions.find(p => p.value === $productID.value).more?.image}
+      alt="images"
+    />
   </div>
   <form
     id={formID}
     on:submit|preventDefault={handleSubmit}
     class="space-y-4 p-2 border border-gray-200 rounded-md text-sm"
   >
-    <TextInputField id="code" label="Code" bind:value={$code.value} disabled />
+    <TextInputField id="code" label={$_('slot.field.code')} bind:value={$code.value} disabled />
     <SelectField
       id="group_id"
-      label="Product Group"
+      label={$_('slot.field.product-group')}
       bind:value={$group_id.value}
       error={$group_id.errors?.at(0)}
       options={groupOptions}
@@ -81,15 +85,25 @@
     />
     <SelectField
       id="product_id"
-      label="Product"
+      label={$_('slot.field.product')}
       bind:value={$productID.value}
       error={$productID.errors?.at(0)}
       options={productOptions.filter(p => p.filter === $group_id.value)}
       unselected={false}
     />
-    <NumberInputField id="stock" label="Stock" bind:value={$stock.value} error={$stock.errors?.at(0)} />
-    <NumberInputField id="capacity" label="Capacity" bind:value={$capacity.value} error={$capacity.errors?.at(0)} />
-    <ToggleField id="is_enable" label="Active" bind:value={$is_enable.value} />
+    <NumberInputField
+      id="stock"
+      label={$_('slot.field.stock')}
+      bind:value={$stock.value}
+      error={$stock.errors?.at(0)}
+    />
+    <NumberInputField
+      id="capacity"
+      label={$_('slot.field.capacity')}
+      bind:value={$capacity.value}
+      error={$capacity.errors?.at(0)}
+    />
+    <ToggleField id="is_enable" label={$_('slot.field.active')} bind:value={$is_enable.value} />
   </form>
 
   <div class="flex justify-end space-x-4 mt-4">

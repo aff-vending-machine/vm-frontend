@@ -1,9 +1,10 @@
 <!-- Slot -->
 <script lang="ts">
+  import dayjs from 'dayjs';
   import { onMount } from 'svelte';
   import { writable, Readable, derived } from 'svelte/store';
   import { dragscroll } from '@svelte-put/dragscroll';
-  import dayjs from 'dayjs';
+  import { _ } from 'svelte-i18n';
 
   // core
   import {
@@ -89,6 +90,7 @@
   const loadMachineData = async () => {
     await machineBloc.get($machineId);
     await bloc.list($machineId, { preloads: 'Product' });
+    console.log($machineState.data);
   };
 
   const loadGroupOptions = async () => {
@@ -126,15 +128,15 @@
     return false;
   };
 
-  const notifyStatus = (status: OperationStatus, successMessage: string, errorMessage: string) => {
+  const notifyStatus = (status: OperationStatus, name: string, actionSucess: string, actionError: string) => {
     switch (status) {
       case 'success':
         loadMachineData();
-        notification.add('success', successMessage);
+        notification.add('success', $_('notify.success', { values: { name, action: actionSucess } }));
         break;
 
       case 'failure':
-        notification.add('danger', errorMessage);
+        notification.add('danger', $_('notify.error', { values: { name, action: actionError } }));
         break;
     }
   };
@@ -222,13 +224,17 @@
       }));
 
     const status = await actionBloc.bulkUpdate($machineId, slots);
-    notifyStatus(status, 'Update successfully', 'Update failed');
+    notifyStatus(status, $_('general.slots'), $_('notify.update-success'), $_('notify.update-error'));
     const syncStatus = await syncBloc.pushSlots($machineId);
-    notifyStatus(syncStatus, 'Sync successfully', 'Sync failed');
+    notifyStatus(syncStatus, $_('general.slots'), $_('notify.sync-success'), $_('notify.sync-error'));
   }
 
   function handleCancel(e: CustomEvent) {
     local = $state.list.map(s => ({ ...s }));
+  }
+
+  function getMaxGrid(col: number) {
+    return `grid-cols-${col}-auto`;
   }
 
   onMount(async () => {
@@ -298,10 +304,6 @@
 
     return filled;
   };
-
-  function getMaxGrid(col: number) {
-    return `grid-cols-${col}-auto`;
-  }
 </script>
 
 <!-- HTML -->
@@ -309,15 +311,17 @@
   <div class="shadow-primary-100 w-full space-y-4 rounded-xl bg-white py-4 shadow-xl">
     <div class="px-8 pt-4">
       <h4 class="text-xl font-semibold text-gray-700">
-        Machine: <span class="text-secondary-500">{$machineState.data?.name}</span>
+        {$_('general.machine')}: <span class="text-secondary-500">{$machineState.data?.name || '-'}</span>
+        <br />
+        {$_('general.branch')}: <span class="text-secondary-500">{$machineState.data?.location || '-'}</span>
       </h4>
     </div>
     <div class="p-4">
       <FilterBar
         bind:filter
-        time={$machineState.data?.sync_slot_time}
+        time={$machineState.data?.sync_time}
         isEdited={isEdited(local, $state.list)}
-        isSynced={isPassed5Seconds($machineState.data?.sync_slot_time)}
+        isSynced={isPassed5Seconds($machineState.data?.sync_time)}
         loading={$actionState.status === 'loading'}
         on:refresh={handleRefresh}
         on:save={handleSave}
@@ -325,28 +329,31 @@
       />
       <div class="float-right my-1 hidden space-x-2 md:flex">
         <div class="bg-red-100 px-4">
-          <span>disable</span>
+          <span>{$_('slot.tag.disable')}</span>
         </div>
         <div class="bg-gray-100 px-4">
-          <span>empty</span>
+          <span>{$_('slot.tag.empty')}</span>
         </div>
         <div class="bg-yellow-100 px-4">
-          <span>≤ 20%</span>
+          <span>{$_('slot.tag.less-than-20')}</span>
         </div>
         <div class="bg-blue-100 px-4">
-          <span>available</span>
+          <span>{$_('slot.tag.available')}</span>
         </div>
         <div class="bg-green-100 px-4">
-          <span>full</span>
+          <span>{$_('slot.tag.full')}</span>
         </div>
       </div>
     </div>
-    <div class="border-t border-b border-gray-300 p-4 overflow-x-auto" use:dragscroll={{ axis: 'both', event: 'pointer' }}>
+    <div
+      class="border-t border-b border-gray-300 p-4 overflow-x-auto"
+      use:dragscroll={{ axis: 'both', event: 'pointer' }}
+    >
       {#await $statePromise}
-        <div class="py-4 text-center">Loading...</div>
+        <div class="py-4 text-center">{$_('general.syncing')}</div>
       {:then $state}
         {#if $state.status === 'loading'}
-          <div class="py-4 text-center">Loading...</div>
+          <div class="py-4 text-center">{$_('general.loading')}</div>
         {:else}
           <div class="grid max-w-full {getMaxGrid($maxCols)} gap-2">
             {#each fillSlots(local, filter, $maxRows, $maxCols) as slot}
@@ -372,7 +379,7 @@
         {/if}
       {:catch error}
         <div class="py-4 text-center text-red-500">
-          {error.message || 'An error occurred while loading the data.'}
+          {error.message || $_('general.error')}
         </div>
       {/await}
     </div>

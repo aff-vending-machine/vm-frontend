@@ -1,4 +1,4 @@
-<!-- Creator -->
+<!-- GroupCreator -->
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
   import { field, form } from 'svelte-forms';
@@ -28,14 +28,19 @@
 </script>
 
 <div class="h-full overflow-y-auto mr-2" style="z-index: 999;">
-  <h2 class="text-xl font-bold mb-4">Add Product Group: {$name.value || 'Untitled'}</h2>
+  <h2 class="text-xl font-bold mb-4">{$_('group.create-title')}: {$name.value || $_('general.untitled')}</h2>
   <form
     id={formID}
     on:submit|preventDefault={handleSubmit}
     class="space-y-4 p-2 border border-gray-200 rounded-md text-sm"
   >
-    <TextInputField id="name" label="Name" bind:value={$name.value} error={$name.errors?.at(0)} />
-    <TextInputField id="description" label="Description" bind:value={$description.value} error={$name.errors?.at(0)} />
+    <TextInputField id="name" label={$_('group.field.name')} bind:value={$name.value} error={$name.errors?.at(0)} />
+    <TextInputField
+      id="description"
+      label={$_('group.field.description')}
+      bind:value={$description.value}
+      error={$name.errors?.at(0)}
+    />
   </form>
 
   <div class="flex justify-end space-x-4 mt-4">

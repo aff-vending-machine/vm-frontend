@@ -1,4 +1,4 @@
-<!-- Currency.svelte -->
+<!-- Currency -->
 <script lang="ts">
   import { onMount } from 'svelte';
 
@@ -6,12 +6,13 @@
   let formattedValue: string;
 
   export let amount = 0;
+  export let alignment: 'left' | 'right' = 'right';
 
   // Function to format the value as currency
   function formatValue() {
     if (!amount) {
       formattedValue = '฿0.00';
-      return
+      return;
     }
 
     value = parseFloat(amount.toFixed(2));
@@ -30,4 +31,4 @@
   $: formatValue();
 </script>
 
-<span class="float-right">{formattedValue}</span>
+<span class={alignment === 'left' ? 'float-left' : 'float-right'}>{formattedValue}</span>

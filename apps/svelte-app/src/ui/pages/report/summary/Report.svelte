@@ -3,6 +3,7 @@
   import { navigate } from 'svelte-navigator';
   import { Readable, derived, writable } from 'svelte/store';
   import { dragscroll } from '@svelte-put/dragscroll';
+  import { _ } from 'svelte-i18n';
 
   import { SummaryReportState, provideSummaryReportBloc, provideSyncBloc } from '@apps/core';
 
@@ -11,7 +12,6 @@
   import { MAIN_REPORT_STOCKS, MAIN_REPORT_TRANSACTIONS } from '~/utils/constants/links';
   import { useBlocState } from '~/utils/hooks/useBlocState';
   import { stateDerived } from '~/utils/helpers/state';
-  import { ColumnType } from '~/utils/types/table';
 
   import FilterBar from './FilterBar.svelte';
   import Reports from './tables/Reports.svelte';
@@ -26,16 +26,6 @@
     from: '',
     to: '',
   });
-
-  const columns: ColumnType[] = [
-    { key: 'id', index: 'id', title: 'Machine ID', sortable: true },
-    { key: 'name', index: 'name', title: 'Name', sortable: true },
-    { key: 'serial_number', index: 'serial_number', title: 'Serial Number', sortable: true },
-    { key: 'creditcard', index: 'total_payments.creditcard', title: 'Credit Card', sortable: true, type: 'currency' },
-    { key: 'promptpay', index: 'total_payments.promptpay', title: 'Promptpay', sortable: true, type: 'currency' },
-    { key: 'total', index: 'total', title: 'Total', sortable: true, type: 'currency' },
-    { key: 'report', title: 'Reports', render: () => Reports },
-  ];
 
   const reload = async () => {
     const status = await bloc.report($filters);
@@ -73,6 +63,15 @@
     await reload();
   });
 
+  $: columns = [
+    { key: 'id', index: 'id', title: $_('report.columns.machine-id'), sortable: true },
+    { key: 'name', index: 'name', title: $_('report.columns.machine-name'), sortable: true },
+    { key: 'serial_number', index: 'serial_number', title: $_('report.columns.serial-number'), sortable: true },
+    { key: 'creditcard', index: 'total_payments.creditcard', title: $_('report.columns.credit-card'), sortable: true, type: 'currency' },
+    { key: 'promptpay', index: 'total_payments.promptpay', title: $_('report.columns.promptpay'), sortable: true, type: 'currency' },
+    { key: 'total', index: 'total', title: $_('report.columns.total'), sortable: true, type: 'currency' },
+    { key: 'report', title: $_('report.columns.reports'), render: () => Reports },
+  ];
   $: totalCreditCard = $state.list?.reduce((total, row) => total + row.total_payments['creditcard'], 0);
   $: totalPromptPay = $state.list?.reduce((total, row) => total + row.total_payments['promptpay'], 0);
   $: totalPayment = totalCreditCard + totalPromptPay;
@@ -81,7 +80,7 @@
 <section class="card">
   <div class="report-page">
     <div class="mb-4 p-4">
-      <h4 class="text-xl font-medium">Reports</h4>
+      <h4 class="text-xl font-medium">{$_('report.title')}</h4>
     </div>
     <div class="mb-4">
       <FilterBar bind:from={$filters.from} bind:to={$filters.to} on:filter={reload} />
@@ -89,15 +88,15 @@
     <div class="w-full table-container">
       <div class="border border-gray-200" use:dragscroll={{ event: 'pointer' }}>
         {#await $statePromise}
-          <div class="text-center py-4">Syncing...</div>
+          <div class="text-center py-4">{$_('general.syncing')}</div>
         {:then $state}
           {#if $state.status === 'loading'}
-            <div class="text-center py-4">Loading...</div>
+            <div class="text-center py-4">{$_('general.loading')}</div>
           {:else if $state.status === 'success'}
-            <Table {columns} source={$state.list} on:sort={reload} on:select={handleSelect} on:action={handleAction}>
+            <Table columns={columns} source={$state.list} on:sort={reload} on:select={handleSelect} on:action={handleAction}>
               <tfoot class="sticky bottom-0 z-1 font-bold border-y border-gray-300">
                 <tr class="bg-gray-50">
-                  <td class="px-6 py-4" colspan={columns.length - 4}>Total</td>
+                  <td class="px-6 py-4" colspan={columns.length - 4}>{$_('report.total')}</td>
                   <td class="px-6 py-4"><Currency amount={totalCreditCard} /></td>
                   <td class="px-6 py-4"><Currency amount={totalPromptPay} /></td>
                   <td class="px-6 py-4"><Currency amount={totalPayment} /></td>
@@ -108,7 +107,7 @@
           {/if}
         {:catch error}
           <div class="text-center text-red-500 py-4">
-            {error.message || 'An error occurred while loading the data.'}
+            {error.message || $_('general.error')}
           </div>
         {/await}
       </div>

@@ -3,10 +3,17 @@
   import { onMount } from 'svelte';
   import { Readable, derived, writable } from 'svelte/store';
   import { dragscroll } from '@svelte-put/dragscroll';
+  import { _ } from 'svelte-i18n';
 
-  import { provideCatalogGroupBloc, GroupState, CatalogGroup, OperationStatus, CreateCatalogGroup, UpdateCatalogGroup } from '@apps/core';
+  import {
+    provideCatalogGroupBloc,
+    GroupState,
+    CatalogGroup,
+    OperationStatus,
+    CreateCatalogGroup,
+    UpdateCatalogGroup,
+  } from '@apps/core';
   import { useBlocState } from '~/utils/hooks/useBlocState';
-  import { ColumnType } from '~/utils/types/table';
   import { stateDerived } from '~/utils/helpers/state';
 
   import Table from '~/ui/components/elements/tables/Table.svelte';
@@ -19,6 +26,7 @@
   import Viewer from './modals/Viewer.svelte';
   import Eraser from './modals/Eraser.svelte';
   import Action from './tables/Action.svelte';
+  import Status from './tables/Status.svelte';
   import notification from '~/stores/notification';
 
   const bloc = provideCatalogGroupBloc();
@@ -30,32 +38,24 @@
     page: 1,
     offset: 0,
     limit: 10,
-    sort_by: 'id:asc', 
+    sort_by: 'id:asc',
   });
   const action = writable<string | null>();
   const group = writable<CatalogGroup | null>();
-
-  const columns: ColumnType[] = [
-    { key: 'id', index: 'id', title: 'ID', sortable: true },
-    { key: 'name', index: 'name', title: 'Name', sortable: true },
-    { key: 'description', index: 'description', title: 'Description', sortable: true },
-    { key: 'is_enable', index: 'is_enable', title: 'Enable', sortable: true },
-    { key: 'action', title: 'Action', render: () => Action },
-  ];
 
   const reload = async () => {
     await bloc.list($filters);
   };
 
-  const notifyStatus = (status: OperationStatus, successMessage: string, errorMessage: string) => {
+  const notifyStatus = (status: OperationStatus, name: string, actionSucess: string, actionError: string) => {
     switch (status) {
       case 'success':
         reload();
-        notification.add('success', successMessage);
+        notification.add('success', $_('notify.success', { values: { name, action: actionSucess } }));
         break;
 
       case 'failure':
-        notification.add('danger', errorMessage);
+        notification.add('danger', $_('notify.error', { values: { name, action: actionError } }));
         break;
     }
   };
@@ -91,7 +91,7 @@
       is_enable: true,
     };
     const status = await actionBloc.create(payload);
-    notifyStatus(status, 'Product group created successfully', 'Product group creation failed');
+    notifyStatus(status, $_('general.group'), $_('notify.create-success'), $_('notify.create-error'));
   }
 
   async function handleUpdate(e: CustomEvent) {
@@ -103,40 +103,45 @@
     };
 
     const status = await actionBloc.update(e.detail.id, payload);
-    notifyStatus(status, 'Product group updated successfully', 'Product group update failed');
+    notifyStatus(status, $_('general.group'), $_('notify.update-success'), $_('notify.update-error'));
   }
 
   async function handleDelete(e: CustomEvent) {
     handleClose(e);
     const status = await actionBloc.delete(e.detail.id);
-    notifyStatus(status, 'Product group deleted successfully', 'Product group deletion failed');
+    notifyStatus(status, $_('general.group'), $_('notify.delete-success'), $_('notify.delete-error'));
   }
 
   onMount(async () => {
     await bloc.list($filters);
   });
+
+  $: columns = [
+    { key: 'id', index: 'id', title: $_('group.columns.id'), sortable: true },
+    { key: 'name', index: 'name', title: $_('group.columns.name'), sortable: true },
+    { key: 'description', index: 'description', title: $_('group.columns.description'), sortable: true },
+    { key: 'is_enable', index: 'is_enable', title: $_('group.columns.status'), sortable: true, render: () => Status },
+    { key: 'action', title: $_('group.columns.actions'), render: () => Action },
+  ];
 </script>
 
 <section class="card">
   <div class="product-group-page">
     <div class="mb-4 p-4">
-      <h4 class="text-xl font-medium">Product Groups</h4>
+      <h4 class="text-xl font-medium">{$_('group.title')}</h4>
     </div>
     <div class="mb-4">
-      <FilterBar
-        on:create={handleAction}
-        on:filter={handlePageChange}
-      />
+      <FilterBar on:create={handleAction} on:filter={handlePageChange} />
     </div>
     <div class="w-full table-container">
       <div class="border border-gray-200 overflow-x-auto" use:dragscroll={{ event: 'pointer' }}>
         {#await $statePromise}
-          <div class="text-center py-4">Loading...</div>
+          <div class="text-center py-4">{$_('general.loading')}</div>
         {:then $state}
           <Table {columns} source={$state.list} on:sort={reload} on:select={handleSelect} on:action={handleAction}>
             <tfoot class="sticky bottom-0 z-1 font-bold border-y border-gray-300">
               <tr class="bg-gray-50">
-                <td class="sticky px-6 py-4" colspan={columns.length}>
+                <td class="px-6 py-4" colspan={columns.length}>
                   <Pagination
                     page={$filters.page}
                     itemsPerPage={$filters.limit}
@@ -149,7 +154,7 @@
           </Table>
         {:catch error}
           <div class="text-center text-red-500 py-4">
-            {error.message || 'An error occurred while loading the data.'}
+            {error.message || $_('general.error')}
           </div>
         {/await}
       </div>
@@ -161,10 +166,7 @@
 {#if $action}
   <Modal on:close={handleClose}>
     {#if $action === 'create'}
-      <Creator
-        on:create={handleCreate}
-        on:cancel={handleClose}
-      />
+      <Creator on:create={handleCreate} on:cancel={handleClose} />
     {:else if $action === 'view'}
       <Viewer group={$group} on:edit={handleAction} on:delete={handleAction} on:cancel={handleClose} />
     {:else if $action === 'edit'}

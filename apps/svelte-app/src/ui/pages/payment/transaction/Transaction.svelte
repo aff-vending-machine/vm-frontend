@@ -1,9 +1,9 @@
 <!-- PaymentTransaction -->
 <script lang="ts">
-  import { _ } from 'svelte-i18n';
   import { onMount } from 'svelte';
   import { Readable, derived, writable } from 'svelte/store';
   import { dragscroll } from '@svelte-put/dragscroll';
+  import { _ } from 'svelte-i18n';
 
   import {
     providePaymentTransactionBloc,
@@ -34,8 +34,9 @@
   import notification from '~/stores/notification';
   import { stateDerived } from '~/utils/helpers/state';
   import { useBlocState } from '~/utils/hooks/useBlocState';
-  import { ColumnType } from '~/utils/types/table';
   import { SelectOptionsType } from '~/utils/types/options';
+  import { access } from '~/stores/access';
+  import { requestRole } from '~/utils/helpers/role';
 
   const bloc = providePaymentTransactionBloc();
   const actionBloc = providePaymentTransactionBloc();
@@ -71,34 +72,19 @@
   const action = writable<string | null>();
   const transaction = writable<PaymentTransaction | null>();
 
-  const columns: ColumnType[] = [
-    { key: 'id', index: 'id', title: 'ID', sortable: true },
-    { key: 'merchant_order_id', index: 'merchant_order_id', title: 'Order ID', sortable: true },
-    { key: 'branch', index: 'branch.name', title: 'Branch', sortable: true },
-    { key: 'machine', index: 'machine.name', title: 'Machine', sortable: true },
-    { key: 'channel', index: 'channel.channel', title: 'Payment Channel', sortable: true },
-    { key: 'confirmed_paid_at', index: 'confirmed_paid_at', title: 'Timestamp', sortable: true },
-    { key: 'reference', index: 'reference', title: 'Reference', sortable: true, render: () => Reference },
-    { key: 'order_price', index: 'order_price', title: 'Order Price', sortable: true },
-    { key: 'paid_price', index: 'paid_price', title: 'Paid Price', sortable: true },
-    { key: 'cart', index: 'cart', title: 'Cart', render: () => Cart },
-    { key: 'status', index: 'order_status', title: 'Status', sortable: true, render: () => Status },
-    { key: 'actions', title: 'Action', render: () => Action },
-  ];
-
   const reload = async () => {
     await bloc.list($filters);
   };
 
-  const notify = (status: OperationStatus, successMessage: string, errorMessage: string) => {
+  const notifyStatus = (status: OperationStatus, name: string, actionSucess: string, actionError: string) => {
     switch (status) {
       case 'success':
         reload();
-        notification.add('success', successMessage);
+        notification.add('success', $_('notify.success', { values: { name, action: actionSucess } }));
         break;
 
       case 'failure':
-        notification.add('danger', errorMessage);
+        notification.add('danger', $_('notify.error', { values: { name, action: actionError } }));
         break;
     }
   };
@@ -136,20 +122,22 @@
     switch (e.detail?.type || e.type) {
       case 'done':
         status = await actionBloc.done(e.detail?.source.id);
-        notify(status, 'Transaction done successfully', 'Transaction done failed');
+        notifyStatus(status, $_('general.transaction'), $_('notify.done-success'), $_('notify.done-error'));
         break;
 
       case 'cancel':
         status = await actionBloc.cancel(e.detail?.source.id);
-        notify(status, 'Transaction cancelled successfully', 'Transaction cancelled failed');
+        notifyStatus(status, $_('general.transaction'), $_('notify.cancel-success'), $_('notify.cancel-error'));
         break;
     }
   }
 
   function handleSelect(e: CustomEvent) {
-    const { data } = e.detail;
-    action.set('view');
-    transaction.set(data);
+    if (requestRole($access?.role, 'manager')) {
+      const { data } = e.detail;
+      action.set('view');
+      transaction.set(data);
+    }
   }
 
   function handleClose(e: CustomEvent) {
@@ -170,12 +158,56 @@
     await loadChannelOptions();
     await reload();
   });
+
+  $: columns = [
+    { key: 'id', index: 'id', title: $_('transaction.columns.id'), sortable: true },
+    { key: 'merchant_order_id', index: 'merchant_order_id', title: $_('transaction.columns.order-id'), sortable: true },
+    { key: 'branch', index: 'branch.name', title: $_('transaction.columns.branch'), sortable: true },
+    { key: 'machine', index: 'machine.name', title: $_('transaction.columns.machine'), sortable: true },
+    { key: 'channel', index: 'channel.channel', title: $_('transaction.columns.payment-channel'), sortable: true },
+    {
+      key: 'confirmed_paid_at',
+      index: 'confirmed_paid_at',
+      title: $_('transaction.columns.timestamp'),
+      sortable: true,
+    },
+    {
+      key: 'reference',
+      index: 'reference',
+      title: $_('transaction.columns.reference'),
+      sortable: true,
+      render: () => Reference,
+    },
+    {
+      key: 'order_price',
+      index: 'order_price',
+      title: $_('transaction.columns.ordered-price'),
+      sortable: true,
+      type: 'currency',
+    },
+    {
+      key: 'paid_price',
+      index: 'paid_price',
+      title: $_('transaction.columns.paid-price'),
+      sortable: true,
+      type: 'currency',
+    },
+    { key: 'cart', index: 'cart', title: $_('transaction.columns.cart'), render: () => Cart },
+    {
+      key: 'status',
+      index: 'order_status',
+      title: $_('transaction.columns.status'),
+      sortable: true,
+      render: () => Status,
+    },
+    { key: 'actions', title: $_('transaction.columns.actions'), render: () => Action },
+  ];
 </script>
 
 <section class="card">
   <div class="transaction-page">
     <div class="mb-4 p-4">
-      <h4 class="text-xl font-medium">Payment Transactions</h4>
+      <h4 class="text-xl font-medium">{$_('transaction.title')}</h4>
     </div>
     <div class="mb-4">
       <FilterBar
@@ -196,10 +228,10 @@
     <div class="w-full table-container">
       <div class="border border-gray-200 overflow-x-auto" use:dragscroll={{ event: 'pointer' }}>
         {#await $statePromise}
-          <div class="text-center py-4">Loading...</div>
+          <div class="text-center py-4">{$_('general.loading')}</div>
         {:then $state}
           <Table {columns} source={$state.list} on:select={handleSelect} on:action={handleAction}>
-            <tfoot class="sticky bottom-0 z-1 font-bold border-y border-gray-300 ">
+            <tfoot class="sticky bottom-0 z-1 font-bold border-y border-gray-300">
               <tr class="bg-gray-50">
                 <td class="px-6 py-4" colspan={columns.length + 1}>
                   <Pagination
@@ -214,7 +246,7 @@
           </Table>
         {:catch error}
           <div class="text-center text-red-500 py-4">
-            {error.message || 'An error occurred while loading the data.'}
+            {error.message || $_('general.error')}
           </div>
         {/await}
       </div>

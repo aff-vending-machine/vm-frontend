@@ -1,14 +1,185 @@
 {
-    "product": {
-        "name": "Name",
-        "sku": "SKU",
-        "group": "Group",
-        "status": "Status",
-        "price": "Price"
+    "general": {
+        "slots": "Machine Slots",
+        "machine": "Machine",
+        "branch": "Branch",
+        "group": "Product group",
+        "transaction": "Transaction",
+        "untitled": "Untitled",
+        "loading": "Loading ...",
+        "syncing": "Syncing ...",
+        "unseleted-options": "Select an option",
+        "delete-message": " Are You Sure! Want to Delete",
+        "error": "An error occurred while loading the data."
     },
-    "status": {
-        "active": "Active",
-        "disabled": "Disabled"
+    "field": {
+        "start-date": "Start Date",
+        "end-date": "End Date",
+        "payment-channel": "Payment Channel",
+        "group-product": "Group Product",
+        "group-product-on": "Group",
+        "group-product-off": "Ungroup",
+        "product-group": "Product Group",
+        "limit": "Limit",
+        "search": "Search",
+        "report_from": "Report form",
+        "report_to": "to",
+        "instructions": "Instructions",
+        "last-time-sync": "last time sync",
+        "never": "never",
+        "no-filter": "no filter",
+        "branch": "Branch",
+        "machine": "Machine",
+        "stock": "Stock",
+        "status": "Status",
+        "changed": "Is edited"
+    },
+    "group": {
+        "title": "Product Groups",
+        "create-title": "Create Product Group",
+        "edit-title": "Edit Product Group",
+        "delete-title": "Delete Product Group",
+        "status-on": "Enable",
+        "status-off": "Disable",
+        "columns": {
+            "id": "ID",
+            "name": "Name",
+            "description": "Description",
+            "status": "Status",
+            "actions": "Actions"
+        },
+        "field": {
+            "name": "Name",
+            "description": "Description",
+            "status": "Status"
+        }
+    },
+    "product": {
+        "title": "Product",
+        "create-title": "Create Product",
+        "edit-title": "Edit Product",
+        "delete-title": "Delete Product",
+        "status-on": "Enable",
+        "status-off": "Disable",
+        "columns": {
+            "id": "ID",
+            "group": "Product group",
+            "name": "Name",
+            "sku": "SKU",
+            "image": "Image",
+            "price": "Price",
+            "actions": "Actions",
+            "status": "Status"
+        },
+        "field": {
+            "group": "Product group",
+            "name": "Name",
+            "sku": "SKU",
+            "image": "Image URL",
+            "price": "Price",
+            "status": "Status"
+        }
+    },
+    "machine": {
+        "title": "Machines",
+        "edit-title": "Edit Machine",
+        "delete-title": "Delete Machine",
+        "columns": {
+            "id": "ID",
+            "name": "Name",
+            "serial-number": "Serial Number",
+            "location": "Location",
+            "type": "Type",
+            "vendor": "Vendor",
+            "status": "Status",
+            "actions": "Actions"
+        },
+        "field": {
+            "name": "Name",
+            "serial-number": "Serial Number",
+            "branch": "Branch",
+            "location": "Location",
+            "type": "Type",
+            "vendor": "Vendor"
+        }
+    },
+    "slot": {
+        "add-title": "Add Slot",
+        "update-title": "Update Slot",
+        "delete-title": "Delete Slot",
+        "price": "Price",
+        "tag": {
+            "disable": "disable",
+            "empty": "empty",
+            "less-than-20": "≤ 20%",
+            "available": "available",
+            "full": "full"
+        },
+        "field": {
+            "code": "Code",
+            "product-group": "Product Group",
+            "product": "Product",
+            "stock": "Stock",
+            "capacity": "Capacity",
+            "active": "Active"
+        }
+    },
+    "channel": {
+        "title": "Payment Channels",
+        "status-on": "Enable",
+        "status-off": "Disable",
+        "columns": {
+            "id": "ID",
+            "name": "Name",
+            "channel": "Channel",
+            "vendor": "Vendor",
+            "status": "Status",
+            "actions": "Actions"
+        }
+    },
+    "transaction": {
+        "title": "Payment Transactions",
+        "columns": {
+            "id": "ID",
+            "order-id": "Order ID",
+            "branch": "Branch",
+            "machine": "Machine",
+            "payment-channel": "Payment Channel",
+            "timestamp": "Timestamp",
+            "reference": "Reference",
+            "ordered-price": "Ordered Price",
+            "paid-price": "Paid Price",
+            "cart": "Cart",
+            "status": "Status",
+            "actions": "Actions"
+        }
+    },
+    "report": {
+        "title": "Reports",
+        "stock-title": "Stock Report",
+        "transaction-title": "Transaction Report",
+        "total": "Total",
+        "columns": {
+            "no": "No.",
+            "machine-id": "Machine ID",
+            "machine-name": "Name",
+            "machine-slot": "Machine Slot",
+            "product-name": "Product Name",
+            "order-id": "Order ID",
+            "payment-channel": "Payment Channel",
+            "timestamp": "Timestamp",
+            "reference": "Reference",
+            "cart": "Cart",
+            "quantity": "Quantity",
+            "paid-price": "Price",
+            "serial-number": "Serial Number",
+            "sale-price": "Sale Price",
+            "sold": "Sold",
+            "credit-card": "Credit Card",
+            "promptpay": "Prompypay",
+            "total": "Total",
+            "reports": "Reports"
+        }
     },
     "unit": {
         "baht": "Baht"
@@ -22,11 +193,33 @@
         "edit": "Edit",
         "confirm": "Confirm",
         "cancel": "Cancel",
-        "delete": "Delete"
+        "refresh": "Refresh",
+        "delete": "Delete",
+        "stock": "Stock",
+        "payment": "Payment",
+        "date": "Date",
+        "time": "Time",
+        "done": "Done",
+        "export": "Export"
     },
-    "notification": {
-        "product-create-success": "Add Product",
-        "product-create-error": "Add Product"
+    "table": {
+        "no-data": " ~ No data available ~ "
+    },
+    "notify": {
+        "create-success": "created",
+        "create-error": "creation",
+        "update-success": "updated",
+        "update-error": "update",
+        "delete-success": "deleted",
+        "delete-error": "deletion",
+        "sync-success": "synced",
+        "sync-error": "sync",
+        "done-success": "done",
+        "done-error": "done",
+        "cancel-success": "cancel",
+        "cancel-error": "cancel",
+        "success": "Success: {name} {action} successfully",
+        "error": "Error: {name} {action} failed"
     },
     "pagination": {
         "message": "Showing {begin} to {end} of {total} entries",
@@ -39,7 +232,17 @@
             "avaialble": "Available",
             "out-of-stocks": "Out of stocks",
             "less-than-20": "Stock ≤ 20%",
-            "full": "Full"
+            "full-stocks": "Full Stocks"
+        },
+        "status": {
+            "all": "All",
+            "enable": "Enable",
+            "disable": "Disable"
+        },
+        "changed": {
+            "all": "All",
+            "changed": "Changed",
+            "not-changed": "Not changed"
         }
     }
 }

@@ -3,6 +3,7 @@
   import utc from 'dayjs/plugin/utc';
   import timezone from 'dayjs/plugin/timezone';
   import { createEventDispatcher } from 'svelte';
+  import { _ } from 'svelte-i18n';
 
   import Button from '~/ui/components/elements/buttons/Button.svelte';
   import Icon from '~/ui/components/elements/icons/Icon.svelte';
@@ -54,7 +55,7 @@
 <Filterbar>
   <DateTimeField
     id="start-date-time"
-    label="Start Date"
+    label={$_('field.start-date')}
     rangeFrom={firstDateTime}
     rangeTo={lastDateTime}
     bind:value={startDateTime}
@@ -62,7 +63,7 @@
   />
   <DateTimeField
     id="end-date-time"
-    label="End Date"
+    label={$_('field.end-date')}
     rangeFrom={startDateTime}
     rangeTo={lastDateTime}
     bind:value={endDateTime}
@@ -70,7 +71,7 @@
   />
   <SelectField
     id="channel_id"
-    label="Payment Channel"
+    label={$_('field.payment-channel')}
     bind:value={channel}
     options={channelOptions}
     placeholder="no filter"
@@ -80,7 +81,7 @@
   <svelte:fragment slot="right">
     <Button outline class="group" on:click={handleExport}>
       <Icon i="ic-export" class="h-4 w-4 fill-red-500 group-hover:fill-white" />
-      <span class="ml-2">Export</span>
+      <span class="ml-2">{$_('button.export')}</span>
     </Button>
   </svelte:fragment>
 </Filterbar>

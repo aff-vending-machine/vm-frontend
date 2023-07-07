@@ -3,6 +3,7 @@
   import utc from 'dayjs/plugin/utc';
   import timezone from 'dayjs/plugin/timezone';
   import { createEventDispatcher } from 'svelte';
+  import { _ } from 'svelte-i18n';
 
   import DateTimeField from '~/ui/components/forms/input/DateTimeField.svelte';
   import SelectField from '~/ui/components/forms/input/SelectField.svelte';
@@ -42,7 +43,7 @@
     to = dayjs(today).set('millisecond', 0).set('second', 0).set('minute', 0).set('hour', 21).toISOString();
 
   $: firstDateTime = dayjs(today).set('year', 2023).startOf('year').toDate();
-  $: lastDateTime = dayjs(today).set('minute', 0).set('hour', 23).toDate();
+  $: lastDateTime = dayjs(today).add(1, 'day').set('minute', 0).set('hour', 0).toDate();
   $: startDateTime = dayjs(from).toDate();
   $: endDateTime = dayjs(to).toDate();
 </script>
@@ -50,7 +51,7 @@
 <Filterbar>
   <DateTimeField
     id="start-date-time"
-    label="Start Date"
+    label={$_('field.start-date')}
     rangeFrom={firstDateTime}
     rangeTo={lastDateTime}
     bind:value={startDateTime}
@@ -58,7 +59,7 @@
   />
   <DateTimeField
     id="end-date-time"
-    label="End Date"
+    label={$_('field.end-date')}
     rangeFrom={startDateTime}
     rangeTo={lastDateTime}
     bind:value={endDateTime}
@@ -66,38 +67,48 @@
   />
   <SelectField
     id="branch_id"
-    label="Branch"
+    label={$_('field.branch')}
     bind:value={branch}
     options={branchOptions}
-    placeholder="no filter"
+    placeholder={$_('field.no-filter')}
+    unselected={true}
     on:change={handleFilter}
   />
   <SelectField
     id="machine_id"
-    label="Machine"
+    label={$_('field.machine')}
     bind:value={machine}
     options={machineOptions}
-    placeholder="no filter"
+    placeholder={$_('field.no-filter')}
+    unselected={true}
     on:change={handleFilter}
   />
   <SelectField
     id="channel_id"
-    label="Payment Channel"
+    label={$_('field.payment-channel')}
     bind:value={channel}
     options={channelOptions}
-    placeholder="no filter"
+    placeholder={$_('field.no-filter')}
+    unselected={true}
     on:change={handleFilter}
   />
   <SelectField
     id="order_status"
-    label="Status"
+    label={$_('field.status')}
     bind:value={status}
     options={statusOptions}
-    placeholder="no filter"
+    placeholder={$_('field.no-filter')}
+    unselected={true}
     on:change={handleFilter}
   />
-  <SelectField id="limit" label="Limit" bind:value={limit} options={limitOptions} on:change={handleFilter} />
-  <TextInputField class="hidden" id="search" label="Search" bind:value={search} on:change={handleFilter} />
+  <SelectField
+    id="limit"
+    label={$_('field.limit')}
+    bind:value={limit}
+    options={limitOptions}
+    on:change={handleFilter}
+  />
+  <TextInputField class="hidden" id="search" label={$_('field.search')} bind:value={search} on:change={handleFilter} />
 </Filterbar>
 
 <style>

@@ -26,11 +26,11 @@
     <div class="w-full md:pl-4 space-y-1">
       <h1 class="text-xl font-bold pb-2">{machine.name}</h1>
       <div class="grid grid-cols-3 gap-4">
-        <p class="text-gray-700">serial number:</p>
+        <p class="text-gray-700">{$_('machine.field.serial-number')}:</p>
         <p class="text-gray-700 col-span-2">{machine.serial_number}</p>
-        <p class="text-gray-700">location:</p>
+        <p class="text-gray-700">{$_('machine.field.location')}:</p>
         <p class="text-gray-700 col-span-2">{machine.location}</p>
-        <p class="text-gray-700">vendor:</p>
+        <p class="text-gray-700">{$_('machine.field.vendor')}:</p>
         <p class="text-gray-700 col-span-2">{machine.vendor}</p>
       </div>
       <p ></p>

@@ -2,9 +2,9 @@
 <script lang="ts">
   import dayjs from 'dayjs';
   import { SvelteComponent } from 'svelte';
-  import Image from '../images/Image.svelte';
-  import Currency from '../labels/Currency.svelte';
-  import Number from '../labels/Number.svelte';
+  import Image from '~/ui/components/elements/images/Image.svelte';
+  import Currency from '~/ui/components/elements/labels/Currency.svelte';
+  import Number from '~/ui/components/elements/labels/Number.svelte';
 
   export let key: string;
   export let type: string;

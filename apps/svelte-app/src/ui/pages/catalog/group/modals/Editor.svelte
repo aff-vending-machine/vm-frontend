@@ -1,4 +1,4 @@
-<!-- Editor -->
+<!-- GroupEditor -->
 <script lang="ts">
   import { CatalogGroup } from '@apps/core';
   import { createEventDispatcher } from 'svelte';
@@ -34,15 +34,26 @@
 </script>
 
 <div class="h-full overflow-y-auto mr-2" style="z-index: 999;">
-  <h2 class="text-xl font-bold mb-4">Update Product Group: {group.name || 'Untitled'}</h2>
+  <h2 class="text-xl font-bold mb-4">{$_('group.edit-title')}: {group.name || $_('general.untitled')}</h2>
   <form
     id={formID}
     on:submit|preventDefault={handleSubmit}
     class="space-y-4 p-2 border border-gray-200 rounded-md text-sm"
   >
-    <TextInputField id="name" label="Name" bind:value={$name.value} error={$name.errors?.at(0)} />
-    <TextInputField id="description" label="Description" bind:value={$description.value} error={$description.errors?.at(0)} />
-    <ToggleField id="is_enable" label="Active" bind:value={$isEnable.value} />
+    <TextInputField id="name" label={$_('group.field.name')} bind:value={$name.value} error={$name.errors?.at(0)} />
+    <TextInputField
+      id="description"
+      label={$_('group.field.description')}
+      bind:value={$description.value}
+      error={$description.errors?.at(0)}
+    />
+    <ToggleField
+      id="is_enable"
+      label={$_('group.field.status')}
+      bind:value={$isEnable.value}
+      labelOn={$_('group.status-on')}
+      labelOff={$_('group.status-off')}
+    />
   </form>
 
   <div class="flex justify-end space-x-4 mt-4">

@@ -3,13 +3,13 @@
   import { onMount } from 'svelte';
   import { Readable, derived, writable } from 'svelte/store';
   import { dragscroll } from '@svelte-put/dragscroll';
+  import { _ } from 'svelte-i18n';
 
   import { MachineState, StockReport, StockReportState, provideMachineBloc, provideStockReportBloc } from '@apps/core';
 
   import Table from '~/ui/components/elements/tables/Table.svelte';
   import { useBlocState } from '~/utils/hooks/useBlocState';
   import { stateDerived } from '~/utils/helpers/state';
-  import { ColumnType } from '~/utils/types/table';
   import { parseStockReport } from '~/utils/helpers/parse';
 
   import FilterBar from './FilterBar.svelte';
@@ -35,17 +35,6 @@
   });
   const machineId = writable<number | null>();
   const action = writable<string | null>();
-
-  const columns: ColumnType[] = [
-    { key: 'index', title: 'No.', render: index => index + 1 },
-    { key: 'code', index: 'code', title: 'Machine Slot', sortable: true },
-    { key: 'name', index: 'name', title: 'Product Name', sortable: true },
-    { key: 'sale_price', index: 'sale_price', title: 'Sale Price', sortable: true, type: 'currency' },
-    { key: 'sold', index: 'sold', title: 'Sold', sortable: true },
-    { key: 'creditcard', index: 'total_payments.creditcard', title: 'Credit Card', sortable: true, type: 'currency' },
-    { key: 'promptpay', index: 'total_payments.promptpay', title: 'Promptpay', sortable: true, type: 'currency' },
-    { key: 'total', index: 'total_price', title: 'Total Price', sortable: true, type: 'currency' },
-  ];
 
   const reload = async () => {
     await bloc.report($machineId, $filters);
@@ -86,6 +75,34 @@
     await reload();
   });
 
+  $: columns = [
+    { key: 'index', title: $_('report.columns.no'), render: index => index + 1 },
+    { key: 'code', index: 'code', title: $_('report.columns.machine-slot'), sortable: true },
+    { key: 'name', index: 'name', title: $_('report.columns.product-name'), sortable: true },
+    {
+      key: 'sale_price',
+      index: 'sale_price',
+      title: $_('report.columns.sale-price'),
+      sortable: true,
+      type: 'currency',
+    },
+    { key: 'sold', index: 'sold', title: $_('report.columns.sold'), sortable: true },
+    {
+      key: 'creditcard',
+      index: 'total_payments.creditcard',
+      title: $_('report.columns.credit-card'),
+      sortable: true,
+      type: 'currency',
+    },
+    {
+      key: 'promptpay',
+      index: 'total_payments.promptpay',
+      title: $_('report.columns.promptpay'),
+      sortable: true,
+      type: 'currency',
+    },
+    { key: 'total', index: 'total_price', title: $_('report.columns.total'), sortable: true, type: 'currency' },
+  ];
   $: source = groupFilter($state.list, $filters.group);
 
   $: totalQuantity = source.reduce((total, row) => total + row.sold, 0);
@@ -134,7 +151,7 @@
   <div class="report-page">
     <div class="mb-4 p-4">
       <h4 class="text-xl font-medium">
-        Stock Report: <span class="text-secondary-500">{$machineState.data?.name}</span>
+        {$_('report.stock-title')}: <span class="text-secondary-500">{$machineState.data?.name}</span>
       </h4>
     </div>
     <div class="mb-4">
@@ -149,12 +166,12 @@
     <div class="w-full table-container">
       <div class="border border-gray-200" use:dragscroll={{ event: 'pointer' }}>
         {#await $statePromise}
-          <div class="text-center py-4">Loading...</div>
+          <div class="text-center py-4">{$_('general.loading')}</div>
         {:then $state}
           <Table {columns} {source} on:sort={reload}>
             <tfoot class="sticky bottom-0 z-1 font-bold border-y border-gray-300">
               <tr class="bg-gray-50">
-                <td class="px-6 py-4" colspan={columns.length - 4}>Total</td>
+                <td class="px-6 py-4" colspan={columns.length - 4}>{$_('report.total')}</td>
                 <td class="px-6 py-4"><Number amount={totalQuantity} /></td>
                 <td class="px-6 py-4"><Currency amount={totalCreditCard} /></td>
                 <td class="px-6 py-4"><Currency amount={totalPromptPay} /></td>
@@ -164,14 +181,12 @@
           </Table>
         {:catch error}
           <div class="text-center text-red-500 py-4">
-            {error.message || 'An error occurred while loading the data.'}
+            {error.message || $_('general.error')}
           </div>
         {/await}
       </div>
     </div>
   </div>
-
-  
 </section>
 
 <!-- Display modals -->

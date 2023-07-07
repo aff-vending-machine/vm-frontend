@@ -35,7 +35,7 @@ export const sidebar: SidebarItemType[] = [
     },
     {
         title: 'Channels',
-        icon: 'ic-channel',
+        icon: 'icx-channel',
         link: MAIN_PAYMENT_CHANNELS,
         role: 'super-admin'
     },
