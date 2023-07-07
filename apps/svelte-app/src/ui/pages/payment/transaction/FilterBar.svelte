@@ -42,7 +42,7 @@
     to = dayjs(today).set('millisecond', 0).set('second', 0).set('minute', 0).set('hour', 21).toISOString();
 
   $: firstDateTime = dayjs(today).set('year', 2023).startOf('year').toDate();
-  $: lastDateTime = dayjs(today).set('minute', 0).set('hour', 23).toDate();
+  $: lastDateTime = dayjs(today).add(1, 'day').set('minute', 0).set('hour', 0).toDate();
   $: startDateTime = dayjs(from).toDate();
   $: endDateTime = dayjs(to).toDate();
 </script>

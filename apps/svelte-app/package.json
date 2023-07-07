@@ -19,7 +19,6 @@
     "lucide-svelte": "^0.224.0",
     "papaparse": "^5.4.1",
     "svelte-i18n": "^3.6.0",
-    "svelte-time-picker": "^2.0.0",
     "svelte-tippy": "^1.3.2",
     "tippy.js": "^6.3.7"
   },
