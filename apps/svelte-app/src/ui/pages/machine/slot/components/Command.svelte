@@ -1,8 +1,10 @@
 <!-- Command -->
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte';
   import dayjs from 'dayjs';
   import relativeTime from 'dayjs/plugin/relativeTime';
+  import { createEventDispatcher } from 'svelte';
+  import { _, locale } from 'svelte-i18n';
+  import 'dayjs/locale/th'
 
   // components
   import Button from '~/ui/components/elements/buttons/Button.svelte';
@@ -23,20 +25,20 @@
 
   // helpers
   const showTime = (date?: Date) => {
-    if (!date) return 'never';
-    return dayjs(date).fromNow();
+    if (!date) return $_('slot.never');
+    return dayjs(date).locale($locale.split("-")[0]).fromNow();
   };
 </script>
 
 <!-- HTML -->
 <div class="flex flex-col space-y-2">
-  <span class="text-xs font-semibold">Instructions</span>
+  <span class="text-xs font-semibold">{$_('slot.instructions')}</span>
   <div class="block space-x-2">
-    <Button i="sync" disabled={!isSynced} {loading} on:click={handleRefresh}>Refresh</Button>
-    <Button i="save" disabled={!isEdited} {loading} on:click={handleSave}>Save</Button>
-    <Button i="cancel" disabled={!isEdited} {loading} on:click={handleCancel}>Cancel</Button>
+    <Button i="sync" disabled={!isSynced} {loading} on:click={handleRefresh}>{$_('button.refresh')}</Button>
+    <Button i="save" disabled={!isEdited} {loading} on:click={handleSave}>{$_('button.save')}</Button>
+    <Button i="cancel" disabled={!isEdited} {loading} on:click={handleCancel}>{$_('button.cancel')}</Button>
   </div>
-  <span class="text-xs">Last time sync: {showTime(time)}</span>
+  <span class="text-xs">{$_('slot.last-time-sync')}: {showTime(time)}</span>
 </div>
 
 <!-- style -->

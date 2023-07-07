@@ -4,7 +4,9 @@
   import utc from 'dayjs/plugin/utc';
   import timezone from 'dayjs/plugin/timezone';
   import relativeTime from 'dayjs/plugin/relativeTime';
-  import { _ } from 'svelte-i18n'; 
+  import LocalizedFormat from 'dayjs/plugin/LocalizedFormat';
+  import { _, locale } from 'svelte-i18n'; 
+  import 'dayjs/locale/th'
 
   import DateTimeField from '~/ui/components/forms/input/DateTimeField.svelte';
   import Filterbar from '~/ui/components/sections/headers/Filterbar.svelte';
@@ -15,6 +17,7 @@
   dayjs.extend(utc);
   dayjs.extend(timezone);
   dayjs.extend(relativeTime);
+  dayjs.extend(LocalizedFormat)
   dayjs.tz.setDefault('Asia/Bangkok');
 
   const dispatch = createEventDispatcher();
@@ -42,6 +45,7 @@
   $: lastDateTime = dayjs(today).set('minute', 0).set('hour', 21).toDate();
   $: startDateTime = dayjs(from).toDate();
   $: endDateTime = dayjs(to).toDate();
+  $: localeTime = $locale.split("-")[0];
 </script>
 
 <Filterbar>
@@ -62,12 +66,12 @@
     on:change={handleFilter}
   />
 </Filterbar>
-<span class="text-xs float-right my-2">
+<span class="text-xs float-right">
   *{$_('report.report_from')}
-  <span class="text-secondary-700">{dayjs(startDateTime).format('DD MMMM YYYY HH:mm')}</span>
+  <span class="text-secondary-700">{dayjs(startDateTime).locale(localeTime).format('LLLL')}</span>
   {$_('report.report_to')}
-  <span class="text-secondary-700">{dayjs(endDateTime).format('DD MMMM YYYY HH:mm')}</span>
-  ({dayjs(startDateTime).from(dayjs(endDateTime), true)})
+  <span class="text-secondary-700">{dayjs(endDateTime).locale(localeTime).format('LLLL')}</span>
+  ({dayjs(startDateTime).locale(localeTime).from(dayjs(endDateTime), true)})
 </span>
 
 <style>

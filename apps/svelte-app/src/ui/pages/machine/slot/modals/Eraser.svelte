@@ -32,14 +32,14 @@
 </script>
 
 <div class="h-full overflow-y-auto mr-2" style="z-index: 999;">
-  <h2 class="text-xl font-bold mb-4">Delete Slot: {slot.code} ({slot.product?.name || '-'})</h2>
+  <h2 class="text-xl font-bold mb-4">{$_('slot.delete-title')}: {slot.code} ({slot.product?.name || '-'})</h2>
   <form
     id={formID}
     on:submit|preventDefault={handleSubmit}
     class="space-y-4 p-2 border border-gray-200 rounded-md text-sm"
   >
     <p class="text-center my-4 text-lg">
-      Are You Sure! Want to Delete"<span class="text-red-500">{slot.code}</span>"?
+      {$_('slot.delete-message')} "<span class="text-red-500">{slot.code}</span>"?
     </p>
   </form>
 

@@ -1,13 +1,14 @@
 <!-- SlotCard -->
 <script lang="ts">
-  import { press } from '~/utils/hooks/usePress';
-
-  // core
   import { createEventDispatcher } from 'svelte';
-  import { MachineSlot } from '@apps/core';
+  import { _ } from 'svelte-i18n';
   import { tippy } from 'svelte-tippy';
   import 'tippy.js/dist/tippy.css';
   import 'tippy.js/animations/shift-away.css';
+  
+  // core
+  import { MachineSlot } from '@apps/core';
+  import { press } from '~/utils/hooks/usePress';
 
   // components
 
@@ -81,7 +82,7 @@
   </div>
   <div class="flex-grow" />
   <div class="text-xs text-center">
-    Price: <span class="text-red-500 font-semibold">{slot.product?.sale_price}</span>
+    {$_('slot.price')}: <span class="text-red-500 font-semibold">{slot.product?.sale_price}</span>
   </div>
   <div class="flex justify-between items-center p-1 border border-gray-300 rounded-md bg-white w-full">
     <button

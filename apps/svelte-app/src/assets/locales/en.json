@@ -37,6 +37,40 @@
             "vendor": "Vendor"
         }
     },
+    "slot": {
+        "machine": "Machine",
+        "branch": "Branch",
+        "add-title": "Add Slot",
+        "update-title": "Update Slot",
+        "delete-title": "Delete Slot",
+        "delete-message": " Are You Sure! Want to Delete",
+        "loading": "Loading ...",
+        "syncing": "Syncing ...",
+        "price": "Price",
+        "instructions": "Instructions",
+        "last-time-sync": "last time sync",
+        "never": "never",
+        "search": "Search",
+        "stock": "Stock",
+        "status": "Status",
+        "changed": "Is edited",
+        "error": "An error occurred while loading the data.",
+        "tag": {
+            "disable": "disable",
+            "empty": "empty",
+            "less-than-20": "≤ 20%",
+            "available": "available",
+            "full": "full"
+        },
+        "field": {
+            "code": "Code",
+            "product-group": "Product Group",
+            "product": "Product",
+            "stock": "Stock",
+            "capacity": "Capacity",
+            "active": "Active"
+        }
+    },
     "report": {
         "title": "Reports",
         "stock-title": "Stock Report",
@@ -85,6 +119,7 @@
         "edit": "Edit",
         "confirm": "Confirm",
         "cancel": "Cancel",
+        "refresh": "Refresh",
         "delete": "Delete",
         "stock": "Stock",
         "payment": "Payment",
